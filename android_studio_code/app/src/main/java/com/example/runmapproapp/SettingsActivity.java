@@ -9,7 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.runmapproapp.auth.AuthManager;
 import com.example.runmapproapp.ui.profile.UserProfileActivity;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.runmapproapp.utils.BottomNavigationHelper;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -24,9 +26,13 @@ public class SettingsActivity extends AppCompatActivity {
 
         setupToolbar();
 
-        MaterialButton buttonMyProfile = findViewById(R.id.buttonMyProfile);
-        MaterialButton buttonEditProfile = findViewById(R.id.buttonEditProfile);
-        MaterialButton buttonLogout = findViewById(R.id.buttonLogout);
+        // Setup bottom navigation
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
+        BottomNavigationHelper.setupBottomNavigation(this, bottomNav, R.id.nav_settings);
+
+        MaterialCardView buttonMyProfile = findViewById(R.id.buttonMyProfile);
+        MaterialCardView buttonEditProfile = findViewById(R.id.buttonEditProfile);
+        MaterialCardView buttonLogout = findViewById(R.id.buttonLogout);
 
         buttonMyProfile.setOnClickListener(v -> {
             Intent intent = new Intent(this, UserProfileActivity.class);
@@ -52,8 +58,14 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("Settings");
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        toolbar.setNavigationOnClickListener(v -> finish());
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
+        BottomNavigationHelper.setupBottomNavigation(this, bottomNav, R.id.nav_settings);
+    }
+
 }

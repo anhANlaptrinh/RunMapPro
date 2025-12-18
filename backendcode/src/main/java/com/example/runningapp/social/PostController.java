@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.runningapp.run.model.Run;
 import com.example.runningapp.social.dto.CreateCommentRequest;
 import com.example.runningapp.social.dto.CreatePostRequest;
 import com.example.runningapp.social.dto.SharePostRequest;
@@ -118,5 +119,17 @@ public class PostController {
     public ResponseEntity<Void> deleteComment(@PathVariable String commentId) {
         postService.deleteComment(commentId);
         return ResponseEntity.noContent().build();
+    }
+    
+    /**
+     * Get the run attached to a post (if any)
+     * GET /api/posts/{postId}/run
+     * 
+     * @param postId The post ID
+     * @return 200 OK with the full run data, or 404 if post has no attached run
+     */
+    @GetMapping("/{postId}/run")
+    public ResponseEntity<Run> getRunForPost(@PathVariable String postId) {
+        return ResponseEntity.ok(postService.getRunForPost(postId));
     }
 }

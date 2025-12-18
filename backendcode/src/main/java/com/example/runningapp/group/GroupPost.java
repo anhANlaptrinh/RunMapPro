@@ -26,6 +26,7 @@ public class GroupPost {
     private String userId;
     private String content;
     private List<String> mediaUrls; // images or videos
+    private String runId; // ID of the run attached to this post
     private String status; // pending, approved, rejected (for groups with post approval)
     private Instant createdAt;
     private Instant approvedAt;

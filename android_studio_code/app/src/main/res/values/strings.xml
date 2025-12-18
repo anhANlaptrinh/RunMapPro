@@ -43,6 +43,10 @@
     <string name="action_edit_profile">Edit profile</string>
     <string name="change_password_title">Change password</string>
     
+    <!-- MapActivity strings -->
+    <string name="SetRoute">START RUNNING</string>
+    <string name="mapbox_access_token" translatable="false">sk.eyJ1IjoiZGFuZ3RhbmciLCJhIjoiY21objNyeGU4MXYwbDJtcXZ0dnF4ZDVvdyJ9.s3x1BnG_zWLRQNqgy_4_2g</string>
+
     <!-- Social features -->
     <string name="create_post">Create post</string>
     <string name="author_avatar">Author avatar</string>

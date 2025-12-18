@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
     private void setupListeners() {
         buttonLogin.setOnClickListener(v -> attemptLogin());
         textSignup.setOnClickListener(v -> {
-            Intent intent = new Intent(this, SignupActivity.class);
+            Intent intent = new Intent(this, SignUpActivity.class);
             startActivity(intent);
         });
         textForgotPassword.setOnClickListener(v -> {
@@ -117,11 +117,22 @@ public class LoginActivity extends AppCompatActivity {
                 toggleLoading(false);
                 if (response.isSuccessful() && response.body() != null) {
                     LoginResponse loginResponse = response.body();
-                    android.util.Log.d("LoginActivity", "Login response: token=" + loginResponse.getAccessToken() + 
-                        ", user=" + (loginResponse.getUser() != null ? loginResponse.getUser().getEmail() : "null"));
+                    android.util.Log.d("LoginActivity", "========== LOGIN SUCCESS ==========");
+                    android.util.Log.d("LoginActivity", "Token received: " + loginResponse.getAccessToken());
+                    android.util.Log.d("LoginActivity", "User email: " + (loginResponse.getUser() != null ? loginResponse.getUser().getEmail() : "null"));
+                    android.util.Log.d("LoginActivity", "User ID: " + (loginResponse.getUser() != null ? loginResponse.getUser().getId() : "null"));
+                    
+                    // Save to AuthManager
                     authManager.saveLogin(loginResponse);
-                    android.util.Log.d("LoginActivity", "Token saved: " + authManager.getToken());
+                    
+                    // Verify token was saved
+                    String savedToken = authManager.getToken();
+                    String savedUserId = authManager.getUserId();
+                    android.util.Log.d("LoginActivity", "Token saved successfully: " + (savedToken != null && !savedToken.isEmpty()));
+                    android.util.Log.d("LoginActivity", "UserId saved: " + savedUserId);
                     android.util.Log.d("LoginActivity", "isLoggedIn: " + authManager.isLoggedIn());
+                    android.util.Log.d("LoginActivity", "====================================");
+                    
                     Toast.makeText(LoginActivity.this, R.string.msg_login_success, Toast.LENGTH_SHORT).show();
                     openMainAndFinish();
                 } else {
@@ -179,7 +190,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void openMainAndFinish() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MapActivity.class);
         startActivity(intent);
         finish();
     }

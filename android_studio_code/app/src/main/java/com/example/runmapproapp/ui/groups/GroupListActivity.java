@@ -24,6 +24,8 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.runmapproapp.utils.BottomNavigationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +62,10 @@ public class GroupListActivity extends AppCompatActivity
         setupRecyclerView();
         setupListeners();
 
+        // Setup bottom navigation
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
+        BottomNavigationHelper.setupBottomNavigation(this, bottomNav, R.id.nav_groups);
+
         groupApi = ApiClient.getGroupApi();
         loadGroups(false);
     }
@@ -69,9 +75,7 @@ public class GroupListActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("Nhóm");
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        toolbar.setNavigationOnClickListener(v -> finish());
     }
 
     private void initViews() {
@@ -360,5 +364,7 @@ public class GroupListActivity extends AppCompatActivity
         currentPage = 0;
         isLastPage = false;
         loadGroups(false);
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
+        BottomNavigationHelper.setupBottomNavigation(this, bottomNav, R.id.nav_groups);
     }
 }

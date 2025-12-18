@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 public record CreatePostRequest(
         @NotBlank String contentText,
         List<String> mediaIds,
-        String groupId
+        String groupId,
+        String runId  // Optional: attach a running activity to this post
 ) {
 }

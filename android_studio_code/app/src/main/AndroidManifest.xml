@@ -5,6 +5,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    
+    <!-- Location permissions cho Mapbox -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".RunMapProApplication"
@@ -13,43 +18,58 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.RunMapProApp"
-        android:networkSecurityConfig="@xml/network_security_config">
+        android:theme="@style/Theme.RunMapProApp">
+        
+        <!-- Mapbox Access Token -->
+        <meta-data
+            android:name="MAPBOX_ACCESS_TOKEN"
+            android:value="sk.eyJ1IjoiZGFuZ3RhbmciLCJhIjoiY21objNyeGU4MXYwbDJtcXZ0dnF4ZDVvdyJ9.s3x1BnG_zWLRQNqgy_4_2g" />
+        
+        <!-- Splash Screen Activity (LAUNCHER) -->
         <activity
-            android:name=".LoginActivity"
-            android:exported="true">
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.RunMapProApp.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity
+            android:name=".MapActivity"
+            android:launchMode="singleTop"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true">
+        </activity>
         <activity android:name=".ChangePasswordActivity" />
         <activity android:name=".EditProfileActivity" />
-        <activity android:name=".MainActivity" />
+        <activity 
+            android:name=".MainActivity"
+            android:launchMode="singleTop" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".SignupActivity" />
-        
-        <!-- Social features -->
+        <activity android:name=".SignUpActivity" /> <!-- Social features -->
         <activity android:name=".ui.social.FeedActivity" />
         <activity android:name=".ui.social.CreatePostActivity" />
         <activity android:name=".ui.social.CommentsActivity" />
         <activity android:name=".ui.social.PostDetailActivity" />
         <activity android:name=".ui.profile.UserProfileActivity" />
         <activity android:name=".ui.notifications.NotificationsActivity" />
-        
+        <!-- Run features -->
+        <activity android:name=".ui.run.RunDetailActivity" />
         <!-- Group features -->
         <activity android:name=".ui.groups.GroupListActivity" />
         <activity android:name=".ui.groups.GroupDetailActivity" />
         <activity android:name=".ui.groups.CreateGroupActivity" />
         <activity android:name=".ui.groups.PendingPostsActivity" />
         <activity android:name=".ui.group.GroupPostActivity" />
-        <activity android:name=".ui.group.GroupSettingsActivity" />
-        
-        <!-- Chat features -->
+        <activity android:name=".ui.group.GroupSettingsActivity" /> <!-- Chat features -->
         <activity android:name=".ui.chat.ChatListActivity" />
         <activity android:name=".ui.chat.ChatActivity" />
         <activity android:name=".ui.chat.NewChatActivity" />

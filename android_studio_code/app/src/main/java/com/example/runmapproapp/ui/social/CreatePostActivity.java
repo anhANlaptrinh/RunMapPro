@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,17 +18,35 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.runmapproapp.R;
+import com.example.runmapproapp.api.RetrofitClient;
+import com.example.runmapproapp.api.RunApiService;
 import com.example.runmapproapp.data.ApiClient;
 import com.example.runmapproapp.data.api.MediaApi;
 import com.example.runmapproapp.data.api.MediaUploadResponse;
 import com.example.runmapproapp.data.api.PostApi;
 import com.example.runmapproapp.data.model.CreatePostRequest;
 import com.example.runmapproapp.data.model.Post;
+import com.example.runmapproapp.dto.RunResponse;
+import com.example.runmapproapp.ui.dashboard.RunsAdapter;
+import com.example.runmapproapp.utils.FormatUtils;
 import com.google.android.material.card.MaterialCardView;
+import com.mapbox.geojson.LineString;
+import com.mapbox.geojson.Point;
+import com.mapbox.maps.CameraOptions;
+import com.mapbox.maps.MapView;
+import com.mapbox.maps.Style;
+import com.mapbox.maps.extension.style.layers.generated.LineLayer;
+import com.mapbox.maps.extension.style.layers.properties.generated.LineCap;
+import com.mapbox.maps.extension.style.layers.properties.generated.LineJoin;
+import com.mapbox.maps.extension.style.sources.generated.GeoJsonSource;
+import com.mapbox.geojson.Feature;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -44,26 +63,34 @@ import retrofit2.Response;
 
 public class CreatePostActivity extends AppCompatActivity {
 
+    private static final String TAG = "CreatePostActivity";
     private static final int PICK_IMAGE_REQUEST = 1;
 
     private EditText etPostContent;
     private ImageView ivSelectedImage;
     private Button btnSelectImage;
+    private Button btnSelectRun;
     private Button btnPublish;
     private ProgressBar progressBar;
     private MaterialCardView cardOriginalPost;
     private TextView tvOriginalAuthor;
     private TextView tvOriginalContent;
+    private View selectedRunCard;
+    private MapView mapViewSelectedRun;
+    private TextView tvRunDate, tvRunDistance, tvRunDuration, tvRunPace;
 
     private Uri selectedImageUri;
     private String sharePostId;
     private Post originalPost;
+    private RunResponse selectedRun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
 
+        com.google.android.material.appbar.MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle("Create Post");
@@ -124,15 +151,24 @@ public class CreatePostActivity extends AppCompatActivity {
         etPostContent = findViewById(R.id.etPostContent);
         ivSelectedImage = findViewById(R.id.ivSelectedImage);
         btnSelectImage = findViewById(R.id.btnSelectImage);
+        btnSelectRun = findViewById(R.id.btnSelectRun);
         btnPublish = findViewById(R.id.btnPublish);
         progressBar = findViewById(R.id.progressBar);
         cardOriginalPost = findViewById(R.id.cardOriginalPost);
         tvOriginalAuthor = findViewById(R.id.tvOriginalAuthor);
         tvOriginalContent = findViewById(R.id.tvOriginalContent);
+        
+        selectedRunCard = findViewById(R.id.selectedRunCard);
+        mapViewSelectedRun = selectedRunCard.findViewById(R.id.mapViewRun);
+        tvRunDate = selectedRunCard.findViewById(R.id.tvRunDate);
+        tvRunDistance = selectedRunCard.findViewById(R.id.tvRunDistance);
+        tvRunDuration = selectedRunCard.findViewById(R.id.tvRunDuration);
+        tvRunPace = selectedRunCard.findViewById(R.id.tvRunPace);
     }
 
     private void setupListeners() {
         btnSelectImage.setOnClickListener(v -> selectImage());
+        btnSelectRun.setOnClickListener(v -> showRunSelectionDialog());
         btnPublish.setOnClickListener(v -> publishPost());
     }
 
@@ -154,9 +190,9 @@ public class CreatePostActivity extends AppCompatActivity {
     private void publishPost() {
         String content = etPostContent.getText().toString().trim();
 
-        // Allow empty content only when sharing a post
-        if (content.isEmpty() && selectedImageUri == null && sharePostId == null) {
-            Toast.makeText(this, "Please add content or image", Toast.LENGTH_SHORT).show();
+        // Allow empty content only when sharing a post or attaching run
+        if (content.isEmpty() && selectedImageUri == null && sharePostId == null && selectedRun == null) {
+            Toast.makeText(this, "Please add content, image, or run", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -276,7 +312,10 @@ public class CreatePostActivity extends AppCompatActivity {
     }
 
     private void createPost(String content, List<String> mediaIds) {
-        CreatePostRequest request = new CreatePostRequest(content, mediaIds, null);
+        String runId = selectedRun != null ? selectedRun.getId() : null;
+        Log.d(TAG, "Creating post with runId: " + runId + ", content: " + content + ", mediaIds: " + mediaIds);
+        
+        CreatePostRequest request = new CreatePostRequest(content, mediaIds, null, runId);
         PostApi postApi = ApiClient.getPostApi();
 
         Call<Post> call;
@@ -295,10 +334,20 @@ public class CreatePostActivity extends AppCompatActivity {
                 btnPublish.setEnabled(true);
 
                 if (response.isSuccessful()) {
+                    Log.d(TAG, "Post published successfully!");
                     Toast.makeText(CreatePostActivity.this, "Post published!", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
-                    Toast.makeText(CreatePostActivity.this, "Failed to publish post", Toast.LENGTH_SHORT).show();
+                    String errorMsg = "Failed: " + response.code();
+                    try {
+                        if (response.errorBody() != null) {
+                            errorMsg += " - " + response.errorBody().string();
+                        }
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error reading error body", e);
+                    }
+                    Log.e(TAG, "Failed to publish post: " + errorMsg);
+                    Toast.makeText(CreatePostActivity.this, errorMsg, Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -306,7 +355,106 @@ public class CreatePostActivity extends AppCompatActivity {
             public void onFailure(@NonNull Call<Post> call, @NonNull Throwable t) {
                 progressBar.setVisibility(View.GONE);
                 btnPublish.setEnabled(true);
+                Log.e(TAG, "Network error publishing post", t);
                 Toast.makeText(CreatePostActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showRunSelectionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_select_run, null);
+        builder.setView(dialogView);
+
+        RecyclerView rvRuns = dialogView.findViewById(R.id.rvRuns);
+        ProgressBar progressBar = dialogView.findViewById(R.id.progressBar);
+        TextView tvNoRuns = dialogView.findViewById(R.id.tvNoRuns);
+
+        rvRuns.setLayoutManager(new LinearLayoutManager(this));
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        // Load runs
+        progressBar.setVisibility(View.VISIBLE);
+        RunApiService runApiService = RetrofitClient.getRunApiService();
+        runApiService.getRuns().enqueue(new Callback<List<RunResponse>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<RunResponse>> call, @NonNull Response<List<RunResponse>> response) {
+                progressBar.setVisibility(View.GONE);
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    List<RunResponse> runs = response.body();
+                    
+                    // Create adapter with click listener
+                    RunsAdapter adapter = new RunsAdapter((run, position) -> {
+                        selectedRun = run;
+                        displaySelectedRun(run);
+                        dialog.dismiss();
+                    });
+                    adapter.setRuns(runs);
+                    rvRuns.setAdapter(adapter);
+                } else {
+                    tvNoRuns.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<RunResponse>> call, @NonNull Throwable t) {
+                progressBar.setVisibility(View.GONE);
+                tvNoRuns.setVisibility(View.VISIBLE);
+                Toast.makeText(CreatePostActivity.this, "Failed to load runs", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void displaySelectedRun(RunResponse run) {
+        selectedRunCard.setVisibility(View.VISIBLE);
+        
+        // Format and display run data
+        tvRunDate.setText(FormatUtils.formatDate(run.getStartTime()));
+        tvRunDistance.setText(FormatUtils.formatDistance(run.getDistanceMeters()));
+        tvRunDuration.setText(FormatUtils.formatDuration(run.getDurationMs()));
+        tvRunPace.setText(FormatUtils.formatPace(run.getAvgPaceSecPerKm()));
+
+        // Initialize and display map
+        mapViewSelectedRun.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS, style -> {
+            if (run.getPath() != null && run.getPath().getCoordinates() != null 
+                    && run.getPath().getCoordinates().size() >= 2) {
+                
+                // Convert coordinates to Points
+                List<Point> points = new ArrayList<>();
+                for (List<Double> coord : run.getPath().getCoordinates()) {
+                    if (coord.size() >= 2) {
+                        points.add(Point.fromLngLat(coord.get(0), coord.get(1)));
+                    }
+                }
+
+                if (points.size() >= 2) {
+                    // Create and display route
+                    LineString lineString = LineString.fromLngLats(points);
+                    Feature feature = Feature.fromGeometry(lineString);
+                    
+                    GeoJsonSource source = new GeoJsonSource.Builder("run-source")
+                            .feature(feature)
+                            .build();
+                    source.bindTo(style);
+
+                    LineLayer lineLayer = new LineLayer("run-layer", "run-source");
+                    lineLayer.lineColor("#FF5722");
+                    lineLayer.lineWidth(4.0);
+                    lineLayer.lineCap(LineCap.ROUND);
+                    lineLayer.lineJoin(LineJoin.ROUND);
+                    lineLayer.bindTo(style);
+
+                    // Center camera
+                    Point centerPoint = points.get(points.size() / 2);
+                    mapViewSelectedRun.getMapboxMap().setCamera(
+                            new CameraOptions.Builder()
+                                    .center(centerPoint)
+                                    .zoom(13.0)
+                                    .build()
+                    );
+                }
             }
         });
     }
@@ -315,5 +463,13 @@ public class CreatePostActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish();
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mapViewSelectedRun != null) {
+            mapViewSelectedRun.onDestroy();
+        }
     }
 }

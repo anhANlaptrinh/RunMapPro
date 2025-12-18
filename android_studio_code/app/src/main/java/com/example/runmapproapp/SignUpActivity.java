@@ -28,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SignupActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     private TextInputLayout inputLayoutFullName;
     private TextInputLayout inputLayoutEmail;
@@ -118,8 +118,8 @@ public class SignupActivity extends AppCompatActivity {
                 toggleLoading(false);
                 if (response.isSuccessful() && response.body() != null) {
                     authManager.saveLogin(response.body());
-                    Toast.makeText(SignupActivity.this, R.string.msg_signup_success, Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(SignupActivity.this, MainActivity.class));
+                    Toast.makeText(SignUpActivity.this, R.string.msg_signup_success, Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                     finishAffinity();
                 } else {
                     showError(parseErrorMessage(response));

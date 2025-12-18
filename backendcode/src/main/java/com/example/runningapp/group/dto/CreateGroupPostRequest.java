@@ -4,5 +4,6 @@ import java.util.List;
 
 public record CreateGroupPostRequest(
     String content,
-    List<String> mediaUrls
+    List<String> mediaUrls,
+    String runId
 ) {}

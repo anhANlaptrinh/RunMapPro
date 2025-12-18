@@ -19,6 +19,9 @@ public class GroupPost {
     @SerializedName("mediaUrls")
     private List<String> mediaUrls;
 
+    @SerializedName("runId")
+    private String runId;
+
     @SerializedName("status")
     private String status;
 
@@ -51,6 +54,7 @@ public class GroupPost {
     public String getUserId() { return userId; }
     public String getContent() { return content; }
     public List<String> getMediaUrls() { return mediaUrls; }
+    public String getRunId() { return runId; }
     public String getStatus() { return status; }
     public String getCreatedAt() { return createdAt; }
     public String getApprovedAt() { return approvedAt; }

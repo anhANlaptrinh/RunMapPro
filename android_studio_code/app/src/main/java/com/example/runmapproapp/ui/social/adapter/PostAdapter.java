@@ -1,5 +1,6 @@
 package com.example.runmapproapp.ui.social.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,14 +15,34 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.runmapproapp.R;
+import com.example.runmapproapp.api.RetrofitClient;
+import com.example.runmapproapp.api.RunApiService;
 import com.example.runmapproapp.auth.AuthManager;
 import com.example.runmapproapp.data.model.Post;
+import com.example.runmapproapp.dto.RunResponse;
+import com.example.runmapproapp.ui.run.RunDetailActivity;
+import com.example.runmapproapp.utils.FormatUtils;
 import com.google.android.material.card.MaterialCardView;
+import com.mapbox.geojson.Feature;
+import com.mapbox.geojson.LineString;
+import com.mapbox.geojson.Point;
+import com.mapbox.maps.CameraOptions;
+import com.mapbox.maps.MapView;
+import com.mapbox.maps.Style;
+import com.mapbox.maps.extension.style.layers.generated.LineLayer;
+import com.mapbox.maps.extension.style.layers.properties.generated.LineCap;
+import com.mapbox.maps.extension.style.layers.properties.generated.LineJoin;
+import com.mapbox.maps.extension.style.sources.generated.GeoJsonSource;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
@@ -83,6 +104,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         Post post = posts.get(position);
         holder.bind(post, position);
     }
+    
+    @Override
+    public void onBindViewHolder(@NonNull PostViewHolder holder, int position, @NonNull java.util.List<Object> payloads) {
+        if (payloads.isEmpty()) {
+            onBindViewHolder(holder, position);
+        } else {
+            Post post = posts.get(position);
+            for (Object payload : payloads) {
+                if ("LIKE_UPDATE".equals(payload)) {
+                    // Only update like button without rebinding entire view
+                    holder.updateLikeButton(post);
+                }
+            }
+        }
+    }
 
     @Override
     public int getItemCount() {
@@ -106,6 +142,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         private final TextView tvLikeCount;
         private final TextView tvCommentCount;
         private final TextView tvShareCount;
+        
+        // Run card views
+        private final View runCardLayout;
+        private MapView mapViewRun;
+        private TextView tvRunDate, tvRunDistance, tvRunDuration, tvRunPace;
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -125,6 +166,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             tvLikeCount = itemView.findViewById(R.id.tvLikeCount);
             tvCommentCount = itemView.findViewById(R.id.tvCommentCount);
             tvShareCount = itemView.findViewById(R.id.tvShareCount);
+            
+            // Run card
+            runCardLayout = itemView.findViewById(R.id.runCardLayout);
+            if (runCardLayout != null) {
+                mapViewRun = runCardLayout.findViewById(R.id.mapViewRun);
+                tvRunDate = runCardLayout.findViewById(R.id.tvRunDate);
+                tvRunDistance = runCardLayout.findViewById(R.id.tvRunDistance);
+                tvRunDuration = runCardLayout.findViewById(R.id.tvRunDuration);
+                tvRunPace = runCardLayout.findViewById(R.id.tvRunPace);
+            }
         }
 
         public void bind(Post post, int position) {
@@ -244,6 +295,31 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 ivPostImage.setVisibility(View.GONE);
             }
             
+            // Run card (if post has attached run)
+            if (post.getRunId() != null && !post.getRunId().isEmpty() && runCardLayout != null) {
+                runCardLayout.setVisibility(View.VISIBLE);
+                
+                // Clear previous map data to avoid showing old route
+                if (mapViewRun != null) {
+                    mapViewRun.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS, style -> {
+                        // Style loaded, will draw route in loadAndDisplayRun
+                    });
+                }
+                
+                loadAndDisplayRun(post.getRunId());
+                
+                // Add click listener to open run detail
+                final String runId = post.getRunId();
+                runCardLayout.setOnClickListener(v -> {
+                    Intent intent = new Intent(itemView.getContext(), RunDetailActivity.class);
+                    intent.putExtra(RunDetailActivity.EXTRA_RUN_ID, runId);
+                    itemView.getContext().startActivity(intent);
+                });
+            } else if (runCardLayout != null) {
+                runCardLayout.setVisibility(View.GONE);
+                runCardLayout.setOnClickListener(null);
+            }
+            
             // Counters
             tvLikeCount.setText(String.valueOf(post.getLikeCount()));
             tvCommentCount.setText(String.valueOf(post.getCommentCount()));
@@ -295,6 +371,97 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             btnShare.setOnClickListener(v -> listener.onShareClick(post));
         }
         
+        private void loadAndDisplayRun(String runId) {
+            RunApiService runApiService = RetrofitClient.getRunApiService();
+            runApiService.getRun(runId).enqueue(new Callback<RunResponse>() {
+                @Override
+                public void onResponse(@NonNull Call<RunResponse> call, @NonNull Response<RunResponse> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        displayRunData(response.body());
+                    } else {
+                        // API failed - log error and hide run card
+                        android.util.Log.e("PostAdapter", "Failed to load run " + runId + ": " + response.code());
+                        if (runCardLayout != null) {
+                            runCardLayout.setVisibility(View.GONE);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<RunResponse> call, @NonNull Throwable t) {
+                    // Network error - log and hide run card
+                    android.util.Log.e("PostAdapter", "Error loading run " + runId, t);
+                    if (runCardLayout != null) {
+                        runCardLayout.setVisibility(View.GONE);
+                    }
+                }
+            });
+        }
+
+        private void displayRunData(RunResponse run) {
+            // Display run stats
+            tvRunDate.setText(FormatUtils.formatDate(run.getStartTime()));
+            tvRunDistance.setText(FormatUtils.formatDistance(run.getDistanceMeters()));
+            tvRunDuration.setText(FormatUtils.formatDuration(run.getDurationMs()));
+            tvRunPace.setText(FormatUtils.formatPace(run.getAvgPaceSecPerKm()));
+
+            // Display map
+            if (mapViewRun != null) {
+                mapViewRun.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS, style -> {
+                    if (run.getPath() != null && run.getPath().getCoordinates() != null 
+                            && run.getPath().getCoordinates().size() >= 2) {
+                        
+                        // Convert coordinates to Points
+                        List<Point> points = new ArrayList<>();
+                        for (List<Double> coord : run.getPath().getCoordinates()) {
+                            if (coord.size() >= 2) {
+                                points.add(Point.fromLngLat(coord.get(0), coord.get(1)));
+                            }
+                        }
+
+                        if (points.size() >= 2) {
+                            // Create unique IDs for this run
+                            String sourceId = "run-source-" + run.getId();
+                            String layerId = "run-layer-" + run.getId();
+                            
+                            // Remove existing if any
+                            try {
+                                style.removeStyleLayer(layerId);
+                            } catch (Exception e) {}
+                            try {
+                                style.removeStyleSource(sourceId);
+                            } catch (Exception e) {}
+                            
+                            // Create and display route
+                            LineString lineString = LineString.fromLngLats(points);
+                            Feature feature = Feature.fromGeometry(lineString);
+                            
+                            GeoJsonSource source = new GeoJsonSource.Builder(sourceId)
+                                    .feature(feature)
+                                    .build();
+                            source.bindTo(style);
+
+                            LineLayer lineLayer = new LineLayer(layerId, sourceId);
+                            lineLayer.lineColor("#FF5722");
+                            lineLayer.lineWidth(4.0);
+                            lineLayer.lineCap(LineCap.ROUND);
+                            lineLayer.lineJoin(LineJoin.ROUND);
+                            lineLayer.bindTo(style);
+
+                            // Center camera
+                            Point centerPoint = points.get(points.size() / 2);
+                            mapViewRun.getMapboxMap().setCamera(
+                                    new CameraOptions.Builder()
+                                            .center(centerPoint)
+                                            .zoom(13.0)
+                                            .build()
+                            );
+                        }
+                    }
+                });
+            }
+        }
+        
         private void showPostMenu(View view, Post post, int position) {
             PopupMenu popup = new PopupMenu(view.getContext(), view);
             popup.getMenuInflater().inflate(R.menu.post_menu, popup.getMenu());
@@ -317,6 +484,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         private String formatDate(Date date) {
             return dateFormat.format(date);
+        }
+        
+        // Update only like button without rebinding entire view
+        public void updateLikeButton(Post post) {
+            tvLikeCount.setText(String.valueOf(post.getLikeCount()));
+            
+            if (post.isLikedByCurrentUser()) {
+                btnLike.setImageResource(R.drawable.ic_favorite_filled);
+                btnLike.setColorFilter(itemView.getContext().getColor(R.color.pink));
+            } else {
+                btnLike.setImageResource(R.drawable.ic_favorite_border);
+                btnLike.setColorFilter(itemView.getContext().getColor(android.R.color.darker_gray));
+            }
         }
     }
 }

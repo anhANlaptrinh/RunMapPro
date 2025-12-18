@@ -431,7 +431,7 @@ public class GroupService {
     // Group Posts
     
     @Transactional
-    public GroupPost createGroupPost(String groupId, String content, List<String> mediaUrls) {
+    public GroupPost createGroupPost(String groupId, String content, List<String> mediaUrls, String runId) {
         String userId = requireUser();
         Group group = groupRepository.findByIdAndBlockedFalse(groupId)
                 .orElseThrow(() -> new NotFoundException("Group not found"));
@@ -448,6 +448,7 @@ public class GroupService {
                 .userId(userId)
                 .content(content)
                 .mediaUrls(mediaUrls)
+                .runId(runId)
                 .status(status)
                 .createdAt(Instant.now())
                 .likeCount(0)
@@ -506,7 +507,10 @@ public class GroupService {
     private void populateAuthorInfo(List<GroupPost> posts) {
         for (GroupPost post : posts) {
             userRepository.findById(post.getUserId()).ifPresent(user -> {
-                post.setAuthorName(user.getUsername());
+                // Use fullName if available, fallback to username
+                post.setAuthorName(user.getFullName() != null && !user.getFullName().isEmpty() 
+                    ? user.getFullName() 
+                    : user.getUsername());
                 post.setAuthorAvatar(user.getAvatarMediaId()); // Will be media ID, frontend can convert to URL
             });
         }

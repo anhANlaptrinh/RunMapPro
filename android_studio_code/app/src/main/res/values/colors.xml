@@ -9,7 +9,15 @@
     <color name="white">#FFFFFFFF</color>
     <color name="pink">#E91E63</color>
     
+    <!-- Deep Blue colors -->
+    <color name="deep_blue_500">#1976D2</color>
+    <color name="deep_blue_700">#1565C0</color>
+    
+    <!-- MapActivity colors -->
+    <color name="yellow">#FFC107</color>
+    <color name="orange">#FF9800</color>
+    
     <!-- Chat colors -->
     <color name="chat_incoming_bg">#F0F0F0</color>
-    <color name="chat_outgoing_bg">#007AFF</color>
+    <color name="chat_outgoing_bg">#64B5F6</color>
 </resources>

@@ -45,6 +45,8 @@ public class CommentsActivity extends AppCompatActivity implements CommentAdapte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
 
+        com.google.android.material.appbar.MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle("Comments");

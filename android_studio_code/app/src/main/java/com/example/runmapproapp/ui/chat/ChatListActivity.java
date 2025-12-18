@@ -21,6 +21,8 @@ import com.example.runmapproapp.data.model.User;
 import com.example.runmapproapp.data.model.UserProfileResponse;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.runmapproapp.utils.BottomNavigationHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,17 +55,17 @@ public class ChatListActivity extends AppCompatActivity {
 
         setupToolbar();
         setupViews();
+        
+        // Setup bottom navigation
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
+        BottomNavigationHelper.setupBottomNavigation(this, bottomNav, R.id.nav_chat);
+        
         loadConversations();
     }
 
     private void setupToolbar() {
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Messages");
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-        toolbar.setNavigationOnClickListener(v -> finish());
     }
 
     private void setupViews() {
@@ -185,5 +187,7 @@ public class ChatListActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadConversations();
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
+        BottomNavigationHelper.setupBottomNavigation(this, bottomNav, R.id.nav_chat);
     }
 }

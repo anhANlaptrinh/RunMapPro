@@ -30,6 +30,13 @@ public class Post {
     private List<String> mediaIds = new ArrayList<>();
     private String groupId;
     private String originalPostId;
+    
+    /**
+     * Optional reference to a Run document ID
+     * Allows users to attach their running activity to posts
+     */
+    private String runId;
+    
     private String visibility; // public, friends, group_only
     private long likeCount;
     private long commentCount;

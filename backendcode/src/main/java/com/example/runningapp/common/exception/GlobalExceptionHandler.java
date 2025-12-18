@@ -26,9 +26,31 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.BAD_REQUEST, message);
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Map<String, Object>> handleRuntimeException(RuntimeException ex) {
+        String message = ex.getMessage();
+        HttpStatus status;
+        
+        // Determine status based on message content
+        if (message != null && message.toLowerCase().contains("not found")) {
+            status = HttpStatus.NOT_FOUND;
+        } else if (message != null && message.toLowerCase().contains("unauthorized")) {
+            status = HttpStatus.FORBIDDEN;
+        } else {
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        
+        return buildResponse(status, message);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, Object>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleOtherExceptions(Exception ex) {
-        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
     }
 
     private ResponseEntity<Map<String, Object>> buildResponse(HttpStatus status, String message) {

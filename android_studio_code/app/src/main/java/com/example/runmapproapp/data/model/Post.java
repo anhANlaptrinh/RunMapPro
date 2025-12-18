@@ -32,6 +32,9 @@ public class Post {
     @SerializedName("originalPostId")
     private String originalPostId;
 
+    @SerializedName("runId")
+    private String runId;
+
     @SerializedName("visibility")
     private String visibility;
 
@@ -74,6 +77,7 @@ public class Post {
     public List<String> getMediaIds() { return mediaIds; }
     public String getGroupId() { return groupId; }
     public String getOriginalPostId() { return originalPostId; }
+    public String getRunId() { return runId; }
     public String getVisibility() { return visibility; }
     public long getLikeCount() { return likeCount; }
     public long getCommentCount() { return commentCount; }
@@ -108,6 +112,7 @@ public class Post {
     public void setAuthorAvatar(String authorAvatar) { this.authorAvatar = authorAvatar; }
     public void setContentText(String contentText) { this.contentText = contentText; }
     public void setMediaIds(List<String> mediaIds) { this.mediaIds = mediaIds; }
+    public void setRunId(String runId) { this.runId = runId; }
     public void setCreatedAt(String createdAt) { this.createdAt = createdAt; }
     public void setLikeCount(long likeCount) { this.likeCount = likeCount; }
     public void setCommentCount(long commentCount) { this.commentCount = commentCount; }

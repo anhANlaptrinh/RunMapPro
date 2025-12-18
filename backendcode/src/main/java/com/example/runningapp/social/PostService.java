@@ -22,6 +22,8 @@ import com.example.runningapp.group.GroupRepository;
 import com.example.runningapp.media.MediaService;
 import com.example.runningapp.notification.NotificationService;
 import com.example.runningapp.notification.NotificationType;
+import com.example.runningapp.run.model.Run;
+import com.example.runningapp.run.repository.RunRepository;
 import com.example.runningapp.social.dto.CreateCommentRequest;
 import com.example.runningapp.social.dto.CreatePostRequest;
 import com.example.runningapp.social.dto.SharePostRequest;
@@ -40,6 +42,7 @@ public class PostService {
     private final UserRepository userRepository;
     private final MediaService mediaService;
     private final NotificationService notificationService;
+    private final RunRepository runRepository;
 
     public PostService(PostRepository postRepository,
             PostLikeRepository postLikeRepository,
@@ -49,7 +52,8 @@ public class PostService {
             GroupMemberRepository groupMemberRepository,
             UserRepository userRepository,
             MediaService mediaService,
-            NotificationService notificationService) {
+            NotificationService notificationService,
+            RunRepository runRepository) {
         this.postRepository = postRepository;
         this.postLikeRepository = postLikeRepository;
         this.commentRepository = commentRepository;
@@ -59,6 +63,7 @@ public class PostService {
         this.userRepository = userRepository;
         this.mediaService = mediaService;
         this.notificationService = notificationService;
+        this.runRepository = runRepository;
     }
 
     public Post createPost(CreatePostRequest request) {
@@ -66,6 +71,17 @@ public class PostService {
         Instant now = Instant.now();
         String visibility = "public";
         Group group = null;
+        
+        // Validate runId if provided
+        if (request.runId() != null && !request.runId().isEmpty()) {
+            Run run = runRepository.findById(request.runId())
+                    .orElseThrow(() -> new NotFoundException("Run not found"));
+            // Verify run belongs to the authenticated user
+            if (!run.getUserId().equals(userId)) {
+                throw new UnauthorizedException("Cannot attach a run that doesn't belong to you");
+            }
+        }
+        
         if (request.groupId() != null) {
             group = groupRepository.findByIdAndBlockedFalse(request.groupId())
                     .orElseThrow(() -> new NotFoundException("Group not found"));
@@ -79,6 +95,7 @@ public class PostService {
                 .contentText(request.contentText())
             .mediaIds(request.mediaIds() == null ? Collections.emptyList() : request.mediaIds())
                 .groupId(request.groupId())
+                .runId(request.runId())
                 .visibility(visibility)
                 .likeCount(0)
                 .commentCount(0)
@@ -516,11 +533,22 @@ public class PostService {
             throw new UnauthorizedException("You can only update your own posts");
         }
         
+        // Validate runId if provided
+        if (request.runId() != null && !request.runId().isEmpty()) {
+            Run run = runRepository.findById(request.runId())
+                    .orElseThrow(() -> new NotFoundException("Run not found"));
+            // Verify run belongs to the authenticated user
+            if (!run.getUserId().equals(userId)) {
+                throw new UnauthorizedException("Cannot attach a run that doesn't belong to you");
+            }
+        }
+        
         // Update fields
         post.setContentText(request.contentText());
         if (request.mediaIds() != null) {
             post.setMediaIds(request.mediaIds());
         }
+        post.setRunId(request.runId());
         post.setUpdatedAt(Instant.now());
         
         post = postRepository.save(post);
@@ -596,5 +624,23 @@ public class PostService {
             post.setCommentCount(Math.max(0, post.getCommentCount() - 1));
             postRepository.save(post);
         }
+    }
+    
+    /**
+     * Get the run associated with a post
+     * @param postId The post ID
+     * @return The Run entity if the post has an attached run
+     * @throws NotFoundException if post not found or post has no run attached
+     */
+    public Run getRunForPost(String postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new NotFoundException("Post not found"));
+        
+        if (post.getRunId() == null || post.getRunId().isEmpty()) {
+            throw new NotFoundException("This post has no attached run");
+        }
+        
+        return runRepository.findById(post.getRunId())
+                .orElseThrow(() -> new NotFoundException("Run not found"));
     }
 }

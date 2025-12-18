@@ -25,6 +25,7 @@ import com.example.runmapproapp.ui.social.CommentsActivity;
 import com.example.runmapproapp.ui.social.CreatePostActivity;
 import com.example.runmapproapp.ui.social.PostDetailActivity;
 import com.example.runmapproapp.ui.social.adapter.PostAdapter;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -60,10 +61,7 @@ public class UserProfileActivity extends AppCompatActivity implements PostAdapte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Profile");
-        }
+        setupToolbar();
 
         // Get userId and optional display info from intent
         userId = getIntent().getStringExtra("USER_ID");
@@ -103,6 +101,16 @@ public class UserProfileActivity extends AppCompatActivity implements PostAdapte
             btnMessage.setVisibility(View.VISIBLE);
             btnMessage.setOnClickListener(v -> openChatWithUser());
         }
+    }
+
+    private void setupToolbar() {
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Profile");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        toolbar.setNavigationOnClickListener(v -> finish());
     }
 
     private void openChatWithUser() {
@@ -409,7 +417,8 @@ public class UserProfileActivity extends AppCompatActivity implements PostAdapte
         CreatePostRequest request = new CreatePostRequest(
             newContent,
             post.getMediaIds(),
-            post.getGroupId()
+            post.getGroupId(),
+            post.getRunId()
         );
         
         postApi.updatePost(post.getId(), request).enqueue(new Callback<Post>() {

@@ -459,6 +459,13 @@ public class GroupDetailActivity extends AppCompatActivity
             
             post.setContentText(groupPost.getContent());
             post.setMediaIds(groupPost.getMediaUrls());
+            post.setRunId(groupPost.getRunId());
+            
+            // Debug log
+            android.util.Log.d("GroupDetail", "Converting post: " + groupPost.getId() + 
+                    ", runId: " + groupPost.getRunId() + 
+                    ", content: " + groupPost.getContent());
+            
             post.setCreatedAt(groupPost.getCreatedAt());
             post.setLikeCount(groupPost.getLikeCount());
             post.setCommentCount(groupPost.getCommentCount());
@@ -482,9 +489,13 @@ public class GroupDetailActivity extends AppCompatActivity
                 if (response.isSuccessful() && response.body() != null) {
                     com.example.runmapproapp.data.model.GroupPost groupPost = response.body();
                     android.util.Log.d("GroupDetailActivity", "Like response - likedByCurrentUser: " + groupPost.isLikedByCurrentUser() + ", likeCount: " + groupPost.getLikeCount());
-                    Post updatedPost = convertGroupPostToPost(groupPost);
-                    android.util.Log.d("GroupDetailActivity", "Converted post - likedByCurrentUser: " + updatedPost.isLikedByCurrentUser() + ", likeCount: " + updatedPost.getLikeCount());
-                    postAdapter.updatePost(position, updatedPost);
+                    
+                    // Update ONLY like-related fields, don't replace entire Post object
+                    post.setLikedByCurrentUser(groupPost.isLikedByCurrentUser());
+                    post.setLikeCount(groupPost.getLikeCount());
+                    
+                    // Use payload to update only like button without rebinding whole view
+                    postAdapter.notifyItemChanged(position, "LIKE_UPDATE");
                 } else {
                     android.util.Log.e("GroupDetailActivity", "Failed to update like - code: " + response.code());
                     Toast.makeText(GroupDetailActivity.this, "Failed to update like", Toast.LENGTH_SHORT).show();

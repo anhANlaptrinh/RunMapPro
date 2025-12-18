@@ -159,7 +159,7 @@ public class GroupController {
     public ResponseEntity<GroupPost> createPost(
             @PathVariable String groupId,
             @RequestBody CreateGroupPostRequest request) {
-        return ResponseEntity.ok(groupService.createGroupPost(groupId, request.content(), request.mediaUrls()));
+        return ResponseEntity.ok(groupService.createGroupPost(groupId, request.content(), request.mediaUrls(), request.runId()));
     }
     
     @GetMapping("/{groupId}/group-posts")

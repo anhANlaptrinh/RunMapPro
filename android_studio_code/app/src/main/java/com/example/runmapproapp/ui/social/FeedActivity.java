@@ -29,6 +29,8 @@ import com.example.runmapproapp.ui.social.adapter.PostAdapter;
 import com.example.runmapproapp.ui.profile.UserProfileActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.runmapproapp.utils.BottomNavigationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +64,10 @@ public class FeedActivity extends AppCompatActivity implements PostAdapter.OnPos
         initViews();
         setupRecyclerView();
         setupListeners();
+
+        // Setup bottom navigation
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
+        BottomNavigationHelper.setupBottomNavigation(this, bottomNav, R.id.nav_feed);
 
         postApi = ApiClient.getPostApi();
         notificationApi = ApiClient.getClient().create(NotificationApi.class);
@@ -256,7 +262,8 @@ public class FeedActivity extends AppCompatActivity implements PostAdapter.OnPos
         CreatePostRequest request = new CreatePostRequest(
             newContent,
             post.getMediaIds(),
-            post.getGroupId()
+            post.getGroupId(),
+            post.getRunId()
         );
         
         postApi.updatePost(post.getId(), request).enqueue(new Callback<Post>() {
@@ -311,6 +318,8 @@ public class FeedActivity extends AppCompatActivity implements PostAdapter.OnPos
         isLastPage = false;
         loadFeed(false);
         loadUnreadCount();
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
+        BottomNavigationHelper.setupBottomNavigation(this, bottomNav, R.id.nav_feed);
     }
 
     private void loadUnreadCount() {
