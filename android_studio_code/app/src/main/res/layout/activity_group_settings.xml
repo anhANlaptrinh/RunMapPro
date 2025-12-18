@@ -147,20 +147,6 @@
             android:text="View &amp; Manage Members"
             android:layout_marginBottom="8dp" />
 
-        <Button
-            android:id="@+id/btnViewJoinRequests"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="View Join Requests"
-            android:layout_marginBottom="8dp" />
-
-        <Button
-            android:id="@+id/btnViewPendingPosts"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="View Pending Posts"
-            android:layout_marginBottom="8dp" />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

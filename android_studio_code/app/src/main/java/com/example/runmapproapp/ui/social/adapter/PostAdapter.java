@@ -49,6 +49,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     private List<Post> posts;
     private final OnPostInteractionListener listener;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy 'at' hh:mm a", Locale.US);
+    private String groupUserRole; // owner, admin, or null
 
     public interface OnPostInteractionListener {
         void onPostClick(Post post);
@@ -63,6 +64,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     public PostAdapter(List<Post> posts, OnPostInteractionListener listener) {
         this.posts = posts;
         this.listener = listener;
+    }
+    
+    public void setGroupUserRole(String role) {
+        this.groupUserRole = role;
+        notifyDataSetChanged();
     }
 
     public void setPosts(List<Post> posts) {
@@ -334,12 +340,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 btnLike.setColorFilter(itemView.getContext().getColor(android.R.color.darker_gray));
             }
             
-            // Show menu button only if current user is the author
+            // Show menu button only if current user is the author OR if user is group owner
             AuthManager authManager = new AuthManager(itemView.getContext());
             String currentUserId = authManager.getUserId();
-            if (currentUserId != null && currentUserId.equals(post.getAuthorId())) {
+            boolean isAuthor = currentUserId != null && currentUserId.equals(post.getAuthorId());
+            boolean isGroupOwner = "owner".equals(groupUserRole);
+            
+            if (isAuthor || isGroupOwner) {
                 btnMenu.setVisibility(View.VISIBLE);
-                btnMenu.setOnClickListener(v -> showPostMenu(v, post, position));
+                btnMenu.setOnClickListener(v -> showPostMenu(v, post, position, isAuthor, isGroupOwner));
             } else {
                 btnMenu.setVisibility(View.GONE);
             }
@@ -462,9 +471,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             }
         }
         
-        private void showPostMenu(View view, Post post, int position) {
+        private void showPostMenu(View view, Post post, int position, boolean isAuthor, boolean isGroupOwner) {
             PopupMenu popup = new PopupMenu(view.getContext(), view);
             popup.getMenuInflater().inflate(R.menu.post_menu, popup.getMenu());
+            
+            // If user is owner but not author, hide edit option
+            if (isGroupOwner && !isAuthor) {
+                MenuItem editItem = popup.getMenu().findItem(R.id.action_edit_post);
+                if (editItem != null) {
+                    editItem.setVisible(false);
+                }
+            }
+            
             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {

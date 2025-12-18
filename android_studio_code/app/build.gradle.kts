@@ -49,7 +49,6 @@ dependencies {
     // Mapbox dependencies
     implementation(libs.mapbox.navigation)
     implementation(libs.mapbox.search.ui)
-    
     // Room Database
     implementation(libs.room.runtime)
     annotationProcessor(libs.room.compiler)

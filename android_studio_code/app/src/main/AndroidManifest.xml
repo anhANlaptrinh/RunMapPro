@@ -68,6 +68,8 @@
         <activity android:name=".ui.groups.GroupDetailActivity" />
         <activity android:name=".ui.groups.CreateGroupActivity" />
         <activity android:name=".ui.groups.PendingPostsActivity" />
+        <activity android:name=".ui.groups.PendingMembersActivity" />
+        <activity android:name=".ui.groups.GroupMembersActivity" />
         <activity android:name=".ui.group.GroupPostActivity" />
         <activity android:name=".ui.group.GroupSettingsActivity" /> <!-- Chat features -->
         <activity android:name=".ui.chat.ChatListActivity" />

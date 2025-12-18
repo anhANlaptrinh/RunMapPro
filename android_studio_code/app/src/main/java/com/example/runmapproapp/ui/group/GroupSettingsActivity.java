@@ -59,7 +59,7 @@ public class GroupSettingsActivity extends AppCompatActivity {
     private TextView tvInviteCode, tvGroupName, tvInviteCodeLabel;
     private LinearLayout layoutInviteCode;
     private CheckBox cbRequireMemberApproval, cbRequirePostApproval;
-    private Button btnSaveSettings, btnRegenerateCode, btnCopyCode, btnViewMembers, btnViewJoinRequests, btnViewPendingPosts, btnDeleteGroup, btnChangeCoverImage;
+    private Button btnSaveSettings, btnRegenerateCode, btnCopyCode, btnViewMembers, btnDeleteGroup, btnChangeCoverImage;
     private ImageView ivCoverImage;
     private ProgressBar progressBar;
     
@@ -120,8 +120,6 @@ public class GroupSettingsActivity extends AppCompatActivity {
         btnRegenerateCode = findViewById(R.id.btnRegenerateCode);
         btnCopyCode = findViewById(R.id.btnCopyCode);
         btnViewMembers = findViewById(R.id.btnViewMembers);
-        btnViewJoinRequests = findViewById(R.id.btnViewJoinRequests);
-        btnViewPendingPosts = findViewById(R.id.btnViewPendingPosts);
         btnDeleteGroup = findViewById(R.id.btnDeleteGroup);
         progressBar = findViewById(R.id.progressBar);
     }
@@ -132,8 +130,6 @@ public class GroupSettingsActivity extends AppCompatActivity {
         btnRegenerateCode.setOnClickListener(v -> regenerateInviteCode());
         btnCopyCode.setOnClickListener(v -> copyInviteCode());
         btnViewMembers.setOnClickListener(v -> showMembers());
-        btnViewJoinRequests.setOnClickListener(v -> showJoinRequests());
-        btnViewPendingPosts.setOnClickListener(v -> showPendingPosts());
         btnDeleteGroup.setOnClickListener(v -> confirmDeleteGroup());
     }
     
@@ -308,22 +304,9 @@ public class GroupSettingsActivity extends AppCompatActivity {
     }
     
     private void showMembers() {
-        GroupApi groupApi = ApiClient.getGroupApi();
-        groupApi.getGroupMembers(groupId, 0, 50).enqueue(new Callback<List<GroupMember>>() {
-            @Override
-            public void onResponse(Call<List<GroupMember>> call, Response<List<GroupMember>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    showMembersDialog(response.body());
-                } else {
-                    Toast.makeText(GroupSettingsActivity.this, "Failed to load members", Toast.LENGTH_SHORT).show();
-                }
-            }
-            
-            @Override
-            public void onFailure(Call<List<GroupMember>> call, Throwable t) {
-                Toast.makeText(GroupSettingsActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        Intent intent = new Intent(this, com.example.runmapproapp.ui.groups.GroupMembersActivity.class);
+        intent.putExtra("GROUP_ID", groupId);
+        startActivity(intent);
     }
     
     private void showMembersDialog(List<GroupMember> members) {

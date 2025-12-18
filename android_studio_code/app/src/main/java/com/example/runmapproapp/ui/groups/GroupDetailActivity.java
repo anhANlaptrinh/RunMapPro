@@ -169,18 +169,32 @@ public class GroupDetailActivity extends AppCompatActivity
     }
     
     private void showAdminMenu() {
-        String[] options = {"Duyệt bài viết", "Cài đặt nhóm"};
+        String userRole = currentGroup != null ? currentGroup.getUserRole() : null;
+        
+        String[] options;
+        if ("owner".equals(userRole)) {
+            // Owner has access to all features
+            options = new String[]{"Duyệt thành viên", "Duyệt bài viết", "Cài đặt nhóm"};
+        } else {
+            // Admin only has approval features, no settings
+            options = new String[]{"Duyệt thành viên", "Duyệt bài viết"};
+        }
         
         new androidx.appcompat.app.AlertDialog.Builder(this)
                 .setTitle("Quản lý nhóm")
                 .setItems(options, (dialog, which) -> {
                     if (which == 0) {
+                        // Duyệt thành viên
+                        Intent intent = new Intent(this, PendingMembersActivity.class);
+                        intent.putExtra("GROUP_ID", groupId);
+                        startActivity(intent);
+                    } else if (which == 1) {
                         // Duyệt bài viết
                         Intent intent = new Intent(this, PendingPostsActivity.class);
                         intent.putExtra("GROUP_ID", groupId);
                         startActivity(intent);
-                    } else if (which == 1) {
-                        // Cài đặt nhóm
+                    } else if (which == 2 && "owner".equals(userRole)) {
+                        // Cài đặt nhóm (owner only)
                         Intent intent = new Intent(this, GroupSettingsActivity.class);
                         intent.putExtra("groupId", groupId);
                         startActivity(intent);
@@ -228,6 +242,11 @@ public class GroupDetailActivity extends AppCompatActivity
         String userRole = group.getUserRole();
         isMember = userRole != null;
         updateJoinButton(userRole);
+        
+        // Set group role for post adapter (owner can delete any post)
+        if (postAdapter != null) {
+            postAdapter.setGroupUserRole(userRole);
+        }
     }
     
     private void updateJoinButton(String userRole) {
