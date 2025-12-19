@@ -101,10 +101,21 @@ public class GroupSettingsActivity extends AppCompatActivity {
             finish();
             return;
         }
-        
+
+        setupToolbar();
         initViews();
         setupListeners();
         loadGroupDetails();
+    }
+
+    private void setupToolbar() {
+        com.google.android.material.appbar.MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Cài đặt nhóm");
+        }
+        toolbar.setNavigationOnClickListener(v -> finish());
     }
     
     private void initViews() {

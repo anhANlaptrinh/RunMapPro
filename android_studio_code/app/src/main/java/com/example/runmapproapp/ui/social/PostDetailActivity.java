@@ -228,7 +228,7 @@ public class PostDetailActivity extends AppCompatActivity implements CommentAdap
             Glide.with(this).load(avatarUrl).into(ivAuthorAvatar);
         }
 
-        // Post image
+        // Post image (only for non-shared posts)
         if (post.getMediaIds() != null && !post.getMediaIds().isEmpty()) {
             ivPostImage.setVisibility(View.VISIBLE);
             String mediaUrl = "http://10.0.2.2:8080/api/media/" + post.getMediaIds().get(0);
@@ -242,6 +242,23 @@ public class PostDetailActivity extends AppCompatActivity implements CommentAdap
             ivPostImage.setVisibility(View.GONE);
         }
 
+        // Run card (only for non-shared posts)
+        View runCardLayout = findViewById(R.id.runCardLayout);
+        if (post.getRunId() != null && !post.getRunId().isEmpty() && runCardLayout != null) {
+            runCardLayout.setVisibility(View.VISIBLE);
+            loadAndDisplayRun(post.getRunId(), runCardLayout);
+            
+            // Add click listener to open run detail
+            final String runId = post.getRunId();
+            runCardLayout.setOnClickListener(v -> {
+                Intent intent = new Intent(this, com.example.runmapproapp.ui.run.RunDetailActivity.class);
+                intent.putExtra(com.example.runmapproapp.ui.run.RunDetailActivity.EXTRA_RUN_ID, runId);
+                startActivity(intent);
+            });
+        } else if (runCardLayout != null) {
+            runCardLayout.setVisibility(View.GONE);
+        }
+
         // Original post for shared posts
         if (post.getOriginalPost() != null) {
             cardOriginalPost.setVisibility(View.VISIBLE);
@@ -250,8 +267,11 @@ public class PostDetailActivity extends AppCompatActivity implements CommentAdap
             tvOriginalContent.setText(originalPost.getContentText());
             
             // Load original post image if available
+            View cardOriginalImage = findViewById(R.id.cardOriginalImage);
             if (originalPost.getMediaIds() != null && !originalPost.getMediaIds().isEmpty()) {
-                ivOriginalPostImage.setVisibility(View.VISIBLE);
+                if (cardOriginalImage != null) {
+                    cardOriginalImage.setVisibility(View.VISIBLE);
+                }
                 String originalMediaUrl = "http://10.0.2.2:8080/api/media/" + originalPost.getMediaIds().get(0);
                 Glide.with(this)
                         .load(originalMediaUrl)
@@ -259,7 +279,26 @@ public class PostDetailActivity extends AppCompatActivity implements CommentAdap
                         .error(R.drawable.ic_person)
                         .into(ivOriginalPostImage);
             } else {
-                ivOriginalPostImage.setVisibility(View.GONE);
+                if (cardOriginalImage != null) {
+                    cardOriginalImage.setVisibility(View.GONE);
+                }
+            }
+
+            // Show minimap if original post has runId
+            View originalRunCardLayout = findViewById(R.id.originalRunCardLayout);
+            if (originalPost.getRunId() != null && !originalPost.getRunId().isEmpty() && originalRunCardLayout != null) {
+                originalRunCardLayout.setVisibility(View.VISIBLE);
+                loadOriginalRunData(originalPost.getRunId(), originalRunCardLayout);
+                
+                // Add click listener to open run detail
+                final String originalRunId = originalPost.getRunId();
+                originalRunCardLayout.setOnClickListener(v -> {
+                    Intent intent = new Intent(this, com.example.runmapproapp.ui.run.RunDetailActivity.class);
+                    intent.putExtra(com.example.runmapproapp.ui.run.RunDetailActivity.EXTRA_RUN_ID, originalRunId);
+                    startActivity(intent);
+                });
+            } else if (originalRunCardLayout != null) {
+                originalRunCardLayout.setVisibility(View.GONE);
             }
             
             // Click listener for original post - open original post detail
@@ -299,6 +338,208 @@ public class PostDetailActivity extends AppCompatActivity implements CommentAdap
         }
     }
 
+    private void loadAndDisplayRun(String runId, View runCardLayout) {
+        com.example.runmapproapp.api.RunApiService runApiService = 
+                com.example.runmapproapp.api.RetrofitClient.getRunApiService();
+        
+        runApiService.getRun(runId).enqueue(new Callback<com.example.runmapproapp.dto.RunResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<com.example.runmapproapp.dto.RunResponse> call, 
+                                 @NonNull Response<com.example.runmapproapp.dto.RunResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    displayRunData(response.body(), runCardLayout);
+                } else {
+                    android.util.Log.e("PostDetailActivity", "Failed to load run " + runId);
+                    if (runCardLayout != null) {
+                        runCardLayout.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<com.example.runmapproapp.dto.RunResponse> call, @NonNull Throwable t) {
+                android.util.Log.e("PostDetailActivity", "Error loading run " + runId, t);
+                if (runCardLayout != null) {
+                    runCardLayout.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
+    private void displayRunData(com.example.runmapproapp.dto.RunResponse run, View runCardLayout) {
+        if (runCardLayout == null) return;
+
+        // Find views in runCardLayout
+        TextView tvRunDate = runCardLayout.findViewById(R.id.tvRunDate);
+        TextView tvRunDistance = runCardLayout.findViewById(R.id.tvRunDistance);
+        TextView tvRunDuration = runCardLayout.findViewById(R.id.tvRunDuration);
+        TextView tvRunPace = runCardLayout.findViewById(R.id.tvRunPace);
+        com.mapbox.maps.MapView mapViewRun = runCardLayout.findViewById(R.id.mapViewRun);
+
+        // Display run stats
+        tvRunDate.setText(com.example.runmapproapp.utils.FormatUtils.formatDate(run.getStartTime()));
+        tvRunDistance.setText(com.example.runmapproapp.utils.FormatUtils.formatDistance(run.getDistanceMeters()));
+        tvRunDuration.setText(com.example.runmapproapp.utils.FormatUtils.formatDuration(run.getDurationMs()));
+        tvRunPace.setText(com.example.runmapproapp.utils.FormatUtils.formatPace(run.getAvgPaceSecPerKm()));
+
+        // Display map
+        if (mapViewRun != null) {
+            mapViewRun.getMapboxMap().loadStyleUri(com.mapbox.maps.Style.MAPBOX_STREETS, style -> {
+                if (run.getPath() != null && run.getPath().getCoordinates() != null 
+                        && run.getPath().getCoordinates().size() >= 2) {
+                    
+                    // Convert coordinates to Points
+                    java.util.List<com.mapbox.geojson.Point> points = new java.util.ArrayList<>();
+                    for (java.util.List<Double> coord : run.getPath().getCoordinates()) {
+                        if (coord.size() >= 2) {
+                            points.add(com.mapbox.geojson.Point.fromLngLat(coord.get(0), coord.get(1)));
+                        }
+                    }
+
+                    if (points.size() >= 2) {
+                        String sourceId = "run-source-" + run.getId();
+                        String layerId = "run-layer-" + run.getId();
+                        
+                        // Remove existing if any
+                        try {
+                            style.removeStyleLayer(layerId);
+                        } catch (Exception e) {}
+                        try {
+                            style.removeStyleSource(sourceId);
+                        } catch (Exception e) {}
+                        
+                        // Create and display route
+                        com.mapbox.geojson.LineString lineString = com.mapbox.geojson.LineString.fromLngLats(points);
+                        com.mapbox.geojson.Feature feature = com.mapbox.geojson.Feature.fromGeometry(lineString);
+                        
+                        com.mapbox.maps.extension.style.sources.generated.GeoJsonSource source = 
+                                new com.mapbox.maps.extension.style.sources.generated.GeoJsonSource.Builder(sourceId)
+                                .feature(feature)
+                                .build();
+                        source.bindTo(style);
+                        
+                        com.mapbox.maps.extension.style.layers.generated.LineLayer lineLayer = 
+                                new com.mapbox.maps.extension.style.layers.generated.LineLayer(layerId, sourceId);
+                        lineLayer.lineColor("#1976D2");
+                        lineLayer.lineWidth(4.0);
+                        lineLayer.lineCap(com.mapbox.maps.extension.style.layers.properties.generated.LineCap.ROUND);
+                        lineLayer.lineJoin(com.mapbox.maps.extension.style.layers.properties.generated.LineJoin.ROUND);
+                        lineLayer.bindTo(style);
+                        
+                        // Center camera
+                        com.mapbox.geojson.Point centerPoint = points.get(points.size() / 2);
+                        mapViewRun.getMapboxMap().setCamera(
+                                new com.mapbox.maps.CameraOptions.Builder()
+                                        .center(centerPoint)
+                                        .zoom(13.0)
+                                        .build()
+                        );
+                    }
+                }
+            });
+        }
+    }
+    private void loadOriginalRunData(String runId, View originalRunCardLayout) {
+        com.example.runmapproapp.api.RunApiService runApiService = 
+                com.example.runmapproapp.api.RetrofitClient.getRunApiService();
+        
+        runApiService.getRun(runId).enqueue(new Callback<com.example.runmapproapp.dto.RunResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<com.example.runmapproapp.dto.RunResponse> call, 
+                                 @NonNull Response<com.example.runmapproapp.dto.RunResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    displayOriginalRunData(response.body(), originalRunCardLayout);
+                } else {
+                    android.util.Log.e("PostDetailActivity", "Failed to load original run " + runId);
+                    if (originalRunCardLayout != null) {
+                        originalRunCardLayout.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<com.example.runmapproapp.dto.RunResponse> call, @NonNull Throwable t) {
+                android.util.Log.e("PostDetailActivity", "Error loading original run " + runId, t);
+                if (originalRunCardLayout != null) {
+                    originalRunCardLayout.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
+    private void displayOriginalRunData(com.example.runmapproapp.dto.RunResponse run, View originalRunCardLayout) {
+        if (originalRunCardLayout == null) return;
+
+        // Find views in originalRunCardLayout
+        TextView tvRunDate = originalRunCardLayout.findViewById(R.id.tvRunDate);
+        TextView tvRunDistance = originalRunCardLayout.findViewById(R.id.tvRunDistance);
+        TextView tvRunDuration = originalRunCardLayout.findViewById(R.id.tvRunDuration);
+        TextView tvRunPace = originalRunCardLayout.findViewById(R.id.tvRunPace);
+        com.mapbox.maps.MapView mapViewRun = originalRunCardLayout.findViewById(R.id.mapViewRun);
+
+        // Display run stats
+        tvRunDate.setText(com.example.runmapproapp.utils.FormatUtils.formatDate(run.getStartTime()));
+        tvRunDistance.setText(com.example.runmapproapp.utils.FormatUtils.formatDistance(run.getDistanceMeters()));
+        tvRunDuration.setText(com.example.runmapproapp.utils.FormatUtils.formatDuration(run.getDurationMs()));
+        tvRunPace.setText(com.example.runmapproapp.utils.FormatUtils.formatPace(run.getAvgPaceSecPerKm()));
+
+        // Display map
+        if (mapViewRun != null) {
+            mapViewRun.getMapboxMap().loadStyleUri(com.mapbox.maps.Style.MAPBOX_STREETS, style -> {
+                if (run.getPath() != null && run.getPath().getCoordinates() != null 
+                        && run.getPath().getCoordinates().size() >= 2) {
+                    
+                    // Convert coordinates to Points
+                    java.util.List<com.mapbox.geojson.Point> points = new java.util.ArrayList<>();
+                    for (java.util.List<Double> coord : run.getPath().getCoordinates()) {
+                        if (coord.size() >= 2) {
+                            points.add(com.mapbox.geojson.Point.fromLngLat(coord.get(0), coord.get(1)));
+                        }
+                    }
+
+                    if (points.size() >= 2) {
+                        String sourceId = "original-run-source-" + run.getId();
+                        String layerId = "original-run-layer-" + run.getId();
+                        
+                        // Remove existing if any
+                        try {
+                            style.removeStyleLayer(layerId);
+                        } catch (Exception e) {}
+                        try {
+                            style.removeStyleSource(sourceId);
+                        } catch (Exception e) {}
+                        
+                        // Create and display route
+                        com.mapbox.geojson.LineString lineString = com.mapbox.geojson.LineString.fromLngLats(points);
+                        com.mapbox.geojson.Feature feature = com.mapbox.geojson.Feature.fromGeometry(lineString);
+                        
+                        com.mapbox.maps.extension.style.sources.generated.GeoJsonSource source = 
+                                new com.mapbox.maps.extension.style.sources.generated.GeoJsonSource.Builder(sourceId)
+                                .feature(feature)
+                                .build();
+                        source.bindTo(style);
+                        
+                        com.mapbox.maps.extension.style.layers.generated.LineLayer lineLayer = 
+                                new com.mapbox.maps.extension.style.layers.generated.LineLayer(layerId, sourceId);
+                        lineLayer.lineColor("#1976D2");
+                        lineLayer.lineWidth(4.0);
+                        lineLayer.lineCap(com.mapbox.maps.extension.style.layers.properties.generated.LineCap.ROUND);
+                        lineLayer.lineJoin(com.mapbox.maps.extension.style.layers.properties.generated.LineJoin.ROUND);
+                        lineLayer.bindTo(style);
+                        
+                        // Center camera
+                        com.mapbox.geojson.Point centerPoint = points.get(points.size() / 2);
+                        mapViewRun.getMapboxMap().setCamera(
+                                new com.mapbox.maps.CameraOptions.Builder()
+                                        .center(centerPoint)
+                                        .zoom(13.0)
+                                        .build()
+                        );
+                    }
+                }
+            });
+        }
+    }
     private void loadComments(String postId) {
         progressBar.setVisibility(View.VISIBLE);
         

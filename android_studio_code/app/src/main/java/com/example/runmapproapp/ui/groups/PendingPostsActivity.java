@@ -56,6 +56,7 @@ public class PendingPostsActivity extends AppCompatActivity implements PendingPo
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         initViews();
         setupRecyclerView();

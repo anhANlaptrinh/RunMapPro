@@ -114,15 +114,34 @@
                     android:ellipsize="end"
                     android:text="Original post content..." />
 
-                <ImageView
-                    android:id="@+id/ivOriginalPostImage"
+                <!-- Original Post Image Card (for shared posts with images) -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardOriginalImage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
                     android:visibility="gone"
-                    android:contentDescription="@string/post_image" />
+                    app:cardElevation="2dp"
+                    app:cardCornerRadius="8dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="@color/deep_blue_500">
+
+                    <ImageView
+                        android:id="@+id/ivOriginalPostImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="@string/post_image" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Run Card for Original Post -->
+                <include
+                    android:id="@+id/originalRunCardLayout"
+                    layout="@layout/item_run_card_post"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
             </LinearLayout>
 

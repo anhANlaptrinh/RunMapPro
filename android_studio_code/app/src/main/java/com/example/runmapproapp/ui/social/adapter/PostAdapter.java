@@ -139,6 +139,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         private final MaterialCardView cardOriginalPost;
         private final TextView tvOriginalAuthor;
         private final TextView tvOriginalContent;
+        private final MaterialCardView cardOriginalImage;
         private final ImageView ivOriginalPostImage;
         private final ImageView ivPostImage;
         private final ImageButton btnLike;
@@ -153,6 +154,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         private final View runCardLayout;
         private MapView mapViewRun;
         private TextView tvRunDate, tvRunDistance, tvRunDuration, tvRunPace;
+        
+        // Original run card views (for shared posts)
+        private final View originalRunCardLayout;
+        private MapView originalMapViewRun;
+        private TextView originalTvRunDate, originalTvRunDistance, originalTvRunDuration, originalTvRunPace;
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -163,6 +169,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             cardOriginalPost = itemView.findViewById(R.id.cardOriginalPost);
             tvOriginalAuthor = itemView.findViewById(R.id.tvOriginalAuthor);
             tvOriginalContent = itemView.findViewById(R.id.tvOriginalContent);
+            cardOriginalImage = itemView.findViewById(R.id.cardOriginalImage);
             ivOriginalPostImage = itemView.findViewById(R.id.ivOriginalPostImage);
             ivPostImage = itemView.findViewById(R.id.ivPostImage);
             btnLike = itemView.findViewById(R.id.btnLike);
@@ -181,6 +188,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 tvRunDistance = runCardLayout.findViewById(R.id.tvRunDistance);
                 tvRunDuration = runCardLayout.findViewById(R.id.tvRunDuration);
                 tvRunPace = runCardLayout.findViewById(R.id.tvRunPace);
+            }
+            
+            // Original run card (for shared posts)
+            originalRunCardLayout = itemView.findViewById(R.id.originalRunCardLayout);
+            if (originalRunCardLayout != null) {
+                originalMapViewRun = originalRunCardLayout.findViewById(R.id.mapViewRun);
+                originalTvRunDate = originalRunCardLayout.findViewById(R.id.tvRunDate);
+                originalTvRunDistance = originalRunCardLayout.findViewById(R.id.tvRunDistance);
+                originalTvRunDuration = originalRunCardLayout.findViewById(R.id.tvRunDuration);
+                originalTvRunPace = originalRunCardLayout.findViewById(R.id.tvRunPace);
             }
         }
 
@@ -250,7 +267,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 
                 // Original post image
                 if (originalPost.getMediaIds() != null && !originalPost.getMediaIds().isEmpty()) {
-                    ivOriginalPostImage.setVisibility(View.VISIBLE);
+                    cardOriginalImage.setVisibility(View.VISIBLE);
                     String originalMediaUrl = "http://10.0.2.2:8080/api/media/" + originalPost.getMediaIds().get(0);
                     Glide.with(itemView.getContext())
                             .load(originalMediaUrl)
@@ -258,7 +275,32 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                             .error(R.drawable.ic_person)
                             .into(ivOriginalPostImage);
                 } else {
-                    ivOriginalPostImage.setVisibility(View.GONE);
+                    cardOriginalImage.setVisibility(View.GONE);
+                }
+                
+                // Original run card (minimap for shared posts)
+                if (originalPost.getRunId() != null && !originalPost.getRunId().isEmpty() && originalRunCardLayout != null) {
+                    originalRunCardLayout.setVisibility(View.VISIBLE);
+                    
+                    // Clear previous map data
+                    if (originalMapViewRun != null) {
+                        originalMapViewRun.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS, style -> {
+                            // Style loaded, will draw route in loadOriginalRunData
+                        });
+                    }
+                    
+                    loadOriginalRunData(originalPost.getRunId());
+                    
+                    // Add click listener to open run detail
+                    final String originalRunId = originalPost.getRunId();
+                    originalRunCardLayout.setOnClickListener(v -> {
+                        Intent intent = new Intent(itemView.getContext(), RunDetailActivity.class);
+                        intent.putExtra(RunDetailActivity.EXTRA_RUN_ID, originalRunId);
+                        itemView.getContext().startActivity(intent);
+                    });
+                } else if (originalRunCardLayout != null) {
+                    originalRunCardLayout.setVisibility(View.GONE);
+                    originalRunCardLayout.setOnClickListener(null);
                 }
                 
                 // Click listener for original post - open original post detail
@@ -460,6 +502,95 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                             // Center camera
                             Point centerPoint = points.get(points.size() / 2);
                             mapViewRun.getMapboxMap().setCamera(
+                                    new CameraOptions.Builder()
+                                            .center(centerPoint)
+                                            .zoom(13.0)
+                                            .build()
+                            );
+                        }
+                    }
+                });
+            }
+        }
+        
+        private void loadOriginalRunData(String runId) {
+            RunApiService runApiService = RetrofitClient.getRunApiService();
+            runApiService.getRun(runId).enqueue(new Callback<RunResponse>() {
+                @Override
+                public void onResponse(@NonNull Call<RunResponse> call, @NonNull Response<RunResponse> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        displayOriginalRunData(response.body());
+                    } else {
+                        android.util.Log.e("PostAdapter", "Failed to load original run " + runId + ": " + response.code());
+                        if (originalRunCardLayout != null) {
+                            originalRunCardLayout.setVisibility(View.GONE);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<RunResponse> call, @NonNull Throwable t) {
+                    android.util.Log.e("PostAdapter", "Error loading original run " + runId, t);
+                    if (originalRunCardLayout != null) {
+                        originalRunCardLayout.setVisibility(View.GONE);
+                    }
+                }
+            });
+        }
+        
+        private void displayOriginalRunData(RunResponse run) {
+            // Display run stats
+            originalTvRunDate.setText(FormatUtils.formatDate(run.getStartTime()));
+            originalTvRunDistance.setText(FormatUtils.formatDistance(run.getDistanceMeters()));
+            originalTvRunDuration.setText(FormatUtils.formatDuration(run.getDurationMs()));
+            originalTvRunPace.setText(FormatUtils.formatPace(run.getAvgPaceSecPerKm()));
+
+            // Display map
+            if (originalMapViewRun != null) {
+                originalMapViewRun.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS, style -> {
+                    if (run.getPath() != null && run.getPath().getCoordinates() != null 
+                            && run.getPath().getCoordinates().size() >= 2) {
+                        
+                        // Convert coordinates to Points
+                        List<Point> points = new ArrayList<>();
+                        for (List<Double> coord : run.getPath().getCoordinates()) {
+                            if (coord.size() >= 2) {
+                                points.add(Point.fromLngLat(coord.get(0), coord.get(1)));
+                            }
+                        }
+
+                        if (points.size() >= 2) {
+                            // Create unique IDs for this original run
+                            String sourceId = "original-run-source-" + run.getId();
+                            String layerId = "original-run-layer-" + run.getId();
+                            
+                            // Remove existing if any
+                            try {
+                                style.removeStyleLayer(layerId);
+                            } catch (Exception e) {}
+                            try {
+                                style.removeStyleSource(sourceId);
+                            } catch (Exception e) {}
+                            
+                            // Create and display route
+                            LineString lineString = LineString.fromLngLats(points);
+                            Feature feature = Feature.fromGeometry(lineString);
+                            
+                            GeoJsonSource source = new GeoJsonSource.Builder(sourceId)
+                                    .feature(feature)
+                                    .build();
+                            source.bindTo(style);
+
+                            LineLayer lineLayer = new LineLayer(layerId, sourceId);
+                            lineLayer.lineColor("#1976D2");
+                            lineLayer.lineWidth(4.0);
+                            lineLayer.lineCap(LineCap.ROUND);
+                            lineLayer.lineJoin(LineJoin.ROUND);
+                            lineLayer.bindTo(style);
+
+                            // Center camera
+                            Point centerPoint = points.get(points.size() / 2);
+                            originalMapViewRun.getMapboxMap().setCamera(
                                     new CameraOptions.Builder()
                                             .center(centerPoint)
                                             .zoom(13.0)

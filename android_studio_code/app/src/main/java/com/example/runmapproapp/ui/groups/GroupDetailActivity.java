@@ -433,8 +433,16 @@ public class GroupDetailActivity extends AppCompatActivity
                         return;
                     }
 
+                    // Filter out pending posts - only show approved posts
+                    List<GroupPost> approvedPosts = new ArrayList<>();
+                    for (GroupPost post : groupPosts) {
+                        if (!"pending".equals(post.getStatus())) {
+                            approvedPosts.add(post);
+                        }
+                    }
+
                     // Convert GroupPost to Post for PostAdapter
-                    List<Post> posts = convertGroupPostsToPosts(groupPosts);
+                    List<Post> posts = convertGroupPostsToPosts(approvedPosts);
                     
                     if (loadMore) {
                         postAdapter.addPosts(posts);
