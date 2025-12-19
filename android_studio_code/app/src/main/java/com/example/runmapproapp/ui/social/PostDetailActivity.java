@@ -199,6 +199,7 @@ public class PostDetailActivity extends AppCompatActivity implements CommentAdap
         
         post.setContentText(groupPost.getContent());
         post.setMediaIds(groupPost.getMediaUrls());
+        post.setRunId(groupPost.getRunId());
         
         // Set createdAt directly (both are String type)
         post.setCreatedAt(groupPost.getCreatedAt());
