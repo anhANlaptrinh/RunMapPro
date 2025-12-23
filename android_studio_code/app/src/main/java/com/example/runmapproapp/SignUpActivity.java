@@ -119,7 +119,7 @@ public class SignUpActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     authManager.saveLogin(response.body());
                     Toast.makeText(SignUpActivity.this, R.string.msg_signup_success, Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+                    startActivity(new Intent(SignUpActivity.this, MapActivity.class));
                     finishAffinity();
                 } else {
                     showError(parseErrorMessage(response));
