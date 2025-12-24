@@ -27,7 +27,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tên nhóm"
+                android:text="@string/group_name_label"
                 android:textStyle="bold"
                 android:textSize="14sp" />
 
@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="Nhập tên nhóm"
+                android:hint="@string/group_name_hint"
                 android:inputType="text"
                 android:maxLines="1" />
 
@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Mô tả"
+                android:text="@string/group_description_label"
                 android:textStyle="bold"
                 android:textSize="14sp" />
 
@@ -54,14 +54,14 @@
                 android:layout_height="120dp"
                 android:layout_marginTop="8dp"
                 android:gravity="top"
-                android:hint="Mô tả về nhóm của bạn"
+                android:hint="@string/group_description_hint"
                 android:inputType="textMultiLine" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Quyền riêng tư"
+                android:text="@string/privacy_label"
                 android:textStyle="bold"
                 android:textSize="14sp" />
 
@@ -76,14 +76,14 @@
                     android:id="@+id/rbPublic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Công khai - Mọi người có thể tìm thấy và tham gia" />
+                    android:text="@string/privacy_public" />
 
                 <RadioButton
                     android:id="@+id/rbPrivate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Riêng tư - Chỉ thành viên được mời mới thấy" />
+                    android:text="@string/privacy_private" />
 
             </RadioGroup>
 
@@ -92,7 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Tạo nhóm" />
+                android:text="@string/create_group_button" />
 
             <ProgressBar
                 android:id="@+id/progressBar"

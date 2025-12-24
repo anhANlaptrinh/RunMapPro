@@ -93,7 +93,7 @@ public class CreatePostActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Create Post");
+            getSupportActionBar().setTitle(R.string.create_post_title);
         }
 
         initViews();
@@ -103,9 +103,9 @@ public class CreatePostActivity extends AppCompatActivity {
         sharePostId = getIntent().getStringExtra("SHARE_POST_ID");
         if (sharePostId != null) {
             if (getSupportActionBar() != null) {
-                getSupportActionBar().setTitle("Share Post");
+                getSupportActionBar().setTitle(R.string.share_post_title);
             }
-            etPostContent.setHint("Add your thoughts (optional)...");
+            etPostContent.setHint(R.string.share_post_hint);
             loadOriginalPost();
         }
     }
@@ -119,13 +119,13 @@ public class CreatePostActivity extends AppCompatActivity {
                     originalPost = response.body();
                     displayOriginalPost(originalPost);
                 } else {
-                    Toast.makeText(CreatePostActivity.this, "Failed to load original post", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreatePostActivity.this, R.string.failed_to_load_original_post, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Post> call, @NonNull Throwable t) {
-                Toast.makeText(CreatePostActivity.this, "Error loading post: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreatePostActivity.this, getString(R.string.error_prefix, t.getMessage()), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -335,7 +335,7 @@ public class CreatePostActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     Log.d(TAG, "Post published successfully!");
-                    Toast.makeText(CreatePostActivity.this, "Post published!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreatePostActivity.this, R.string.post_published, Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
                     String errorMsg = "Failed: " + response.code();
@@ -356,7 +356,7 @@ public class CreatePostActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 btnPublish.setEnabled(true);
                 Log.e(TAG, "Network error publishing post", t);
-                Toast.makeText(CreatePostActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreatePostActivity.this, getString(R.string.error_prefix, t.getMessage()), Toast.LENGTH_SHORT).show();
             }
         });
     }

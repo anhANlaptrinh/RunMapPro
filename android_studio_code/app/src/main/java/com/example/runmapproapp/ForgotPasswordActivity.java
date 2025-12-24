@@ -95,12 +95,12 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         String email = inputEmail.getText() != null ? inputEmail.getText().toString().trim() : "";
 
         if (email.isEmpty()) {
-            showError("Please enter your email");
+            showError(getString(R.string.please_enter_email));
             return;
         }
 
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            showError("Please enter a valid email address");
+            showError(getString(R.string.please_enter_valid_email));
             return;
         }
 
@@ -139,7 +139,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private void verifyOtpAndResetPassword() {
         if (currentEmail == null) {
-            showError("Please request an OTP first");
+            showError(getString(R.string.please_request_otp_first));
             return;
         }
 
@@ -148,22 +148,22 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         String confirmPassword = inputConfirmPassword.getText() != null ? inputConfirmPassword.getText().toString().trim() : "";
 
         if (otp.length() != 6) {
-            showError("Please enter the 6-digit OTP");
+            showError(getString(R.string.please_enter_6digit_otp));
             return;
         }
 
         if (newPassword.isEmpty() || confirmPassword.isEmpty()) {
-            showError("Please enter and confirm your new password");
+            showError(getString(R.string.please_enter_confirm_password));
             return;
         }
 
         if (newPassword.length() < 6) {
-            showError("Password must be at least 6 characters");
+            showError(getString(R.string.password_min_6_chars));
             return;
         }
 
         if (!newPassword.equals(confirmPassword)) {
-            showError("Passwords do not match");
+            showError(getString(R.string.passwords_not_match));
             return;
         }
 
@@ -193,7 +193,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             public void onFailure(Call<VerifyOtpResponse> call, Throwable t) {
                 setLoading(false);
                 Log.e(TAG, "Verify OTP failed: " + t.getMessage());
-                showError("Network error: " + t.getMessage());
+                showError(getString(R.string.network_error_message, t.getMessage()));
             }
         });
     }
@@ -254,10 +254,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 ErrorResponse errorResponse = new Gson().fromJson(errorJson, ErrorResponse.class);
                 showError(errorResponse.getMessage());
             } else {
-                showError("Unknown error occurred");
+                showError(getString(R.string.unknown_error));
             }
         } catch (IOException e) {
-            showError("Error parsing response");
+            showError(getString(R.string.error_parsing_response));
         }
     }
 

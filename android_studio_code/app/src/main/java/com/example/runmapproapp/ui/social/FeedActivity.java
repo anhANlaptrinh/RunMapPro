@@ -170,7 +170,7 @@ public class FeedActivity extends AppCompatActivity implements PostAdapter.OnPos
                         currentPage++;
                     }
                 } else {
-                    Toast.makeText(FeedActivity.this, "Failed to load feed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FeedActivity.this, R.string.failed_to_load_feed, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -179,7 +179,7 @@ public class FeedActivity extends AppCompatActivity implements PostAdapter.OnPos
                 isLoading = false;
                 progressBar.setVisibility(View.GONE);
                 swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(FeedActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(FeedActivity.this, getString(R.string.error_prefix, t.getMessage()), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -201,7 +201,7 @@ public class FeedActivity extends AppCompatActivity implements PostAdapter.OnPos
 
             @Override
             public void onFailure(@NonNull Call<Post> call, @NonNull Throwable t) {
-                Toast.makeText(FeedActivity.this, "Failed to update like", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FeedActivity.this, R.string.failed_to_update_like, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -278,7 +278,7 @@ public class FeedActivity extends AppCompatActivity implements PostAdapter.OnPos
             }
             @Override
             public void onFailure(@NonNull Call<Post> call, @NonNull Throwable t) {
-                Toast.makeText(FeedActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(FeedActivity.this, getString(R.string.error_prefix, t.getMessage()), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -286,7 +286,7 @@ public class FeedActivity extends AppCompatActivity implements PostAdapter.OnPos
     @Override
     public void onDeletePost(Post post, int position) {
         new androidx.appcompat.app.AlertDialog.Builder(this)
-            .setTitle("Delete Post")
+            .setTitle(R.string.delete_post_title)
             .setMessage(R.string.delete_post_confirm)
             .setPositiveButton(R.string.delete, (dialog, which) -> {
                 PostApi postApi = ApiClient.getPostApi();
@@ -294,15 +294,15 @@ public class FeedActivity extends AppCompatActivity implements PostAdapter.OnPos
                     @Override
                     public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                         if (response.isSuccessful()) {
-                            Toast.makeText(FeedActivity.this, "Post deleted", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FeedActivity.this, R.string.post_deleted, Toast.LENGTH_SHORT).show();
                             loadFeed(true);
                         } else {
-                            Toast.makeText(FeedActivity.this, "Failed to delete post", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FeedActivity.this, R.string.failed_to_delete_post, Toast.LENGTH_SHORT).show();
                         }
                     }
                     @Override
                     public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                        Toast.makeText(FeedActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FeedActivity.this, getString(R.string.error_prefix, t.getMessage()), Toast.LENGTH_SHORT).show();
                     }
                 });
             })

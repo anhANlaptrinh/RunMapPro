@@ -54,7 +54,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Summary"
+                android:text="@string/summary"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="12dp" />
@@ -98,7 +98,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Total Distance"
+                                android:text="@string/total_distance"
                                 android:textSize="12sp"
                                 android:textColor="#666666" />
                         </LinearLayout>
@@ -122,7 +122,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Total Duration"
+                                android:text="@string/total_duration"
                                 android:textSize="12sp"
                                 android:textColor="#666666" />
                         </LinearLayout>
@@ -159,7 +159,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Calories"
+                                android:text="@string/calories"
                                 android:textSize="10sp"
                                 android:textColor="#666666" />
                         </LinearLayout>
@@ -182,7 +182,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Steps"
+                                android:text="@string/steps"
                                 android:textSize="10sp"
                                 android:textColor="#666666" />
                         </LinearLayout>
@@ -205,7 +205,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Runs"
+                                android:text="@string/runs"
                                 android:textSize="10sp"
                                 android:textColor="#666666" />
                         </LinearLayout>
@@ -217,7 +217,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Personal Records"
+                android:text="@string/personal_records"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="12dp" />
@@ -246,7 +246,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="🏃 Longest Run"
+                            android:text="@string/longest_run"
                             android:textSize="14sp" />
 
                         <TextView
@@ -268,7 +268,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="⚡ Fastest Avg Pace"
+                            android:text="@string/fastest_avg_pace"
                             android:textSize="14sp" />
 
                         <TextView
@@ -290,7 +290,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="🔥 Best Pace"
+                            android:text="@string/best_pace"
                             android:textSize="14sp" />
 
                         <TextView
@@ -311,7 +311,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="👟 Most Steps"
+                            android:text="@string/most_steps"
                             android:textSize="14sp" />
 
                         <TextView
@@ -328,7 +328,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Selected Run"
+                android:text="@string/selected_run"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="12dp" />
@@ -440,7 +440,7 @@
                         android:id="@+id/tvMapEmptyState"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Select a run to view route"
+                        android:text="@string/select_run_to_view"
                         android:gravity="center"
                         android:padding="16dp"
                         android:textColor="#666666" />
@@ -459,7 +459,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Recent Runs"
+                    android:text="@string/recent_runs"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -468,9 +468,29 @@
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Refresh"
+                    android:text="@string/refresh"
                     android:textSize="12sp" />
             </LinearLayout>
+
+            <!-- Search Bar -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/deep_blue_500"
+                app:hintTextColor="@color/deep_blue_500"
+                app:startIconDrawable="@android:drawable/ic_menu_search"
+                app:startIconTint="@color/deep_blue_500">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etSearchRuns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/search_runs_hint"
+                    android:inputType="text"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewRuns"
@@ -483,7 +503,7 @@
                 android:id="@+id/tvEmptyState"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="No runs found.\nStart tracking your runs!"
+                android:text="@string/no_runs_yet"
                 android:gravity="center"
                 android:padding="32dp"
                 android:textColor="#666666"

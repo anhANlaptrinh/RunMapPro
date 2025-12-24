@@ -113,7 +113,7 @@ public class GroupSettingsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Cài đặt nhóm");
+            getSupportActionBar().setTitle(R.string.group_settings_title);
         }
         toolbar.setNavigationOnClickListener(v -> finish());
     }
@@ -195,7 +195,7 @@ public class GroupSettingsActivity extends AppCompatActivity {
                 String codeDisplay = currentGroup.getInviteCode();
                 if (currentGroup.getInviteCodeExpiresAt() != null) {
                     String expiryDate = formatExpirationDate(currentGroup.getInviteCodeExpiresAt());
-                    codeDisplay = currentGroup.getInviteCode() + "\n(Hết hạn: " + expiryDate + ")";
+                    codeDisplay = currentGroup.getInviteCode() + "\n" + getString(R.string.expires_on, expiryDate);
                 }
                 tvInviteCode.setText(codeDisplay);
                 tvInviteCodeLabel.setVisibility(View.VISIBLE);
@@ -203,10 +203,10 @@ public class GroupSettingsActivity extends AppCompatActivity {
                 btnRegenerateCode.setVisibility(View.VISIBLE);
             } else {
                 // No code yet - show button to generate
-                tvInviteCode.setText("Chưa có mã mời");
+                tvInviteCode.setText(R.string.no_invite_code);
                 tvInviteCodeLabel.setVisibility(View.VISIBLE);
                 layoutInviteCode.setVisibility(View.VISIBLE);
-                btnRegenerateCode.setText("Tạo mã mời");
+                btnRegenerateCode.setText(R.string.generate_invite_code);
                 btnRegenerateCode.setVisibility(View.VISIBLE);
             }
         } else {
@@ -247,16 +247,16 @@ public class GroupSettingsActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     currentGroup = response.body();
                     displayGroupInfo();
-                    Toast.makeText(GroupSettingsActivity.this, "Đã tạo mã mời", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GroupSettingsActivity.this, R.string.invite_code_generated, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(GroupSettingsActivity.this, "Không thể tạo mã mời", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GroupSettingsActivity.this, R.string.failed_generate_code, Toast.LENGTH_SHORT).show();
                 }
             }
             
             @Override
             public void onFailure(Call<Group> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(GroupSettingsActivity.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(GroupSettingsActivity.this, R.string.error_network, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -264,9 +264,9 @@ public class GroupSettingsActivity extends AppCompatActivity {
     private void copyInviteCode() {
         if (currentGroup != null && currentGroup.getInviteCode() != null) {
             ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("Invite Code", currentGroup.getInviteCode());
+            ClipData clip = ClipData.newPlainText(getString(R.string.invite_code), currentGroup.getInviteCode());
             clipboard.setPrimaryClip(clip);
-            Toast.makeText(this, "Đã copy mã mời", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.invite_code_copied, Toast.LENGTH_SHORT).show();
         }
     }
     
@@ -284,16 +284,16 @@ public class GroupSettingsActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
                     currentGroup = response.body();
-                    Toast.makeText(GroupSettingsActivity.this, "Settings updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GroupSettingsActivity.this, R.string.settings_updated, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(GroupSettingsActivity.this, "Failed to update settings", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GroupSettingsActivity.this, R.string.failed_update_settings, Toast.LENGTH_SHORT).show();
                 }
             }
             
             @Override
             public void onFailure(Call<Group> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(GroupSettingsActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(GroupSettingsActivity.this, R.string.error_network, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -307,10 +307,10 @@ public class GroupSettingsActivity extends AppCompatActivity {
         
         // If code exists, confirm before regenerating
         new AlertDialog.Builder(this)
-            .setTitle("Regenerate Invite Code")
-            .setMessage("This will invalidate the old code. Continue?")
-            .setPositiveButton("Yes", (dialog, which) -> generateInviteCodeSilently())
-            .setNegativeButton("Cancel", null)
+            .setTitle(R.string.regenerate_code_title)
+            .setMessage(R.string.regenerate_code_message)
+            .setPositiveButton(R.string.yes, (dialog, which) -> generateInviteCodeSilently())
+            .setNegativeButton(R.string.cancel, null)
             .show();
     }
     

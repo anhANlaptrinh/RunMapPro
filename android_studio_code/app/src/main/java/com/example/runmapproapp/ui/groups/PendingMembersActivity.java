@@ -53,7 +53,7 @@ public class PendingMembersActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Duyệt thành viên");
+            getSupportActionBar().setTitle(R.string.pending_members_title);
         }
         toolbar.setNavigationOnClickListener(v -> finish());
 
@@ -99,10 +99,14 @@ public class PendingMembersActivity extends AppCompatActivity {
     }
 
     private void showMemberOptions(GroupJoinRequest request) {
-        String[] options = {"Chấp nhận", "Từ chối", "Xem trang cá nhân"};
+        String[] options = {
+            getString(R.string.accept), 
+            getString(R.string.reject), 
+            getString(R.string.view_profile)
+        };
         
         new AlertDialog.Builder(this)
-                .setTitle("Quản lý yêu cầu")
+                .setTitle(R.string.manage_request)
                 .setItems(options, (dialog, which) -> {
                     if (which == 0) {
                         approveMember(request.getId());
@@ -126,17 +130,17 @@ public class PendingMembersActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<Map<String, String>> call, @NonNull Response<Map<String, String>> response) {
                 progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    Toast.makeText(PendingMembersActivity.this, "Đã chấp nhận thành viên", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PendingMembersActivity.this, R.string.member_approved, Toast.LENGTH_SHORT).show();
                     loadPendingRequests();
                 } else {
-                    Toast.makeText(PendingMembersActivity.this, "Không thể chấp nhận", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PendingMembersActivity.this, R.string.failed_to_approve, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Map<String, String>> call, @NonNull Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(PendingMembersActivity.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(PendingMembersActivity.this, R.string.error_network, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -149,17 +153,17 @@ public class PendingMembersActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<Map<String, String>> call, @NonNull Response<Map<String, String>> response) {
                 progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    Toast.makeText(PendingMembersActivity.this, "Đã từ chối thành viên", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PendingMembersActivity.this, R.string.member_rejected, Toast.LENGTH_SHORT).show();
                     loadPendingRequests();
                 } else {
-                    Toast.makeText(PendingMembersActivity.this, "Không thể từ chối", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PendingMembersActivity.this, R.string.failed_to_reject, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Map<String, String>> call, @NonNull Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(PendingMembersActivity.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(PendingMembersActivity.this, R.string.error_network, Toast.LENGTH_SHORT).show();
             }
         });
     }

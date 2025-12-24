@@ -10,7 +10,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
-        app:title="New Chat"
+        app:title="@string/new_chat_title"
         app:titleTextColor="@android:color/white"
         app:navigationIconTint="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,7 +31,7 @@
             android:id="@+id/etSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Search users..." />
+            android:hint="@string/search_users_hint" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

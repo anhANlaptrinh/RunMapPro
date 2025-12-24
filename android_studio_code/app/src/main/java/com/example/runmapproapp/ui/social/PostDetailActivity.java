@@ -52,6 +52,7 @@ public class PostDetailActivity extends AppCompatActivity implements CommentAdap
     private Button btnSendComment;
     private String parentCommentId = null; // For reply functionality
     private boolean isGroupPost = false; // Flag to indicate if this is a group post
+    private String postId; // Store post ID for reloading comments
 
     // Post views
     private ImageView ivAuthorAvatar;
@@ -84,11 +85,11 @@ public class PostDetailActivity extends AppCompatActivity implements CommentAdap
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        String postId = getIntent().getStringExtra("POST_ID");
+        postId = getIntent().getStringExtra("POST_ID");
         isGroupPost = getIntent().getBooleanExtra("IS_GROUP_POST", false);
         
         if (postId == null) {
-            Toast.makeText(this, "Invalid post", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.invalid_post, Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -612,7 +613,7 @@ public class PostDetailActivity extends AppCompatActivity implements CommentAdap
     private void postComment() {
         String commentText = etComment.getText().toString().trim();
         if (commentText.isEmpty()) {
-            Toast.makeText(this, "Please enter a comment", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.please_enter_comment, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -680,13 +681,13 @@ public class PostDetailActivity extends AppCompatActivity implements CommentAdap
                         post = convertGroupPostToPost(groupPost);
                         displayPost();
                     } else {
-                        Toast.makeText(PostDetailActivity.this, "Failed to update like", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PostDetailActivity.this, R.string.failed_to_update_like, Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<com.example.runmapproapp.data.model.GroupPost> call, @NonNull Throwable t) {
-                    Toast.makeText(PostDetailActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PostDetailActivity.this, getString(R.string.error_prefix, t.getMessage()), Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
@@ -715,7 +716,7 @@ public class PostDetailActivity extends AppCompatActivity implements CommentAdap
 
     private void sharePost() {
         if (isGroupPost) {
-            Toast.makeText(this, "Không thể chia sẻ bài viết trong nhóm", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.cannot_share_group_post, Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent = new Intent(this, CreatePostActivity.class);
@@ -828,16 +829,16 @@ public class PostDetailActivity extends AppCompatActivity implements CommentAdap
                     @Override
                     public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                         if (response.isSuccessful()) {
-                            Toast.makeText(PostDetailActivity.this, "Comment deleted", Toast.LENGTH_SHORT).show();
-                            loadComments(post.getId());
+                            Toast.makeText(PostDetailActivity.this, R.string.comment_deleted, Toast.LENGTH_SHORT).show();
+                            loadComments(postId);
                         } else {
-                            Toast.makeText(PostDetailActivity.this, "Failed to delete", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PostDetailActivity.this, R.string.failed_to_delete_comment, Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                        Toast.makeText(PostDetailActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PostDetailActivity.this, getString(R.string.error_prefix, t.getMessage()), Toast.LENGTH_SHORT).show();
                     }
                 });
             })
@@ -846,10 +847,10 @@ public class PostDetailActivity extends AppCompatActivity implements CommentAdap
     }
     
     private void showPostMenu() {
-        String[] options = {"Delete Post"};
+        String[] options = {getString(R.string.delete_post_option)};
         
         new androidx.appcompat.app.AlertDialog.Builder(this)
-            .setTitle("Post Options")
+            .setTitle(R.string.post_options_title)
             .setItems(options, (dialog, which) -> {
                 if (which == 0) {
                     deletePost();
@@ -860,9 +861,9 @@ public class PostDetailActivity extends AppCompatActivity implements CommentAdap
     
     private void deletePost() {
         new androidx.appcompat.app.AlertDialog.Builder(this)
-            .setTitle("Delete Post")
-            .setMessage("Are you sure you want to delete this post?")
-            .setPositiveButton("Delete", (dialog, which) -> {
+            .setTitle(R.string.delete_post_title)
+            .setMessage(R.string.delete_post_message)
+            .setPositiveButton(R.string.delete_button, (dialog, which) -> {
                 if (isGroupPost) {
                     // Delete group post
                     groupApi.deleteGroupPost(post.getId()).enqueue(new Callback<java.util.Map<String, String>>() {
@@ -872,7 +873,7 @@ public class PostDetailActivity extends AppCompatActivity implements CommentAdap
                                 Toast.makeText(PostDetailActivity.this, "Post deleted", Toast.LENGTH_SHORT).show();
                                 finish(); // Close activity after delete
                             } else {
-                                Toast.makeText(PostDetailActivity.this, "Failed to delete post", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PostDetailActivity.this, R.string.failed_to_delete_post, Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -887,16 +888,16 @@ public class PostDetailActivity extends AppCompatActivity implements CommentAdap
                         @Override
                         public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                             if (response.isSuccessful()) {
-                                Toast.makeText(PostDetailActivity.this, "Post deleted", Toast.LENGTH_SHORT).show();
-                                finish(); // Close activity after delete
+                                Toast.makeText(PostDetailActivity.this, R.string.post_deleted, Toast.LENGTH_SHORT).show();
+                                finish();
                             } else {
-                                Toast.makeText(PostDetailActivity.this, "Failed to delete post", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PostDetailActivity.this, R.string.failed_to_delete_post, Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                            Toast.makeText(PostDetailActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PostDetailActivity.this, getString(R.string.error_prefix, t.getMessage()), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

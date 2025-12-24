@@ -55,7 +55,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Distance"
+                        android:text="@string/run_distance_label"
                         android:textSize="10sp"
                         android:textColor="@android:color/white" />
 
@@ -79,7 +79,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Duration"
+                        android:text="@string/run_duration_label"
                         android:textSize="10sp"
                         android:textColor="@android:color/white" />
 
@@ -103,7 +103,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Avg Pace"
+                        android:text="@string/run_avg_pace_label"
                         android:textSize="10sp"
                         android:textColor="@android:color/white" />
 

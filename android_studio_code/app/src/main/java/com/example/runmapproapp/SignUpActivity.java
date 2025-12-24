@@ -35,9 +35,11 @@ public class SignUpActivity extends AppCompatActivity {
     private TextInputLayout inputLayoutFullName;
     private TextInputLayout inputLayoutEmail;
     private TextInputLayout inputLayoutPassword;
+    private TextInputLayout inputLayoutConfirmPassword;
     private TextInputEditText inputFullName;
     private TextInputEditText inputEmail;
     private TextInputEditText inputPassword;
+    private TextInputEditText inputConfirmPassword;
     private MaterialButton buttonSignup;
     private TextView textLogin;
     
@@ -68,9 +70,11 @@ public class SignUpActivity extends AppCompatActivity {
         inputLayoutFullName = findViewById(R.id.inputLayoutFullName);
         inputLayoutEmail = findViewById(R.id.inputLayoutEmail);
         inputLayoutPassword = findViewById(R.id.inputLayoutPassword);
+        inputLayoutConfirmPassword = findViewById(R.id.inputLayoutConfirmPassword);
         inputFullName = findViewById(R.id.inputFullName);
         inputEmail = findViewById(R.id.inputEmail);
         inputPassword = findViewById(R.id.inputPassword);
+        inputConfirmPassword = findViewById(R.id.inputConfirmPassword);
         buttonSignup = findViewById(R.id.buttonSignup);
         textLogin = findViewById(R.id.textLogin);
         textError = findViewById(R.id.textError);
@@ -97,6 +101,7 @@ public class SignUpActivity extends AppCompatActivity {
         String fullName = getText(inputFullName);
         String email = getText(inputEmail);
         String password = getText(inputPassword);
+        String confirmPassword = getText(inputConfirmPassword);
 
         boolean valid = true;
         if (TextUtils.isEmpty(fullName)) {
@@ -109,6 +114,10 @@ public class SignUpActivity extends AppCompatActivity {
         }
         if (TextUtils.isEmpty(password) || password.length() < 6) {
             inputLayoutPassword.setError(getString(R.string.error_invalid_password));
+            valid = false;
+        }
+        if (!password.equals(confirmPassword)) {
+            inputLayoutConfirmPassword.setError(getString(R.string.error_password_mismatch));
             valid = false;
         }
         if (!valid) {
@@ -145,6 +154,7 @@ public class SignUpActivity extends AppCompatActivity {
         inputLayoutFullName.setError(null);
         inputLayoutEmail.setError(null);
         inputLayoutPassword.setError(null);
+        inputLayoutConfirmPassword.setError(null);
         textError.setVisibility(View.GONE);
         textError.setText(null);
     }
@@ -153,6 +163,7 @@ public class SignUpActivity extends AppCompatActivity {
         inputFullName.setEnabled(!loading);
         inputEmail.setEnabled(!loading);
         inputPassword.setEnabled(!loading);
+        inputConfirmPassword.setEnabled(!loading);
         buttonSignup.setEnabled(!loading);
         textLogin.setEnabled(!loading);
         progressBar.setVisibility(loading ? View.VISIBLE : View.GONE);

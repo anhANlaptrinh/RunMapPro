@@ -8,6 +8,7 @@
     <string name="hint_full_name">Họ và tên</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Mật khẩu</string>
+    <string name="hint_confirm_password">Xác nhận mật khẩu</string>
     <string name="action_login">Đăng nhập</string>
     <string name="action_signup">Đăng ký</string>
     <string name="action_send_reset">Gửi liên kết đặt lại</string>
@@ -20,15 +21,16 @@
     <string name="error_empty_password">Mật khẩu là bắt buộc</string>
     <string name="error_empty_full_name">Họ tên là bắt buộc</string>
     <string name="error_invalid_password">Mật khẩu phải có ít nhất 6 ký tự</string>
+    <string name="error_password_mismatch">Mật khẩu không khớp</string>
     <string name="error_network">Lỗi mạng, vui lòng thử lại</string>
     <string name="error_unexpected">Đã xảy ra lỗi. Vui lòng thử lại.</string>
+    <string name="invalid_credentials">Thông tin đăng nhập không hợp lệ</string>
     <string name="msg_login_success">Đăng nhập thành công</string>
     <string name="msg_signup_success">Tạo tài khoản thành công</string>
     <string name="msg_reset_success">Kiểm tra email để đặt lại mật khẩu</string>
     <string name="profile_update_success">Cập nhật hồ sơ thành công</string>
     <string name="password_update_success">Đổi mật khẩu thành công</string>
     <string name="avatar_update_success">Cập nhật ảnh đại diện thành công</string>
-    <string name="error_password_mismatch">Mật khẩu không khớp</string>
     <string name="edit_profile_title">Chỉnh sửa hồ sơ</string>
     <string name="content_desc_avatar">Ảnh đại diện</string>
     <string name="action_change_avatar">Đổi ảnh đại diện</string>
@@ -38,7 +40,6 @@
     <string name="section_change_password">Đổi mật khẩu</string>
     <string name="hint_current_password">Mật khẩu hiện tại</string>
     <string name="hint_new_password">Mật khẩu mới</string>
-    <string name="hint_confirm_password">Xác nhận mật khẩu</string>
     <string name="action_change_password">Cập nhật mật khẩu</string>
     <string name="action_edit_profile">Chỉnh sửa hồ sơ</string>
     <string name="change_password_title">Đổi mật khẩu</string>
@@ -53,6 +54,82 @@
     <string name="map_cadence">Nhịp chân</string>
     <string name="map_calories">Calo</string>
     <string name="map_loading">Đang tải...</string>
+
+    <!-- Weather conditions -->
+    <string name="weather_clear_sky">Trời quang đãng</string>
+    <string name="weather_partly_cloudy">Có mây</string>
+    <string name="weather_foggy">Sương mù</string>
+    <string name="weather_drizzle">Mưa phùn</string>
+    <string name="weather_rain">Mưa</string>
+    <string name="weather_snow">Tuyết</string>
+    <string name="weather_rain_showers">Mưa rào</string>
+    <string name="weather_snow_showers">Tuyết rơi</string>
+    <string name="weather_thunderstorm">Dông bão</string>
+    <string name="weather_unable_to_load">Không tải được</string>
+
+    <!-- Dashboard -->
+    <string name="summary">Tổng quan</string>
+    <string name="total_distance">Tổng khoảng cách</string>
+    <string name="total_duration">Tổng thời gian</string>
+    <string name="calories">Calo</string>
+    <string name="steps">Bước chân</string>
+    <string name="runs">Lượt chạy</string>
+    <string name="personal_records">Kỷ lục cá nhân</string>
+    <string name="longest_run">🏃 Chạy xa nhất</string>
+    <string name="fastest_avg_pace">⚡ Tốc độ TB nhanh nhất</string>
+    <string name="best_pace">🔥 Tốc độ tốt nhất</string>
+    <string name="most_steps">👟 Nhiều bước nhất</string>
+    <string name="selected_run">Lượt chạy đã chọn</string>
+    <string name="recent_runs">Lượt chạy gần đây</string>
+    <string name="refresh">LÀM MỚI</string>
+    <string name="no_runs_yet">Chưa có lượt chạy nào. Bắt đầu chạy ngay!</string>
+    <string name="failed_to_load_runs">Không tải được dữ liệu</string>
+
+    <!-- Notifications -->
+    <string name="notification_liked_post">%s đã thích bài viết của bạn</string>
+    <string name="notification_liked_comment">%s đã thích bình luận của bạn</string>
+    <string name="notification_commented">%s đã bình luận: %s</string>
+    <string name="notification_replied">%s đã trả lời bình luận của bạn: %s</string>
+    <string name="notification_shared_post">%s đã chia sẻ bài viết của bạn</string>
+    <string name="notification_interacted">%s đã tương tác với bạn</string>
+    <string name="create_post_title">Tạo bài viết</string>
+    <string name="notifications_title">Thông báo</string>
+    <string name="comments_title">Bình luận</string>
+    <string name="share_post_title">Chia sẻ bài viết</string>
+    <string name="share_post_hint">Thêm suy nghĩ của bạn (tùy chọn)...</string>
+    <string name="send_button">GỮI</string>
+
+    <!-- Group Detail -->
+    <string name="members">thành viên</string>
+    <string name="posts">bài viết</string>
+    <string name="group_stats_members_posts">%d thành viên · %d bài viết</string>
+    <string name="leave_group_button">Rời nhóm</string>
+    <string name="group_settings_button">CÀI ĐẶT</string>
+
+    <!-- Run Details -->
+    <string name="run_details_title">Chi tiết lượt chạy</string>
+    <string name="run_distance_label">Khoảng cách</string>
+    <string name="run_duration_label">Thời gian</string>
+    <string name="run_avg_pace_label">Tốc độ TB</string>
+    <string name="run_best_pace_label">Tốc độ tốt nhất</string>
+    <string name="run_calories_label">Calo</string>
+    <string name="run_steps_label">Bước chân</string>
+
+    <!-- Group Post -->
+    <string name="create_group_post_title">Tạo bài viết trong nhóm</string>
+    <string name="group_post_hint">Bạn đang nghĩ gì?</string>
+    <string name="add_photo_button">THÊM ẢNH</string>
+    <string name="add_run_button">THÊM LƯỢT CHẠY</string>
+    <string name="post_button">ĐĂNG</string>
+    <string name="cannot_share_group_post">Không thể chia sẻ bài viết trong nhóm</string>
+    
+    <!-- Post Options -->
+    <string name="post_options_title">Tùy chọn bài viết</string>
+    <string name="delete_post_option">Xóa bài viết</string>
+    <string name="delete_post_title">Xóa bài viết</string>
+    <string name="delete_post_message">Bạn có chắc muốn xóa bài viết này?</string>
+    <string name="delete_button">Xóa</string>
+    <string name="failed_to_delete_post">Không thể xóa bài viết</string>
 
     <!-- Social features -->
     <string name="create_post">Tạo bài viết</string>
@@ -70,7 +147,6 @@
     <string name="groups">Nhóm</string>
     <string name="create_group">Tạo nhóm</string>
     <string name="join_group">Tham gia nhóm</string>
-    <string name="leave_group">Rời nhóm</string>
     <string name="menu">Menu</string>
     <string name="edit">Chỉnh sửa</string>
     <string name="delete">Xóa</string>
@@ -134,6 +210,63 @@
     <string name="danger_zone">Vùng nguy hiểm</string>
     <string name="delete_group">Xóa nhóm</string>
     <string name="no_pending_posts">Không có bài viết chờ duyệt</string>
+    <string name="manage_group">Quản lý nhóm</string>
+    <string name="approve_members">Duyệt thành viên</string>
+    <string name="approve_posts">Duyệt bài viết</string>
+    <string name="group_settings_title">Cài đặt nhóm</string>
+    <string name="pending_members_title">Duyệt thành viên</string>
+    <string name="pending_posts_title">Bài viết chờ duyệt</string>
+    <string name="settings_updated">Đã cập nhật cài đặt</string>
+    <string name="failed_update_settings">Không thể cập nhật cài đặt</string>
+    <string name="invite_code_copied">Đã sao chép mã mời</string>
+    <string name="invite_code_generated">Đã tạo mã mời</string>
+    <string name="failed_generate_code">Không thể tạo mã mời</string>
+    <string name="regenerate_code_title">Tạo lại mã mời</string>
+    <string name="regenerate_code_message">Mã cũ sẽ bị vô hiệu hóa. Tiếp tục?</string>
+    <string name="no_invite_code">Chưa có mã mời</string>
+    <string name="generate_invite_code">Tạo mã mời</string>
+    <string name="expires_on">Hết hạn: %s</string>
+    <string name="approve">Chấp nhận</string>
+    <string name="reject">Từ chối</string>
+    <string name="accept">Chấp nhận</string>
+    <string name="manage_request">Quản lý yêu cầu</string>
+    <string name="view_profile">Xem trang cá nhân</string>
+    <string name="member_approved">Đã chấp nhận thành viên</string>
+    <string name="member_rejected">Đã từ chối thành viên</string>
+    <string name="post_approved">Đã chấp nhận bài viết</string>
+    <string name="post_rejected">Đã từ chối bài viết</string>
+    <string name="failed_to_approve">Không thể chấp nhận</string>
+    <string name="failed_to_reject">Không thể từ chối</string>
+    <string name="failed_approve_post">Không thể chấp nhận bài viết</string>
+    <string name="failed_reject_post">Không thể từ chối bài viết</string>
+    <string name="leave_group">Rời nhóm</string>
+    <string name="leave_group_confirm">Bạn có chắc muốn rời khỏi nhóm này?</string>
+    <string name="leave">Rời</string>
+    <string name="left_group">Đã rời nhóm</string>
+    <string name="failed_leave_group">Không thể rời nhóm</string>
+    <string name="join_group_button">Tham gia nhóm</string>
+    <string name="must_join_group_first">Bạn phải tham gia nhóm trước</string>
+    <string name="joined_group">Đã tham gia nhóm</string>
+    <string name="request_sent_pending_approval">Yêu cầu đã gửi, chờ quản trị viên phê duyệt</string>
+    <string name="invalid_invite_code">Mã mời không hợp lệ hoặc đã là thành viên</string>
+    <string name="failed_join_group">Không thể tham gia nhóm</string>
+    <string name="please_enter_email">Vui lòng nhập email của bạn</string>
+    <string name="please_enter_valid_email">Vui lòng nhập địa chỉ email hợp lệ</string>
+    <string name="please_request_otp_first">Vui lòng yêu cầu mã OTP trước</string>
+    <string name="please_enter_6digit_otp">Vui lòng nhập mã OTP 6 chữ số</string>
+    <string name="please_enter_confirm_password">Vui lòng nhập và xác nhận mật khẩu mới</string>
+    <string name="password_min_6_chars">Mật khẩu phải có ít nhất 6 ký tự</string>
+    <string name="passwords_not_match">Mật khẩu không khớp</string>
+    <string name="network_error_message">Lỗi mạng: %s</string>
+    <string name="unknown_error">Lỗi không xác định</string>
+    <string name="error_parsing_response">Lỗi phân tích phản hồi</string>
+    <string name="not_joined_any_group">Bạn chưa tham gia nhóm nào</string>
+    <string name="cannot_load_groups">Không thể tải nhóm</string>
+    <string name="cannot_join_invalid_code">Không thể tham gia nhóm. Mã mời có thể không hợp lệ.</string>
+    <string name="approve_post_title">Chấp nhận bài viết</string>
+    <string name="approve_post_message">Bạn có chắc muốn chấp nhận bài viết này?</string>
+    <string name="reject_post_title">Từ chối bài viết</string>
+    <string name="reject_post_message">Bạn có chắc muốn từ chối bài viết này? Bài viết sẽ bị xóa vĩnh viễn.</string>
     
     <!-- Run Details -->
     <string name="distance">Khoảng cách</string>
@@ -217,4 +350,77 @@
     <string name="hint_enter_otp">Nhập mã OTP</string>
     <string name="action_send_code">GỬI MÃ</string>
     <string name="action_verify_reset">XÁC MINH &amp; ĐẶT LẠI MẬT KHẨU</string>
+    
+    <!-- Group Actions -->
+    <string name="choose_action">Chọn hành động</string>
+    <string name="join_group_action">Tham gia nhóm</string>
+    <string name="create_new_group_action">Tạo nhóm mới</string>
+    
+    <!-- Create Group -->
+    <string name="create_group_title">Tạo nhóm mới</string>
+    <string name="group_name_label">Tên nhóm</string>
+    <string name="group_name_hint">Nhập tên nhóm</string>
+    <string name="group_description_label">Mô tả</string>
+    <string name="group_description_hint">Mô tả về nhóm của bạn</string>
+    <string name="privacy_label">Quyền riêng tư</string>
+    <string name="privacy_public">Công khai - Mọi người có thể tìm thấy và tham gia</string>
+    <string name="privacy_private">Riêng tư - Chỉ thành viên được mời mới thấy</string>
+    <string name="create_group_button">Tạo nhóm</string>
+    <string name="please_enter_group_name">Vui lòng nhập tên nhóm</string>
+    <string name="create_group_success">Tạo nhóm thành công!</string>
+    <string name="cannot_create_group">Không thể tạo nhóm</string>
+    <string name="error_message">Lỗi: %s</string>
+    
+    <!-- Post Detail -->
+    <string name="post_detail_title">Bài viết</string>
+    
+    <!-- Chat -->
+    <string name="new_chat_title">Trò chuyện mới</string>
+    <string name="search_users_hint">Tìm kiếm người dùng...</string>
+    <string name="type_message_hint">Nhập tin nhắn...</string>
+    <string name="new_chat_description">Trò chuyện mới</string>
+    
+    <!-- Profile -->
+    <string name="profile_title">Hồ sơ</string>
+    <string name="tab_posts">BÀI VIẾT</string>
+    <string name="tab_liked">ĐÃ THÍCH</string>
+    <string name="liked_posts_coming_soon">Tính năng sắp ra mắt</string>
+    
+    <!-- Common Toast Messages -->
+    <string name="failed_to_load_feed">Không tải được bảng tin</string>
+    <string name="failed_to_update_like">Không cập nhật được thích</string>
+    <string name="post_deleted">Đã xóa bài viết</string>
+    <string name="invalid_post">Bài viết không hợp lệ</string>
+    <string name="failed_to_load_post">Không tải được bài viết</string>
+    <string name="error_loading_comments">Lỗi tải bình luận</string>
+    <string name="please_enter_comment">Vui lòng nhập bình luận</string>
+    <string name="comment_posted">Đã đăng bình luận</string>
+    <string name="comment_deleted">Đã xóa bình luận</string>
+    <string name="failed_to_delete_comment">Không thể xóa bình luận</string>
+    <string name="failed_to_load_comments">Không tải được bình luận</string>
+    <string name="failed_to_post_comment">Không đăng được bình luận</string>
+    <string name="failed_to_load_original_post">Không tải được bài viết gốc</string>
+    <string name="please_add_content">Vui lòng thêm nội dung, ảnh hoặc lượt chạy</string>
+    <string name="failed_to_process_image">Không xử lý được ảnh</string>
+    <string name="failed_to_upload_image">Không tải lên được ảnh</string>
+    <string name="post_published">Đã đăng bài!</string>
+    <string name="invalid_run_id">ID lượt chạy không hợp lệ</string>
+    <string name="failed_to_open_chat">Không mở được trò chuyện</string>
+    <string name="network_error">Lỗi mạng</string>
+    <string name="failed_to_load_profile">Không tải được hồ sơ</string>
+    <string name="failed_to_load_posts">Không tải được bài viết</string>
+    <string name="invalid_group">Nhóm không hợp lệ</string>
+    <string name="failed_to_approve_post">Không chấp nhận được bài viết</string>
+    <string name="failed_to_reject_post">Không từ chối được bài viết</string>
+    <string name="error_prefix">Lỗi: %s</string>
+    <string name="run_saved_successfully">Đã lưu lần chạy thành công!</string>
+    <string name="run_loaded">Đã tải lần chạy: %s</string>
+    <string name="filter_runs">Lọc</string>
+    <string name="search_runs_hint">Tìm kiếm theo khoảng cách hoặc...</string>
+    <string name="filter_by_date">Lọc theo ngày</string>
+    <string name="all_runs">Tất cả lần chạy</string>
+    <string name="last_7_days">7 ngày qua</string>
+    <string name="last_30_days">30 ngày qua</string>
+    <string name="this_month">Tháng này</string>
+    <string name="no_runs_match_filter">Không có lần chạy nào phù hợp</string>
 </resources>

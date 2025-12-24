@@ -47,7 +47,7 @@ public class CreateGroupActivity extends AppCompatActivity {
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Tạo nhóm mới");
+            getSupportActionBar().setTitle(R.string.create_group_title);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         toolbar.setNavigationOnClickListener(v -> finish());
@@ -70,7 +70,7 @@ public class CreateGroupActivity extends AppCompatActivity {
         String description = etGroupDescription.getText().toString().trim();
 
         if (name.isEmpty()) {
-            Toast.makeText(this, "Vui lòng nhập tên nhóm", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.please_enter_group_name, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -90,11 +90,11 @@ public class CreateGroupActivity extends AppCompatActivity {
 
                 if (response.isSuccessful() && response.body() != null) {
                     Toast.makeText(CreateGroupActivity.this, 
-                            "Tạo nhóm thành công!", Toast.LENGTH_SHORT).show();
+                            R.string.create_group_success, Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
                     Toast.makeText(CreateGroupActivity.this, 
-                            "Không thể tạo nhóm", Toast.LENGTH_SHORT).show();
+                            R.string.cannot_create_group, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -103,7 +103,7 @@ public class CreateGroupActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 btnCreate.setEnabled(true);
                 Toast.makeText(CreateGroupActivity.this, 
-                        "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        getString(R.string.error_message, t.getMessage()), Toast.LENGTH_SHORT).show();
             }
         });
     }

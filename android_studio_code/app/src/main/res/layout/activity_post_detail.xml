@@ -16,7 +16,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:navigationIcon="?attr/homeAsUpIndicator"
-            app:title="Post" />
+            app:title="@string/post_detail_title" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

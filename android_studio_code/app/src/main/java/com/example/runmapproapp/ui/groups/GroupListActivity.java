@@ -151,8 +151,11 @@ public class GroupListActivity extends AppCompatActivity
 
     private void showGroupActionDialog() {
         new MaterialAlertDialogBuilder(this)
-                .setTitle("Chọn hành động")
-                .setItems(new String[]{"Tham gia nhóm", "Tạo nhóm mới"}, (dialog, which) -> {
+                .setTitle(R.string.choose_action)
+                .setItems(new String[]{
+                        getString(R.string.join_group_action),
+                        getString(R.string.create_new_group_action)
+                }, (dialog, which) -> {
                     if (which == 0) {
                         // Join Group
                         showJoinGroupDialog();
@@ -219,7 +222,7 @@ public class GroupListActivity extends AppCompatActivity
                     loadGroups(false);
                 } else {
                     Toast.makeText(GroupListActivity.this,
-                            "Không thể tham gia nhóm. Mã mời có thể không hợp lệ.", Toast.LENGTH_SHORT).show();
+                            R.string.cannot_join_invalid_code, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -227,7 +230,7 @@ public class GroupListActivity extends AppCompatActivity
             public void onFailure(@NonNull Call<Map<String, Object>> call, @NonNull Throwable t) {
                 progressBar.setVisibility(View.GONE);
                 Toast.makeText(GroupListActivity.this,
-                        "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        getString(R.string.network_error_message, t.getMessage()), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -269,7 +272,7 @@ public class GroupListActivity extends AppCompatActivity
                         if (currentPage == 0) {
                             groupAdapter.setGroups(new ArrayList<>()); // Clear adapter
                             Toast.makeText(GroupListActivity.this, 
-                                    "Bạn chưa tham gia nhóm nào", Toast.LENGTH_SHORT).show();
+                                    R.string.not_joined_any_group, Toast.LENGTH_SHORT).show();
                         }
                         return;
                     }
@@ -283,7 +286,7 @@ public class GroupListActivity extends AppCompatActivity
                     currentPage++;
                 } else {
                     Toast.makeText(GroupListActivity.this, 
-                            "Không thể tải nhóm", Toast.LENGTH_SHORT).show();
+                            R.string.cannot_load_groups, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -293,7 +296,7 @@ public class GroupListActivity extends AppCompatActivity
                 progressBar.setVisibility(View.GONE);
                 swipeRefreshLayout.setRefreshing(false);
                 Toast.makeText(GroupListActivity.this, 
-                        "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        getString(R.string.network_error_message, t.getMessage()), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -351,7 +354,7 @@ public class GroupListActivity extends AppCompatActivity
                 progressBar.setVisibility(View.GONE);
                 swipeRefreshLayout.setRefreshing(false);
                 Toast.makeText(GroupListActivity.this,
-                        "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        getString(R.string.network_error_message, t.getMessage()), Toast.LENGTH_SHORT).show();
             }
         });
     }

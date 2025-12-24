@@ -1,5 +1,9 @@
 package com.example.runmapproapp.data.model;
 
+import android.content.Context;
+
+import com.example.runmapproapp.R;
+
 public class Notification {
     private String id;
     private String receiverId;
@@ -101,20 +105,20 @@ public class Notification {
         this.createdAt = createdAt;
     }
 
-    public String getNotificationText() {
+    public String getNotificationText(Context context) {
         switch (type) {
             case "LIKE_POST":
-                return senderName + " đã thích bài viết của bạn";
+                return context.getString(R.string.notification_liked_post, senderName);
             case "LIKE_COMMENT":
-                return senderName + " đã thích bình luận của bạn";
+                return context.getString(R.string.notification_liked_comment, senderName);
             case "COMMENT_POST":
-                return senderName + " đã bình luận: " + contentText;
+                return context.getString(R.string.notification_commented, senderName, contentText);
             case "REPLY_COMMENT":
-                return senderName + " đã trả lời bình luận của bạn: " + contentText;
+                return context.getString(R.string.notification_replied, senderName, contentText);
             case "SHARE_POST":
-                return senderName + " đã chia sẻ bài viết của bạn";
+                return context.getString(R.string.notification_shared_post, senderName);
             default:
-                return senderName + " đã tương tác với bạn";
+                return context.getString(R.string.notification_interacted, senderName);
         }
     }
 }

@@ -49,7 +49,7 @@ public class CommentsActivity extends AppCompatActivity implements CommentAdapte
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Comments");
+            getSupportActionBar().setTitle(R.string.comments_title);
         }
 
         postId = getIntent().getStringExtra("POST_ID");
@@ -95,14 +95,14 @@ public class CommentsActivity extends AppCompatActivity implements CommentAdapte
                     List<Comment> sortedComments = sortCommentsWithReplies(response.body());
                     commentAdapter.setComments(sortedComments);
                 } else {
-                    Toast.makeText(CommentsActivity.this, "Failed to load comments", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CommentsActivity.this, R.string.failed_to_load_comments, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Comment>> call, @NonNull Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(CommentsActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CommentsActivity.this, getString(R.string.error_prefix, t.getMessage()), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -136,7 +136,7 @@ public class CommentsActivity extends AppCompatActivity implements CommentAdapte
     private void sendComment() {
         String commentText = etComment.getText().toString().trim();
         if (commentText.isEmpty()) {
-            Toast.makeText(this, "Please enter a comment", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.please_enter_comment, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -201,13 +201,13 @@ public class CommentsActivity extends AppCompatActivity implements CommentAdapte
                     // Reload comments to update UI
                     loadComments();
                 } else {
-                    Toast.makeText(CommentsActivity.this, "Failed to update like", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CommentsActivity.this, R.string.failed_to_update_like, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Comment> call, @NonNull Throwable t) {
-                Toast.makeText(CommentsActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CommentsActivity.this, getString(R.string.error_prefix, t.getMessage()), Toast.LENGTH_SHORT).show();
             }
         });
     }

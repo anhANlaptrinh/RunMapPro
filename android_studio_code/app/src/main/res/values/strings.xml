@@ -8,6 +8,7 @@
     <string name="hint_full_name">Full name</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
+    <string name="hint_confirm_password">Confirm Password</string>
     <string name="action_login">Login</string>
     <string name="action_signup">Sign Up</string>
     <string name="action_send_reset">Send reset link</string>
@@ -20,15 +21,16 @@
     <string name="error_empty_password">Password is required</string>
     <string name="error_empty_full_name">Full name is required</string>
     <string name="error_invalid_password">Password must be at least 6 characters</string>
+    <string name="error_password_mismatch">Passwords do not match</string>
     <string name="error_network">Network error, please try again</string>
     <string name="error_unexpected">Something went wrong. Please try again.</string>
+    <string name="invalid_credentials">Invalid credentials</string>
     <string name="msg_login_success">Login successful</string>
     <string name="msg_signup_success">Account created</string>
     <string name="msg_reset_success">Check your email for reset instructions</string>
     <string name="profile_update_success">Profile updated</string>
     <string name="password_update_success">Password updated</string>
     <string name="avatar_update_success">Avatar updated</string>
-    <string name="error_password_mismatch">Passwords do not match</string>
     <string name="edit_profile_title">Edit profile</string>
     <string name="content_desc_avatar">Profile avatar</string>
     <string name="action_change_avatar">Change avatar</string>
@@ -38,7 +40,6 @@
     <string name="section_change_password">Change password</string>
     <string name="hint_current_password">Current password</string>
     <string name="hint_new_password">New password</string>
-    <string name="hint_confirm_password">Confirm password</string>
     <string name="action_change_password">Update password</string>
     <string name="action_edit_profile">Edit profile</string>
     <string name="change_password_title">Change password</string>
@@ -54,6 +55,82 @@
     <string name="map_cadence">Cadence</string>
     <string name="map_calories">Calories</string>
     <string name="map_loading">Loading...</string>
+
+    <!-- Weather conditions -->
+    <string name="weather_clear_sky">Clear sky</string>
+    <string name="weather_partly_cloudy">Partly cloudy</string>
+    <string name="weather_foggy">Foggy</string>
+    <string name="weather_drizzle">Drizzle</string>
+    <string name="weather_rain">Rain</string>
+    <string name="weather_snow">Snow</string>
+    <string name="weather_rain_showers">Rain showers</string>
+    <string name="weather_snow_showers">Snow showers</string>
+    <string name="weather_thunderstorm">Thunderstorm</string>
+    <string name="weather_unable_to_load">Unable to load</string>
+
+    <!-- Dashboard -->
+    <string name="summary">Summary</string>
+    <string name="total_distance">Total Distance</string>
+    <string name="total_duration">Total Duration</string>
+    <string name="calories">Calories</string>
+    <string name="steps">Steps</string>
+    <string name="runs">Runs</string>
+    <string name="personal_records">Personal Records</string>
+    <string name="longest_run">🏃 Longest Run</string>
+    <string name="fastest_avg_pace">⚡ Fastest Avg Pace</string>
+    <string name="best_pace">🔥 Best Pace</string>
+    <string name="most_steps">👟 Most Steps</string>
+    <string name="selected_run">Selected Run</string>
+    <string name="recent_runs">Recent Runs</string>
+    <string name="refresh">REFRESH</string>
+    <string name="no_runs_yet">No runs yet. Start your first run!</string>
+    <string name="failed_to_load_runs">Failed to load runs</string>
+
+    <!-- Notifications -->
+    <string name="notification_liked_post">%s liked your post</string>
+    <string name="notification_liked_comment">%s liked your comment</string>
+    <string name="notification_commented">%s commented: %s</string>
+    <string name="notification_replied">%s replied to your comment: %s</string>
+    <string name="notification_shared_post">%s shared your post</string>
+    <string name="notification_interacted">%s interacted with you</string>
+    <string name="create_post_title">Create Post</string>
+    <string name="notifications_title">Notifications</string>
+    <string name="comments_title">Comments</string>
+    <string name="share_post_title">Share Post</string>
+    <string name="share_post_hint">Add your thoughts (optional)...</string>
+    <string name="send_button">SEND</string>
+
+    <!-- Group Detail -->
+    <string name="members">members</string>
+    <string name="posts">posts</string>
+    <string name="group_stats_members_posts">%d members · %d posts</string>
+    <string name="leave_group_button">Leave Group</string>
+    <string name="group_settings_button">SETTINGS</string>
+
+    <!-- Run Details -->
+    <string name="run_details_title">Run Details</string>
+    <string name="run_distance_label">Distance</string>
+    <string name="run_duration_label">Duration</string>
+    <string name="run_avg_pace_label">Avg Pace</string>
+    <string name="run_best_pace_label">Best Pace</string>
+    <string name="run_calories_label">Calories</string>
+    <string name="run_steps_label">Steps</string>
+
+    <!-- Group Post -->
+    <string name="create_group_post_title">Create Group Post</string>
+    <string name="group_post_hint">What\'s on your mind?</string>
+    <string name="add_photo_button">ADD PHOTO</string>
+    <string name="add_run_button">ADD RUN</string>
+    <string name="post_button">POST</string>
+    <string name="cannot_share_group_post">Cannot share posts in groups</string>
+    
+    <!-- Post Options -->
+    <string name="post_options_title">Post Options</string>
+    <string name="delete_post_option">Delete Post</string>
+    <string name="delete_post_title">Delete Post</string>
+    <string name="delete_post_message">Are you sure you want to delete this post?</string>
+    <string name="delete_button">Delete</string>
+    <string name="failed_to_delete_post">Failed to delete post</string>
 
     <!-- Social features -->
     <string name="create_post">Create post</string>
@@ -71,7 +148,6 @@
     <string name="groups">Groups</string>
     <string name="create_group">Create group</string>
     <string name="join_group">Join group</string>
-    <string name="leave_group">Leave group</string>
     <string name="menu">Menu</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
@@ -135,6 +211,63 @@
     <string name="danger_zone">Danger Zone</string>
     <string name="delete_group">Delete Group</string>
     <string name="no_pending_posts">No pending posts</string>
+    <string name="manage_group">Manage Group</string>
+    <string name="approve_members">Approve Members</string>
+    <string name="approve_posts">Approve Posts</string>
+    <string name="group_settings_title">Group Settings</string>
+    <string name="pending_members_title">Pending Members</string>
+    <string name="pending_posts_title">Pending Posts</string>
+    <string name="settings_updated">Settings updated</string>
+    <string name="failed_update_settings">Failed to update settings</string>
+    <string name="invite_code_copied">Invite code copied</string>
+    <string name="invite_code_generated">Invite code generated</string>
+    <string name="failed_generate_code">Failed to generate code</string>
+    <string name="regenerate_code_title">Regenerate Invite Code</string>
+    <string name="regenerate_code_message">This will invalidate the old code. Continue?</string>
+    <string name="no_invite_code">No invite code</string>
+    <string name="generate_invite_code">Generate invite code</string>
+    <string name="expires_on">Expires: %s</string>
+    <string name="approve">Approve</string>
+    <string name="reject">Reject</string>
+    <string name="accept">Accept</string>
+    <string name="manage_request">Manage Request</string>
+    <string name="view_profile">View Profile</string>
+    <string name="member_approved">Member approved</string>
+    <string name="member_rejected">Member rejected</string>
+    <string name="post_approved">Post approved</string>
+    <string name="post_rejected">Post rejected</string>
+    <string name="failed_to_approve">Failed to approve</string>
+    <string name="failed_to_reject">Failed to reject</string>
+    <string name="failed_approve_post">Failed to approve post</string>
+    <string name="failed_reject_post">Failed to reject post</string>
+    <string name="leave_group">Leave Group</string>
+    <string name="leave_group_confirm">Are you sure you want to leave this group?</string>
+    <string name="leave">Leave</string>
+    <string name="left_group">Left group</string>
+    <string name="failed_leave_group">Failed to leave group</string>
+    <string name="join_group_button">Join Group</string>
+    <string name="must_join_group_first">You must join the group first</string>
+    <string name="joined_group">Joined group</string>
+    <string name="request_sent_pending_approval">Request sent, waiting for admin approval</string>
+    <string name="invalid_invite_code">Invalid invite code or already a member</string>
+    <string name="failed_join_group">Failed to join group</string>
+    <string name="please_enter_email">Please enter your email</string>
+    <string name="please_enter_valid_email">Please enter a valid email address</string>
+    <string name="please_request_otp_first">Please request an OTP first</string>
+    <string name="please_enter_6digit_otp">Please enter the 6-digit OTP</string>
+    <string name="please_enter_confirm_password">Please enter and confirm your new password</string>
+    <string name="password_min_6_chars">Password must be at least 6 characters</string>
+    <string name="passwords_not_match">Passwords do not match</string>
+    <string name="network_error_message">Network error: %s</string>
+    <string name="unknown_error">Unknown error occurred</string>
+    <string name="error_parsing_response">Error parsing response</string>
+    <string name="not_joined_any_group">You haven\'t joined any groups yet</string>
+    <string name="cannot_load_groups">Cannot load groups</string>
+    <string name="cannot_join_invalid_code">Cannot join group. Invite code may be invalid.</string>
+    <string name="approve_post_title">Approve Post</string>
+    <string name="approve_post_message">Are you sure you want to approve this post?</string>
+    <string name="reject_post_title">Reject Post</string>
+    <string name="reject_post_message">Are you sure you want to reject this post? The post will be permanently deleted.</string>
     
     <!-- Run Details -->
     <string name="distance">Distance</string>
@@ -218,4 +351,77 @@
     <string name="hint_enter_otp">Enter OTP</string>
     <string name="action_send_code">SEND CODE</string>
     <string name="action_verify_reset">VERIFY &amp; RESET PASSWORD</string>
+    
+    <!-- Group Actions -->
+    <string name="choose_action">Choose Action</string>
+    <string name="join_group_action">Join Group</string>
+    <string name="create_new_group_action">Create New Group</string>
+    
+    <!-- Create Group -->
+    <string name="create_group_title">Create New Group</string>
+    <string name="group_name_label">Group Name</string>
+    <string name="group_name_hint">Enter group name</string>
+    <string name="group_description_label">Description</string>
+    <string name="group_description_hint">Describe your group</string>
+    <string name="privacy_label">Privacy</string>
+    <string name="privacy_public">Public - Anyone can find and join</string>
+    <string name="privacy_private">Private - Only invited members can see</string>
+    <string name="create_group_button">Create Group</string>
+    <string name="please_enter_group_name">Please enter group name</string>
+    <string name="create_group_success">Group created successfully!</string>
+    <string name="cannot_create_group">Cannot create group</string>
+    <string name="error_message">Error: %s</string>
+    
+    <!-- Post Detail -->
+    <string name="post_detail_title">Post</string>
+    
+    <!-- Chat -->
+    <string name="new_chat_title">New Chat</string>
+    <string name="search_users_hint">Search users...</string>
+    <string name="type_message_hint">Type a message...</string>
+    <string name="new_chat_description">New chat</string>
+    
+    <!-- Profile -->
+    <string name="profile_title">Profile</string>
+    <string name="tab_posts">POSTS</string>
+    <string name="tab_liked">LIKED</string>
+    <string name="liked_posts_coming_soon">Liked posts coming soon</string>
+    
+    <!-- Common Toast Messages -->
+    <string name="failed_to_load_feed">Failed to load feed</string>
+    <string name="failed_to_update_like">Failed to update like</string>
+    <string name="post_deleted">Post deleted</string>
+    <string name="invalid_post">Invalid post</string>
+    <string name="failed_to_load_post">Failed to load post</string>
+    <string name="error_loading_comments">Error loading comments</string>
+    <string name="please_enter_comment">Please enter a comment</string>
+    <string name="comment_posted">Comment posted</string>
+    <string name="comment_deleted">Comment deleted</string>
+    <string name="failed_to_delete_comment">Failed to delete comment</string>
+    <string name="failed_to_load_comments">Failed to load comments</string>
+    <string name="failed_to_post_comment">Failed to post comment</string>
+    <string name="failed_to_load_original_post">Failed to load original post</string>
+    <string name="please_add_content">Please add content, image, or run</string>
+    <string name="failed_to_process_image">Failed to process image</string>
+    <string name="failed_to_upload_image">Failed to upload image</string>
+    <string name="post_published">Post published!</string>
+    <string name="invalid_run_id">Invalid run ID</string>
+    <string name="failed_to_open_chat">Failed to open chat</string>
+    <string name="network_error">Network error</string>
+    <string name="failed_to_load_profile">Failed to load profile</string>
+    <string name="failed_to_load_posts">Failed to load posts</string>
+    <string name="invalid_group">Invalid group</string>
+    <string name="failed_to_approve_post">Failed to approve post</string>
+    <string name="failed_to_reject_post">Failed to reject post</string>
+    <string name="error_prefix">Error: %s</string>
+    <string name="run_saved_successfully">Run saved successfully!</string>
+    <string name="run_loaded">Run loaded: %s</string>
+    <string name="filter_runs">Filter</string>
+    <string name="search_runs_hint">Search by distance or date...</string>
+    <string name="filter_by_date">Filter by Date</string>
+    <string name="all_runs">All Runs</string>
+    <string name="last_7_days">Last 7 Days</string>
+    <string name="last_30_days">Last 30 Days</string>
+    <string name="this_month">This Month</string>
+    <string name="no_runs_match_filter">No runs match the selected filter</string>
 </resources>

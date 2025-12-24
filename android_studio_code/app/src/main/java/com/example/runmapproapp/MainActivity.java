@@ -39,6 +39,7 @@ import com.mapbox.maps.extension.style.sources.generated.GeoJsonSource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerViewRuns;
     private RunsAdapter runsAdapter;
     private MaterialButton btnRefresh;
+    private com.google.android.material.textfield.TextInputEditText etSearchRuns;
 
     // Data
     private List<RunResponse> allRuns = new ArrayList<>();
@@ -179,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
         // Recent Runs
         recyclerViewRuns = findViewById(R.id.recyclerViewRuns);
         btnRefresh = findViewById(R.id.btnRefresh);
+        etSearchRuns = findViewById(R.id.etSearchRuns);
 
         // Initialize Mapbox
         mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS);
@@ -196,6 +199,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupListeners() {
         btnRefresh.setOnClickListener(v -> loadRuns());
+        
+        // Search listener
+        etSearchRuns.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                searchRuns(s.toString());
+            }
+            
+            @Override
+            public void afterTextChanged(android.text.Editable s) {}
+        });
     }
 
     private void loadRuns() {
@@ -314,6 +331,33 @@ public class MainActivity extends AppCompatActivity {
                 : allRuns;
         
         runsAdapter.setRuns(recentRuns);
+    }
+    
+    private void searchRuns(String query) {
+        if (query == null || query.trim().isEmpty()) {
+            updateRecentRunsList();
+            return;
+        }
+        
+        String lowerQuery = query.toLowerCase().trim();
+        List<RunResponse> searchResults = new ArrayList<>();
+        
+        for (RunResponse run : allRuns) {
+            // Search by distance or date
+            String distance = String.format(Locale.US, "%.2f", run.getDistanceMeters() / 1000.0);
+            String date = run.getStartTime();
+            
+            if (distance.contains(lowerQuery) || date.toLowerCase().contains(lowerQuery)) {
+                searchResults.add(run);
+            }
+        }
+        
+        // Limit to 10 results
+        List<RunResponse> displayResults = searchResults.size() > 10 
+                ? searchResults.subList(0, 10) 
+                : searchResults;
+        
+        runsAdapter.setRuns(displayResults);
     }
 
     private void selectRun(RunResponse run, int position) {

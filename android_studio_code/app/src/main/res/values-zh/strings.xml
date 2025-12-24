@@ -8,6 +8,7 @@
     <string name="hint_full_name">全名</string>
     <string name="hint_email">电子邮箱</string>
     <string name="hint_password">密码</string>
+    <string name="hint_confirm_password">确认密码</string>
     <string name="action_login">登录</string>
     <string name="action_signup">注册</string>
     <string name="action_send_reset">发送重置链接</string>
@@ -20,15 +21,14 @@
     <string name="error_empty_password">密码是必填项</string>
     <string name="error_empty_full_name">全名是必填项</string>
     <string name="error_invalid_password">密码至少需要6个字符</string>
+    <string name="error_password_mismatch">密码不匹配</string>
     <string name="error_network">网络错误，请重试</string>
-    <string name="error_unexpected">出错了。请重试。</string>
-    <string name="msg_login_success">登录成功</string>
+    <string name="error_unexpected">出错了。请重试。</string>    <string name="invalid_credentials">凭据无效</string>    <string name="msg_login_success">登录成功</string>
     <string name="msg_signup_success">账户创建成功</string>
     <string name="msg_reset_success">查看邮箱获取重置说明</string>
     <string name="profile_update_success">个人资料已更新</string>
     <string name="password_update_success">密码已更新</string>
     <string name="avatar_update_success">头像已更新</string>
-    <string name="error_password_mismatch">密码不匹配</string>
     <string name="edit_profile_title">编辑个人资料</string>
     <string name="content_desc_avatar">个人头像</string>
     <string name="action_change_avatar">更换头像</string>
@@ -38,7 +38,6 @@
     <string name="section_change_password">更改密码</string>
     <string name="hint_current_password">当前密码</string>
     <string name="hint_new_password">新密码</string>
-    <string name="hint_confirm_password">确认密码</string>
     <string name="action_change_password">更新密码</string>
     <string name="action_edit_profile">编辑个人资料</string>
     <string name="change_password_title">更改密码</string>
@@ -53,6 +52,82 @@
     <string name="map_cadence">步频</string>
     <string name="map_calories">卡路里</string>
     <string name="map_loading">加载中...</string>
+
+    <!-- Weather conditions -->
+    <string name="weather_clear_sky">晴空</string>
+    <string name="weather_partly_cloudy">多云</string>
+    <string name="weather_foggy">有雾</string>
+    <string name="weather_drizzle">毛毛雨</string>
+    <string name="weather_rain">下雨</string>
+    <string name="weather_snow">下雪</string>
+    <string name="weather_rain_showers">阵雨</string>
+    <string name="weather_snow_showers">阵雪</string>
+    <string name="weather_thunderstorm">雷暴</string>
+    <string name="weather_unable_to_load">无法加载</string>
+
+    <!-- Dashboard -->
+    <string name="summary">摘要</string>
+    <string name="total_distance">总距离</string>
+    <string name="total_duration">总时长</string>
+    <string name="calories">卡路里</string>
+    <string name="steps">步数</string>
+    <string name="runs">跑步次数</string>
+    <string name="personal_records">个人记录</string>
+    <string name="longest_run">🏃 最长跑步</string>
+    <string name="fastest_avg_pace">⚡ 最快平均配速</string>
+    <string name="best_pace">🔥 最佳配速</string>
+    <string name="most_steps">👟 最多步数</string>
+    <string name="selected_run">选定的跑步</string>
+    <string name="recent_runs">最近的跑步</string>
+    <string name="refresh">刷新</string>
+    <string name="no_runs_yet">还没有跑步记录。开始你的第一次跑步！</string>
+    <string name="failed_to_load_runs">无法加载跑步记录</string>
+
+    <!-- Notifications -->
+    <string name="notification_liked_post">%s 点赞了您的帖子</string>
+    <string name="notification_liked_comment">%s 点赞了您的评论</string>
+    <string name="notification_commented">%s 评论了: %s</string>
+    <string name="notification_replied">%s 回复了您的评论: %s</string>
+    <string name="notification_shared_post">%s 分享了您的帖子</string>
+    <string name="notification_interacted">%s 与您互动</string>
+    <string name="create_post_title">创建帖子</string>
+    <string name="notifications_title">通知</string>
+    <string name="comments_title">评论</string>
+    <string name="share_post_title">分享帖子</string>
+    <string name="share_post_hint">添加您的想法（可选）...</string>
+    <string name="send_button">发送</string>
+
+    <!-- Group Detail -->
+    <string name="members">成员</string>
+    <string name="posts">帖子</string>
+    <string name="group_stats_members_posts">%d 成员 · %d 帖子</string>
+    <string name="leave_group_button">退出群组</string>
+    <string name="group_settings_button">设置</string>
+
+    <!-- Run Details -->
+    <string name="run_details_title">跑步详情</string>
+    <string name="run_distance_label">距离</string>
+    <string name="run_duration_label">时长</string>
+    <string name="run_avg_pace_label">平均配速</string>
+    <string name="run_best_pace_label">最佳配速</string>
+    <string name="run_calories_label">卡路里</string>
+    <string name="run_steps_label">步数</string>
+
+    <!-- Group Post -->
+    <string name="create_group_post_title">创建群组帖子</string>
+    <string name="group_post_hint">您在想什么?</string>
+    <string name="add_photo_button">添加照片</string>
+    <string name="add_run_button">添加跑步</string>
+    <string name="post_button">发布</string>
+    <string name="cannot_share_group_post">无法分享群组帖子</string>
+    
+    <!-- Post Options -->
+    <string name="post_options_title">帖子选项</string>
+    <string name="delete_post_option">删除帖子</string>
+    <string name="delete_post_title">删除帖子</string>
+    <string name="delete_post_message">您确定要删除这个帖子吗?</string>
+    <string name="delete_button">删除</string>
+    <string name="failed_to_delete_post">无法删除帖子</string>
 
     <!-- Social features -->
     <string name="create_post">创建帖子</string>
@@ -70,7 +145,6 @@
     <string name="groups">群组</string>
     <string name="create_group">创建群组</string>
     <string name="join_group">加入群组</string>
-    <string name="leave_group">退出群组</string>
     <string name="menu">菜单</string>
     <string name="edit">编辑</string>
     <string name="delete">删除</string>
@@ -133,8 +207,63 @@
     <string name="view_manage_members">查看 &amp; 管理成员</string>
     <string name="danger_zone">危险区域</string>
     <string name="delete_group">删除群组</string>
-    <string name="no_pending_posts">没有待审核的帖子</string>
-    
+    <string name="no_pending_posts">没有待审核的帖子</string>    <string name="manage_group">管理群组</string>
+    <string name="approve_members">审核成员</string>
+    <string name="approve_posts">审核帖子</string>
+    <string name="group_settings_title">群组设置</string>
+    <string name="pending_members_title">待审核成员</string>
+    <string name="pending_posts_title">待审核帖子</string>
+    <string name="settings_updated">设置已更新</string>
+    <string name="failed_update_settings">更新设置失败</string>
+    <string name="invite_code_copied">邀请码已复制</string>
+    <string name="invite_code_generated">邀请码已生成</string>
+    <string name="failed_generate_code">生成邀请码失败</string>
+    <string name="regenerate_code_title">重新生成邀请码</string>
+    <string name="regenerate_code_message">旧邀请码将失效。继续吗？</string>
+    <string name="no_invite_code">没有邀请码</string>
+    <string name="generate_invite_code">生成邀请码</string>
+    <string name="expires_on">过期时间：%s</string>
+    <string name="approve">批准</string>
+    <string name="reject">拒绝</string>
+    <string name="accept">接受</string>
+    <string name="manage_request">管理请求</string>
+    <string name="view_profile">查看个人资料</string>
+    <string name="member_approved">成员已批准</string>
+    <string name="member_rejected">成员已拒绝</string>
+    <string name="post_approved">帖子已批准</string>
+    <string name="post_rejected">帖子已拒绝</string>
+    <string name="failed_to_approve">批准失败</string>
+    <string name="failed_to_reject">拒绝失败</string>
+    <string name="failed_approve_post">批准帖子失败</string>
+    <string name="failed_reject_post">拒绝帖子失败</string>
+    <string name="leave_group">退出群组</string>
+    <string name="leave_group_confirm">您确定要退出这个群组吗？</string>
+    <string name="leave">退出</string>
+    <string name="left_group">已退出群组</string>
+    <string name="failed_leave_group">退出群组失败</string>    
+    <string name="join_group_button">加入群组</string>
+    <string name="must_join_group_first">您必须先加入群组</string>
+    <string name="joined_group">已加入群组</string>
+    <string name="request_sent_pending_approval">已发送请求，等待管理员批准</string>
+    <string name="invalid_invite_code">无效的邀请码或已是成员</string>
+    <string name="failed_join_group">加入群组失败</string>
+    <string name="please_enter_email">请输入您的电子邮件</string>
+    <string name="please_enter_valid_email">请输入有效的电子邮件地址</string>
+    <string name="please_request_otp_first">请先请求OTP验证码</string>
+    <string name="please_enter_6digit_otp">请输入6位OTP验证码</string>
+    <string name="please_enter_confirm_password">请输入并确认新密码</string>
+    <string name="password_min_6_chars">密码必须至少6个字符</string>
+    <string name="passwords_not_match">密码不匹配</string>
+    <string name="network_error_message">网络错误：%s</string>
+    <string name="unknown_error">发生未知错误</string>
+    <string name="error_parsing_response">解析响应错误</string>
+    <string name="not_joined_any_group">您还没有加入任何群组</string>
+    <string name="cannot_load_groups">无法加载群组</string>
+    <string name="cannot_join_invalid_code">无法加入群组。邀请码可能无效。</string>
+    <string name="approve_post_title">批准帖子</string>
+    <string name="approve_post_message">您确定要批准这条帖子吗？</string>
+    <string name="reject_post_title">拒绝帖子</string>
+    <string name="reject_post_message">您确定要拒绝这条帖子吗？帖子将被永久删除。</string>
     <!-- Run Details -->
     <string name="distance">距离</string>
     <string name="duration">时长</string>
@@ -216,4 +345,78 @@
     <string name="hint_enter_otp">输入验证码</string>
     <string name="action_send_code">发送代码</string>
     <string name="action_verify_reset">验证并重置密码</string>
+    
+    <!-- Group Actions -->
+    <string name="choose_action">选择操作</string>
+    <string name="join_group_action">加入群组</string>
+    <string name="create_new_group_action">创建新群组</string>
+    
+    <!-- Create Group -->
+    <string name="create_group_title">创建新群组</string>
+    <string name="group_name_label">群组名称</string>
+    <string name="group_name_hint">输入群组名称</string>
+    <string name="group_description_label">描述</string>
+    <string name="group_description_hint">描述您的群组</string>
+    <string name="privacy_label">隐私</string>
+    <string name="privacy_public">公开 - 任何人都可以找到并加入</string>
+    <string name="privacy_private">私密 - 只有受邀成员才能看到</string>
+    <string name="create_group_button">创建群组</string>
+    <string name="please_enter_group_name">请输入群组名称</string>
+    <string name="create_group_success">群组创建成功！</string>
+    <string name="cannot_create_group">无法创建群组</string>
+    <string name="error_message">错误: %s</string>
+    
+    <!-- Post Detail -->
+    <string name="post_detail_title">帖子</string>
+    
+    <!-- Chat -->
+    <string name="new_chat_title">新聊天</string>
+    <string name="search_users_hint">搜索用户...</string>
+    <string name="type_message_hint">输入消息...</string>
+    <string name="new_chat_description">新聊天</string>
+    
+    <!-- Profile -->
+    <string name="profile_title">个人资料</string>
+    <string name="tab_posts">帖子</string>
+    <string name="tab_liked">喜欢</string>
+    <string name="liked_posts_coming_soon">喜欢的帖子即将推出</string>
+    
+    <!-- Common Toast Messages -->
+    <string name="failed_to_load_feed">无法加载动态</string>
+    <string name="failed_to_update_like">无法更新点赞</string>
+    <string name="post_deleted">帖子已删除</string>
+    <string name="invalid_post">无效的帖子</string>
+    <string name="failed_to_load_post">无法加载帖子</string>
+    <string name="error_loading_comments">加载评论错误</string>
+    <string name="please_enter_comment">请输入评论</string>
+    <string name="comment_posted">评论已发布</string>
+    <string name="comment_deleted">评论已删除</string>
+    <string name="failed_to_delete_comment">无法删除评论</string>
+    <string name="failed_to_load_comments">无法加载评论</string>
+    <string name="failed_to_post_comment">无法发布评论</string>
+    <string name="failed_to_load_original_post">无法加载原帖</string>
+    <string name="please_add_content">请添加内容、图片或跑步</string>
+    <string name="failed_to_process_image">无法处理图片</string>
+    <string name="failed_to_upload_image">无法上传图片</string>
+    <string name="post_published">帖子已发布！</string>
+    <string name="invalid_run_id">无效的跑步ID</string>
+    <string name="failed_to_open_chat">无法打开聊天</string>
+    <string name="network_error">网络错误</string>
+    <string name="failed_to_load_profile">无法加载个人资料</string>
+    <string name="failed_to_load_posts">无法加载帖子</string>
+    <string name="invalid_group">无效的群组</string>
+
+    <string name="failed_to_approve_post">无法批准帖子</string>
+    <string name="failed_to_reject_post">无法拒绝帖子</string>
+    <string name="error_prefix">错误: %s</string>
+    <string name="run_saved_successfully">跑步已成功保存！</string>
+    <string name="run_loaded">已加载跑步：%s</string>
+    <string name="filter_runs">筛选</string>
+    <string name="search_runs_hint">按距离或日期搜索...</string>
+    <string name="filter_by_date">按日期筛选</string>
+    <string name="all_runs">所有跑步</string>
+    <string name="last_7_days">过去7天</string>
+    <string name="last_30_days">过去30天</string>
+    <string name="this_month">本月</string>
+    <string name="no_runs_match_filter">没有符合筛选条件的跑步</string>
 </resources>

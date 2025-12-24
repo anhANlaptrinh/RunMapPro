@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ImageButton;
@@ -790,7 +791,7 @@ public class MapActivity extends AppCompatActivity {
                 e.printStackTrace();
                 runOnUiThread(() -> {
                     tvTemperature.setText("--°C");
-                    tvWeatherDesc.setText("Unable to load");
+                    tvWeatherDesc.setText(getString(R.string.weather_unable_to_load));
                     tvWeatherIcon.setText("");
                 });
             }
@@ -804,31 +805,31 @@ public class MapActivity extends AppCompatActivity {
         String emoji;
 
         if (code == 0) {
-            description = "Clear sky";
+            description = getString(R.string.weather_clear_sky);
             emoji = "☀️";
         } else if (code <= 3) {
-            description = "Partly cloudy";
+            description = getString(R.string.weather_partly_cloudy);
             emoji = "⛅";
         } else if (code <= 48) {
-            description = "Foggy";
+            description = getString(R.string.weather_foggy);
             emoji = "🌫️";
         } else if (code <= 57) {
-            description = "Drizzle";
+            description = getString(R.string.weather_drizzle);
             emoji = "🌦️";
         } else if (code <= 67) {
-            description = "Rain";
+            description = getString(R.string.weather_rain);
             emoji = "🌧️";
         } else if (code <= 77) {
-            description = "Snow";
+            description = getString(R.string.weather_snow);
             emoji = "❄️";
         } else if (code <= 82) {
-            description = "Rain showers";
+            description = getString(R.string.weather_rain_showers);
             emoji = "🌧️";
         } else if (code <= 86) {
-            description = "Snow showers";
+            description = getString(R.string.weather_snow_showers);
             emoji = "🌨️";
         } else {
-            description = "Thunderstorm";
+            description = getString(R.string.weather_thunderstorm);
             emoji = "⛈️";
         }
 
@@ -905,7 +906,7 @@ public class MapActivity extends AppCompatActivity {
                     
                     runOnUiThread(() -> {
                         Toast.makeText(MapActivity.this,
-                                "Đã lưu lần chạy! ID: " + savedRun.getId(), 
+                                getString(R.string.run_saved_successfully), 
                                 Toast.LENGTH_LONG).show();
                         clearAllData();
                     });
@@ -984,8 +985,8 @@ public class MapActivity extends AppCompatActivity {
                             }
 
                             Toast.makeText(MapActivity.this,
-                                    "Đã tải lần chạy: " + String.format(Locale.US, "%.2f km", 
-                                            run.getDistanceMeters() / 1000.0), 
+                                    getString(R.string.run_loaded, 
+                                            String.format(Locale.US, "%.2f km", run.getDistanceMeters() / 1000.0)), 
                                     Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -1071,35 +1072,13 @@ public class MapActivity extends AppCompatActivity {
                         return;
                     }
 
-                    // Create display strings for each run
-                    String[] runDisplayStrings = new String[runs.size()];
-                    for (int i = 0; i < runs.size(); i++) {
-                        RunResponse run = runs.get(i);
-                        double distanceKm = run.getDistanceMeters() / 1000.0;
-                        long durationMinutes = run.getDurationMs() / 1000;
-                        runDisplayStrings[i] = String.format(Locale.US, 
-                                getString(R.string.run_format),
-                                i + 1, distanceKm, durationMinutes, run.getSteps());
-                    }
-
-                    // Show dialog with list of runs
-                    runOnUiThread(() -> {
-                        new AlertDialog.Builder(MapActivity.this)
-                                .setTitle(R.string.select_run_to_view)
-                                .setItems(runDisplayStrings, (dialog, which) -> {
-                                    // Load selected run
-                                    RunResponse selectedRun = runs.get(which);
-                                    loadAndDrawRun(selectedRun.getId());
-                                })
-                                .setNegativeButton(R.string.cancel, null)
-                                .show();
-                    });
+                    runOnUiThread(() -> showRunSelectionDialog(runs));
 
                 } else {
                     Log.e(TAG, "Failed to load runs. Response code: " + response.code());
                     runOnUiThread(() -> {
                         Toast.makeText(MapActivity.this,
-                                "Không thể tải danh sách. Mã lỗi: " + response.code(), 
+                                getString(R.string.error_prefix, "Response code: " + response.code()), 
                                 Toast.LENGTH_SHORT).show();
                     });
                 }
@@ -1110,12 +1089,65 @@ public class MapActivity extends AppCompatActivity {
                 Log.e(TAG, "Network error while loading runs", t);
                 runOnUiThread(() -> {
                     Toast.makeText(MapActivity.this,
-                            "Lỗi kết nối: " + t.getMessage(), 
+                            getString(R.string.error_prefix, t.getMessage()), 
                             Toast.LENGTH_LONG).show();
                 });
             }
         });
     }
+    
+    private void showRunSelectionDialog(List<RunResponse> runs) {
+        // Create dialog view
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_run_selection, null);
+        
+        // Setup views
+        com.google.android.material.textfield.TextInputEditText etSearchRuns = dialogView.findViewById(R.id.etSearchRuns);
+        androidx.recyclerview.widget.RecyclerView rvRuns = dialogView.findViewById(R.id.rvRuns);
+        
+        // Setup adapter
+        com.example.runmapproapp.ui.adapter.RunSelectionAdapter adapter = 
+                new com.example.runmapproapp.ui.adapter.RunSelectionAdapter(run -> {
+            loadAndDrawRun(run.getId());
+            if (currentDialog != null) {
+                currentDialog.dismiss();
+            }
+        });
+        
+        rvRuns.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
+        rvRuns.setAdapter(adapter);
+        adapter.setRuns(runs);
+        
+        // Setup search
+        etSearchRuns.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.filter(s.toString());
+            }
+            
+            @Override
+            public void afterTextChanged(android.text.Editable s) {}
+        });
+        
+        // Create and show dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView);
+        
+        currentDialog = builder.create();
+        
+        // Setup cancel button
+        dialogView.findViewById(R.id.btnCancel).setOnClickListener(v -> {
+            if (currentDialog != null) {
+                currentDialog.dismiss();
+            }
+        });
+        
+        currentDialog.show();
+    }
+    
+    private AlertDialog currentDialog;
     @Override
     protected void onResume() {
         super.onResume();

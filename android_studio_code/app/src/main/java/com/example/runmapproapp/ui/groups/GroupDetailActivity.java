@@ -155,7 +155,7 @@ public class GroupDetailActivity extends AppCompatActivity
 
         fabCreatePost.setOnClickListener(v -> {
             if (!isMember) {
-                Toast.makeText(this, "Bạn phải tham gia nhóm trước", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.must_join_group_first, Toast.LENGTH_SHORT).show();
                 return;
             }
             Intent intent = new Intent(this, GroupPostActivity.class);
@@ -174,27 +174,34 @@ public class GroupDetailActivity extends AppCompatActivity
         String[] options;
         if ("owner".equals(userRole)) {
             // Owner has access to all features
-            options = new String[]{"Duyệt thành viên", "Duyệt bài viết", "Cài đặt nhóm"};
+            options = new String[]{
+                getString(R.string.approve_members), 
+                getString(R.string.approve_posts), 
+                getString(R.string.group_settings_title)
+            };
         } else {
             // Admin only has approval features, no settings
-            options = new String[]{"Duyệt thành viên", "Duyệt bài viết"};
+            options = new String[]{
+                getString(R.string.approve_members), 
+                getString(R.string.approve_posts)
+            };
         }
         
         new androidx.appcompat.app.AlertDialog.Builder(this)
-                .setTitle("Quản lý nhóm")
+                .setTitle(R.string.manage_group)
                 .setItems(options, (dialog, which) -> {
                     if (which == 0) {
-                        // Duyệt thành viên
+                        // Approve members
                         Intent intent = new Intent(this, PendingMembersActivity.class);
                         intent.putExtra("GROUP_ID", groupId);
                         startActivity(intent);
                     } else if (which == 1) {
-                        // Duyệt bài viết
+                        // Approve posts
                         Intent intent = new Intent(this, PendingPostsActivity.class);
                         intent.putExtra("GROUP_ID", groupId);
                         startActivity(intent);
                     } else if (which == 2 && "owner".equals(userRole)) {
-                        // Cài đặt nhóm (owner only)
+                        // Group settings (owner only)
                         Intent intent = new Intent(this, GroupSettingsActivity.class);
                         intent.putExtra("groupId", groupId);
                         startActivity(intent);
@@ -225,7 +232,7 @@ public class GroupDetailActivity extends AppCompatActivity
         tvGroupName.setText(group.getName());
         tvGroupDescription.setText(group.getDescription());
         
-        String stats = group.getMemberCount() + " thành viên · " + group.getPostCount() + " bài viết";
+        String stats = getString(R.string.group_stats_members_posts, group.getMemberCount(), group.getPostCount());
         tvGroupStats.setText(stats);
 
         if (group.getCoverImageUrl() != null && !group.getCoverImageUrl().isEmpty()) {
@@ -252,7 +259,7 @@ public class GroupDetailActivity extends AppCompatActivity
     private void updateJoinButton(String userRole) {
         if (userRole != null) {
             // User is a member
-            btnJoinLeave.setText("Rời nhóm");
+            btnJoinLeave.setText(R.string.leave_group_button);
             btnJoinLeave.setVisibility(View.VISIBLE);
             fabCreatePost.setVisibility(View.VISIBLE);
             
@@ -264,7 +271,7 @@ public class GroupDetailActivity extends AppCompatActivity
             }
         } else {
             // User is not a member
-            btnJoinLeave.setText("Tham gia nhóm");
+            btnJoinLeave.setText(R.string.join_group_button);
             btnJoinLeave.setVisibility(View.VISIBLE);
             btnSettings.setVisibility(View.GONE);
             fabCreatePost.setVisibility(View.GONE);
@@ -289,9 +296,9 @@ public class GroupDetailActivity extends AppCompatActivity
     
     private void leaveGroup() {
         new androidx.appcompat.app.AlertDialog.Builder(this)
-                .setTitle("Rời nhóm")
-                .setMessage("Bạn có chắc muốn rời khỏi nhóm này?")
-                .setPositiveButton("Rời", (dialog, which) -> {
+                .setTitle(R.string.leave_group)
+                .setMessage(R.string.leave_group_confirm)
+                .setPositiveButton(R.string.leave, (dialog, which) -> {
                     progressBar.setVisibility(View.VISIBLE);
                     btnJoinLeave.setEnabled(false);
                     
@@ -302,10 +309,10 @@ public class GroupDetailActivity extends AppCompatActivity
                             btnJoinLeave.setEnabled(true);
                             
                             if (response.isSuccessful()) {
-                                Toast.makeText(GroupDetailActivity.this, "Đã rời nhóm", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(GroupDetailActivity.this, R.string.left_group, Toast.LENGTH_SHORT).show();
                                 loadGroupDetails();
                             } else {
-                                Toast.makeText(GroupDetailActivity.this, "Không thể rời nhóm", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(GroupDetailActivity.this, R.string.failed_leave_group, Toast.LENGTH_SHORT).show();
                             }
                         }
                         
@@ -313,11 +320,11 @@ public class GroupDetailActivity extends AppCompatActivity
                         public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                             progressBar.setVisibility(View.GONE);
                             btnJoinLeave.setEnabled(true);
-                            Toast.makeText(GroupDetailActivity.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(GroupDetailActivity.this, R.string.error_network, Toast.LENGTH_SHORT).show();
                         }
                     });
                 })
-                .setNegativeButton("Hủy", null)
+                .setNegativeButton(R.string.cancel, null)
                 .show();
     }
     
@@ -361,14 +368,14 @@ public class GroupDetailActivity extends AppCompatActivity
                     if (response.isSuccessful() && response.body() != null) {
                         String status = (String) response.body().get("status");
                         if ("joined".equals(status)) {
-                            Toast.makeText(GroupDetailActivity.this, "Đã tham gia nhóm", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(GroupDetailActivity.this, R.string.joined_group, Toast.LENGTH_SHORT).show();
                             loadGroupDetails();
                             loadGroupPosts(false);
                         } else if ("pending".equals(status)) {
-                            Toast.makeText(GroupDetailActivity.this, "Yêu cầu đã gửi, chờ quản trị viên phê duyệt", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(GroupDetailActivity.this, R.string.request_sent_pending_approval, Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(GroupDetailActivity.this, "Mã mời không hợp lệ hoặc đã là thành viên", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GroupDetailActivity.this, R.string.invalid_invite_code, Toast.LENGTH_SHORT).show();
                     }
                 }
                 
@@ -376,7 +383,7 @@ public class GroupDetailActivity extends AppCompatActivity
                 public void onFailure(@NonNull Call<Map<String, Object>> call, @NonNull Throwable t) {
                     progressBar.setVisibility(View.GONE);
                     btnJoinLeave.setEnabled(true);
-                    Toast.makeText(GroupDetailActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GroupDetailActivity.this, R.string.error_network, Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
@@ -388,11 +395,11 @@ public class GroupDetailActivity extends AppCompatActivity
                     btnJoinLeave.setEnabled(true);
                     
                     if (response.isSuccessful()) {
-                        Toast.makeText(GroupDetailActivity.this, "Đã tham gia nhóm", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GroupDetailActivity.this, R.string.joined_group, Toast.LENGTH_SHORT).show();
                         loadGroupDetails();
                         loadGroupPosts(false);
                     } else {
-                        Toast.makeText(GroupDetailActivity.this, "Không thể tham gia nhóm", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GroupDetailActivity.this, R.string.failed_join_group, Toast.LENGTH_SHORT).show();
                     }
                 }
                 
@@ -400,7 +407,7 @@ public class GroupDetailActivity extends AppCompatActivity
                 public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                     progressBar.setVisibility(View.GONE);
                     btnJoinLeave.setEnabled(true);
-                    Toast.makeText(GroupDetailActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GroupDetailActivity.this, R.string.error_network, Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -547,7 +554,7 @@ public class GroupDetailActivity extends AppCompatActivity
 
     @Override
     public void onShareClick(Post post) {
-        Toast.makeText(this, "Không thể chia sẻ bài viết trong nhóm", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.cannot_share_group_post, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -576,27 +583,27 @@ public class GroupDetailActivity extends AppCompatActivity
     @Override
     public void onDeletePost(Post post, int position) {
         new AlertDialog.Builder(this)
-                .setTitle("Delete Post")
-                .setMessage("Are you sure you want to delete this post?")
-                .setPositiveButton("Delete", (dialog, which) -> {
+                .setTitle(R.string.delete_post_title)
+                .setMessage(R.string.delete_post_confirm)
+                .setPositiveButton(R.string.delete, (dialog, which) -> {
                     groupApi.deleteGroupPost(post.getId()).enqueue(new Callback<java.util.Map<String, String>>() {
                         @Override
                         public void onResponse(@NonNull Call<java.util.Map<String, String>> call, @NonNull Response<java.util.Map<String, String>> response) {
                             if (response.isSuccessful()) {
                                 postAdapter.removePost(position);
-                                Toast.makeText(GroupDetailActivity.this, "Post deleted", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(GroupDetailActivity.this, R.string.post_deleted, Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(GroupDetailActivity.this, "Failed to delete post", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(GroupDetailActivity.this, R.string.failed_to_delete_post, Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(@NonNull Call<java.util.Map<String, String>> call, @NonNull Throwable t) {
-                            Toast.makeText(GroupDetailActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(GroupDetailActivity.this, getString(R.string.error_prefix, t.getMessage()), Toast.LENGTH_SHORT).show();
                         }
                     });
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(R.string.cancel, null)
                 .show();
     }
 

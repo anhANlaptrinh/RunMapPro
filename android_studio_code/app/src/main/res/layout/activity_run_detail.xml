@@ -11,7 +11,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/deep_blue_500"
         android:elevation="4dp"
-        app:title="Run Details"
+        app:title="@string/run_details_title"
         app:titleTextColor="@android:color/white"
         app:navigationIconTint="@android:color/white"
         app:navigationIcon="?attr/homeAsUpIndicator" />
@@ -64,7 +64,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Distance"
+                        android:text="@string/run_distance_label"
                         android:textSize="12sp"
                         android:textColor="@android:color/darker_gray" />
 
@@ -91,7 +91,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Duration"
+                        android:text="@string/run_duration_label"
                         android:textSize="12sp"
                         android:textColor="@android:color/darker_gray" />
 
@@ -118,7 +118,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Avg Pace"
+                        android:text="@string/run_avg_pace_label"
                         android:textSize="12sp"
                         android:textColor="@android:color/darker_gray" />
 
@@ -159,7 +159,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Best Pace"
+                        android:text="@string/run_best_pace_label"
                         android:textSize="11sp"
                         android:textColor="@android:color/darker_gray" />
 
@@ -184,7 +184,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Calories"
+                        android:text="@string/run_calories_label"
                         android:textSize="11sp"
                         android:textColor="@android:color/darker_gray" />
 
@@ -209,7 +209,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Steps"
+                        android:text="@string/run_steps_label"
                         android:textSize="11sp"
                         android:textColor="@android:color/darker_gray" />
 

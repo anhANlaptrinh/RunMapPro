@@ -224,7 +224,13 @@ public class LoginActivity extends AppCompatActivity {
         try {
             ErrorResponse error = new Gson().fromJson(response.errorBody().charStream(), ErrorResponse.class);
             if (error != null && !TextUtils.isEmpty(error.getMessage())) {
-                return error.getMessage();
+                String message = error.getMessage();
+                // Map common server error messages to localized strings
+                if (message.equalsIgnoreCase("Invalid credentials") || 
+                    message.equalsIgnoreCase("Invalid email or password")) {
+                    return getString(R.string.invalid_credentials);
+                }
+                return message;
             }
         } catch (Exception ignored) {
         }

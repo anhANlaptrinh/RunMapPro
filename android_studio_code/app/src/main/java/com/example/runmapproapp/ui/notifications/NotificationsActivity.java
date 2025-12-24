@@ -58,7 +58,7 @@ public class NotificationsActivity extends AppCompatActivity
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Thông báo");
+            getSupportActionBar().setTitle(R.string.notifications_title);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         toolbar.setNavigationOnClickListener(v -> finish());

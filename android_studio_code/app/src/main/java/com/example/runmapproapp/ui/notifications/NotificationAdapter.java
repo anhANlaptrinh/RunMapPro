@@ -95,7 +95,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             }
 
             // Set notification text
-            tvNotificationText.setText(notification.getNotificationText());
+            tvNotificationText.setText(notification.getNotificationText(itemView.getContext()));
 
             // Set timestamp
             tvTimestamp.setText(getTimeAgo(notification.getCreatedAt()));

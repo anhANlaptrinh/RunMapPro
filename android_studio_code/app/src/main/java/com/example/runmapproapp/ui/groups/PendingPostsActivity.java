@@ -46,7 +46,7 @@ public class PendingPostsActivity extends AppCompatActivity implements PendingPo
 
         groupId = getIntent().getStringExtra("GROUP_ID");
         if (groupId == null) {
-            Toast.makeText(this, "Invalid group", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.invalid_group, Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -55,6 +55,7 @@ public class PendingPostsActivity extends AppCompatActivity implements PendingPo
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(R.string.pending_posts_title);
         }
         toolbar.setNavigationOnClickListener(v -> finish());
 
@@ -110,7 +111,7 @@ public class PendingPostsActivity extends AppCompatActivity implements PendingPo
             public void onFailure(@NonNull Call<List<GroupPost>> call, @NonNull Throwable t) {
                 progressBar.setVisibility(View.GONE);
                 swipeRefresh.setRefreshing(false);
-                Toast.makeText(PendingPostsActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(PendingPostsActivity.this, R.string.error_network, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -118,20 +119,20 @@ public class PendingPostsActivity extends AppCompatActivity implements PendingPo
     @Override
     public void onApprove(GroupPost post, int position) {
         new AlertDialog.Builder(this)
-                .setTitle("Chấp nhận bài viết")
-                .setMessage("Bạn có chắc muốn chấp nhận bài viết này?")
-                .setPositiveButton("Chấp nhận", (dialog, which) -> approvePost(post.getId(), position))
-                .setNegativeButton("Hủy", null)
+                .setTitle(R.string.approve_post_title)
+                .setMessage(R.string.approve_post_message)
+                .setPositiveButton(R.string.approve, (dialog, which) -> approvePost(post.getId(), position))
+                .setNegativeButton(R.string.cancel, null)
                 .show();
     }
 
     @Override
     public void onReject(GroupPost post, int position) {
         new AlertDialog.Builder(this)
-                .setTitle("Từ chối bài viết")
-                .setMessage("Bạn có chắc muốn từ chối bài viết này? Bài viết sẽ bị xóa vĩnh viễn.")
-                .setPositiveButton("Từ chối", (dialog, which) -> rejectPost(post.getId(), position))
-                .setNegativeButton("Hủy", null)
+                .setTitle(R.string.reject_post_title)
+                .setMessage(R.string.reject_post_message)
+                .setPositiveButton(R.string.reject, (dialog, which) -> rejectPost(post.getId(), position))
+                .setNegativeButton(R.string.cancel, null)
                 .show();
     }
 
@@ -144,7 +145,7 @@ public class PendingPostsActivity extends AppCompatActivity implements PendingPo
                 progressBar.setVisibility(View.GONE);
                 
                 if (response.isSuccessful()) {
-                    Toast.makeText(PendingPostsActivity.this, "Đã chấp nhận bài viết", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PendingPostsActivity.this, R.string.post_approved, Toast.LENGTH_SHORT).show();
                     adapter.removePost(position);
                     
                     // Check if list is empty
@@ -153,14 +154,14 @@ public class PendingPostsActivity extends AppCompatActivity implements PendingPo
                         recyclerView.setVisibility(View.GONE);
                     }
                 } else {
-                    Toast.makeText(PendingPostsActivity.this, "Failed to approve post", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PendingPostsActivity.this, R.string.failed_approve_post, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Map<String, String>> call, @NonNull Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(PendingPostsActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(PendingPostsActivity.this, R.string.error_network, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -174,7 +175,7 @@ public class PendingPostsActivity extends AppCompatActivity implements PendingPo
                 progressBar.setVisibility(View.GONE);
                 
                 if (response.isSuccessful()) {
-                    Toast.makeText(PendingPostsActivity.this, "Đã từ chối bài viết", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PendingPostsActivity.this, R.string.post_rejected, Toast.LENGTH_SHORT).show();
                     adapter.removePost(position);
                     
                     // Check if list is empty
@@ -183,14 +184,14 @@ public class PendingPostsActivity extends AppCompatActivity implements PendingPo
                         recyclerView.setVisibility(View.GONE);
                     }
                 } else {
-                    Toast.makeText(PendingPostsActivity.this, "Failed to reject post", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PendingPostsActivity.this, R.string.failed_reject_post, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Map<String, String>> call, @NonNull Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(PendingPostsActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(PendingPostsActivity.this, R.string.error_network, Toast.LENGTH_SHORT).show();
             }
         });
     }

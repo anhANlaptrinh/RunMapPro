@@ -107,7 +107,7 @@ public class UserProfileActivity extends AppCompatActivity implements PostAdapte
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Profile");
+            getSupportActionBar().setTitle(R.string.profile_title);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         toolbar.setNavigationOnClickListener(v -> finish());
@@ -131,13 +131,13 @@ public class UserProfileActivity extends AppCompatActivity implements PostAdapte
                     intent.putExtra("isGroup", false);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(UserProfileActivity.this, "Failed to open chat", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserProfileActivity.this, R.string.failed_to_open_chat, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<com.example.runmapproapp.data.model.Conversation> call, Throwable t) {
-                Toast.makeText(UserProfileActivity.this, "Network error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserProfileActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -149,8 +149,8 @@ public class UserProfileActivity extends AppCompatActivity implements PostAdapte
     }
 
     private void setupTabs() {
-        tabLayout.addTab(tabLayout.newTab().setText("Posts"));
-        tabLayout.addTab(tabLayout.newTab().setText("Liked"));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_posts));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_liked));
         
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -159,7 +159,7 @@ public class UserProfileActivity extends AppCompatActivity implements PostAdapte
                     loadUserPosts();
                 } else {
                     // TODO: Load liked posts
-                    Toast.makeText(UserProfileActivity.this, "Liked posts coming soon", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserProfileActivity.this, R.string.liked_posts_coming_soon, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -196,7 +196,7 @@ public class UserProfileActivity extends AppCompatActivity implements PostAdapte
                 } else {
                     // Fallback to basic display
                     displayBasicProfile();
-                    Toast.makeText(UserProfileActivity.this, "Failed to load profile", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserProfileActivity.this, R.string.failed_to_load_profile, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -204,7 +204,7 @@ public class UserProfileActivity extends AppCompatActivity implements PostAdapte
             public void onFailure(@NonNull Call<UserProfileResponse> call, @NonNull Throwable t) {
                 progressBar.setVisibility(View.GONE);
                 displayBasicProfile();
-                Toast.makeText(UserProfileActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserProfileActivity.this, getString(R.string.error_prefix, t.getMessage()), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -324,16 +324,16 @@ public class UserProfileActivity extends AppCompatActivity implements PostAdapte
                 if (response.isSuccessful() && response.body() != null) {
                     List<Post> posts = response.body();
                     postAdapter.setPosts(posts);
-                    tvPostCount.setText(String.valueOf(posts.size()) + " posts");
+                    tvPostCount.setText(getString(R.string.posts_count, posts.size()));
                 } else {
-                    Toast.makeText(UserProfileActivity.this, "Failed to load posts", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserProfileActivity.this, R.string.failed_to_load_posts, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Post>> call, @NonNull Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(UserProfileActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserProfileActivity.this, getString(R.string.error_prefix, t.getMessage()), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -362,7 +362,7 @@ public class UserProfileActivity extends AppCompatActivity implements PostAdapte
 
             @Override
             public void onFailure(@NonNull Call<Post> call, @NonNull Throwable t) {
-                Toast.makeText(UserProfileActivity.this, "Failed to update like", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserProfileActivity.this, R.string.failed_to_update_like, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -433,7 +433,7 @@ public class UserProfileActivity extends AppCompatActivity implements PostAdapte
             }
             @Override
             public void onFailure(@NonNull Call<Post> call, @NonNull Throwable t) {
-                Toast.makeText(UserProfileActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserProfileActivity.this, getString(R.string.error_prefix, t.getMessage()), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -449,15 +449,15 @@ public class UserProfileActivity extends AppCompatActivity implements PostAdapte
                     @Override
                     public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                         if (response.isSuccessful()) {
-                            Toast.makeText(UserProfileActivity.this, "Post deleted", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UserProfileActivity.this, R.string.post_deleted, Toast.LENGTH_SHORT).show();
                             loadUserPosts();
                         } else {
-                            Toast.makeText(UserProfileActivity.this, "Failed to delete post", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UserProfileActivity.this, R.string.failed_to_delete_post, Toast.LENGTH_SHORT).show();
                         }
                     }
                     @Override
                     public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                        Toast.makeText(UserProfileActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserProfileActivity.this, getString(R.string.error_prefix, t.getMessage()), Toast.LENGTH_SHORT).show();
                     }
                 });
             })
