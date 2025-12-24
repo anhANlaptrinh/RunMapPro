@@ -18,7 +18,9 @@ import com.example.runmapproapp.data.api.GroupApi;
 import com.example.runmapproapp.data.model.Group;
 import com.example.runmapproapp.data.model.GroupMember;
 import com.example.runmapproapp.ui.groups.adapter.GroupMemberAdapter;
+import com.example.runmapproapp.utils.LocaleHelper;
 
+import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class GroupMembersActivity extends AppCompatActivity {
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase));
+    }
 
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
@@ -92,7 +99,7 @@ public class GroupMembersActivity extends AppCompatActivity {
         }
         
         if ("owner".equals(member.getRole())) {
-            Toast.makeText(this, "Không thể quản lý chủ nhóm", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.cannot_manage_owner, Toast.LENGTH_SHORT).show();
             return;
         }
         
@@ -130,11 +137,11 @@ public class GroupMembersActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<java.util.Map<String, String>> call, @NonNull Response<java.util.Map<String, String>> response) {
                 progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    String roleName = "admin".equals(newRole) ? "Quản trị viên" : "Thành viên";
-                    Toast.makeText(GroupMembersActivity.this, "Đã thay đổi chức vụ thành " + roleName, Toast.LENGTH_SHORT).show();
+                    String roleName = "admin".equals(newRole) ? getString(R.string.group_admin) : getString(R.string.group_member);
+                    Toast.makeText(GroupMembersActivity.this, getString(R.string.role_changed_to, roleName), Toast.LENGTH_SHORT).show();
                     loadMembers(); // Reload list
                 } else {
-                    Toast.makeText(GroupMembersActivity.this, "Không thể thay đổi chức vụ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GroupMembersActivity.this, R.string.cannot_change_role, Toast.LENGTH_SHORT).show();
                 }
             }
 

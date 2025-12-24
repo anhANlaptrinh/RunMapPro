@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textSize="14sp"
-                android:text="Original Author" />
+                android:text="@string/original_author" />
 
             <TextView
                 android:id="@+id/tvOriginalContent"
@@ -68,7 +68,7 @@
                 android:textSize="14sp"
                 android:maxLines="3"
                 android:ellipsize="end"
-                android:text="Original post content..." />
+                android:text="@string/original_post_content" />
 
         </LinearLayout>
 
@@ -112,7 +112,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add Run"
+            android:text="@string/add_run"
             style="?attr/materialButtonOutlinedStyle" />
 
     </LinearLayout>

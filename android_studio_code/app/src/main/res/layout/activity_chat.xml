@@ -51,7 +51,7 @@
                     android:id="@+id/tvChatStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Active now"
+                    android:text="@string/active_now"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                     android:textColor="@android:color/white"
                     android:visibility="gone" />

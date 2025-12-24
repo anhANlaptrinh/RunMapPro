@@ -1,5 +1,6 @@
 package com.example.runmapproapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,6 +19,7 @@ import com.example.runmapproapp.data.AuthApi;
 import com.example.runmapproapp.data.model.ErrorResponse;
 import com.example.runmapproapp.data.model.LoginResponse;
 import com.example.runmapproapp.data.model.RegisterRequest;
+import com.example.runmapproapp.utils.LocaleHelper;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -38,6 +40,11 @@ public class SignUpActivity extends AppCompatActivity {
     private TextInputEditText inputPassword;
     private MaterialButton buttonSignup;
     private TextView textLogin;
+    
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase));
+    }
     private TextView textError;
     private ProgressBar progressBar;
 

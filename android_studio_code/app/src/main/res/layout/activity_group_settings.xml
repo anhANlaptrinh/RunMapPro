@@ -42,7 +42,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ảnh bìa nhóm"
+            android:text="@string/group_cover_photo"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginBottom="8dp" />
@@ -68,14 +68,14 @@
             android:id="@+id/btnChangeCoverImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Thay đổi ảnh bìa"
+            android:text="@string/change_cover_photo"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_marginBottom="16dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Invite Code"
+            android:text="@string/invite_code"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginBottom="8dp"
@@ -106,7 +106,7 @@
                 android:id="@+id/btnCopyCode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Copy"
+                android:text="@string/copy"
                 style="?attr/materialButtonOutlinedStyle"
                 android:minWidth="80dp"
                 android:minHeight="0dp" />
@@ -117,14 +117,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Regenerate Invite Code"
+            android:text="@string/regenerate_invite_code"
             android:layout_marginBottom="16dp"
             android:visibility="gone" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Group Settings"
+            android:text="@string/group_settings"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginTop="16dp"
@@ -134,27 +134,27 @@
             android:id="@+id/cbRequireMemberApproval"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Require admin approval for new members"
+            android:text="@string/require_admin_approval_members"
             android:layout_marginBottom="8dp" />
 
         <CheckBox
             android:id="@+id/cbRequirePostApproval"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Require admin approval for posts"
+            android:text="@string/require_admin_approval_posts"
             android:layout_marginBottom="16dp" />
 
         <Button
             android:id="@+id/btnSaveSettings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save Settings"
+            android:text="@string/save_settings"
             android:layout_marginBottom="24dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Management"
+            android:text="@string/management"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginBottom="8dp" />
@@ -163,13 +163,13 @@
             android:id="@+id/btnViewMembers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="View &amp; Manage Members"
+            android:text="@string/view_manage_members"
             android:layout_marginBottom="8dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Danger Zone"
+            android:text="@string/danger_zone"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="#F44336"
@@ -180,7 +180,7 @@
             android:id="@+id/btnDeleteGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Delete Group"
+            android:text="@string/delete_group"
             android:backgroundTint="#F44336"
             android:textColor="@android:color/white"
             android:layout_marginBottom="8dp" />

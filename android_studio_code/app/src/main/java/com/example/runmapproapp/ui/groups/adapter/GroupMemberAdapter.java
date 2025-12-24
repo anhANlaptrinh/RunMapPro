@@ -90,11 +90,11 @@ public class GroupMemberAdapter extends RecyclerView.Adapter<GroupMemberAdapter.
             // Set role badge
             String role = member.getRole();
             if ("owner".equals(role)) {
-                roleView.setText("Chủ nhóm");
+                roleView.setText(itemView.getContext().getString(R.string.group_owner));
                 roleView.setBackgroundResource(R.drawable.bg_badge);
                 roleView.setVisibility(View.VISIBLE);
             } else if ("admin".equals(role)) {
-                roleView.setText("Quản trị viên");
+                roleView.setText(itemView.getContext().getString(R.string.group_admin));
                 roleView.setBackgroundResource(R.drawable.circle_blue);
                 roleView.setVisibility(View.VISIBLE);
             } else {

@@ -1,15 +1,18 @@
 package com.example.runmapproapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.runmapproapp.auth.AuthManager;
@@ -18,6 +21,7 @@ import com.example.runmapproapp.data.AuthApi;
 import com.example.runmapproapp.data.model.ErrorResponse;
 import com.example.runmapproapp.data.model.LoginRequest;
 import com.example.runmapproapp.data.model.LoginResponse;
+import com.example.runmapproapp.utils.LocaleHelper;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -39,9 +43,15 @@ public class LoginActivity extends AppCompatActivity {
     private TextView textForgotPassword;
     private TextView textError;
     private ProgressBar progressBar;
+    private ImageButton buttonLanguage;
 
     private AuthApi authApi;
     private AuthManager authManager;
+    
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase));
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
         textForgotPassword = findViewById(R.id.textForgotPassword);
         textError = findViewById(R.id.textError);
         progressBar = findViewById(R.id.progressBar);
+        buttonLanguage = findViewById(R.id.buttonLanguage);
     }
 
     private void setupToolbar() {
@@ -90,6 +101,42 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(this, ForgotPasswordActivity.class);
             startActivity(intent);
         });
+        buttonLanguage.setOnClickListener(v -> showLanguageDialog());
+    }
+    
+    private void showLanguageDialog() {
+        String currentLang = LocaleHelper.getLanguage(this);
+        String[] languages = {
+            getString(R.string.language_vietnamese),
+            getString(R.string.language_english),
+            getString(R.string.language_chinese)
+        };
+        String[] langCodes = {"vi", "en", "zh"};
+        
+        int selectedIndex = 0;
+        for (int i = 0; i < langCodes.length; i++) {
+            if (langCodes[i].equals(currentLang)) {
+                selectedIndex = i;
+                break;
+            }
+        }
+        
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.select_language)
+                .setSingleChoiceItems(languages, selectedIndex, (dialog, which) -> {
+                    String selectedLang = langCodes[which];
+                    if (!selectedLang.equals(currentLang)) {
+                        LocaleHelper.setLocale(this, selectedLang);
+                        // Restart LoginActivity with new language
+                        Intent intent = new Intent(this, LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                    dialog.dismiss();
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
     }
 
     private void attemptLogin() {

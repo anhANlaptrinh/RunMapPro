@@ -1,13 +1,20 @@
 package com.example.runmapproapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.runmapproapp.auth.AuthManager;
+import com.example.runmapproapp.utils.LocaleHelper;
 
 public class SplashActivity extends AppCompatActivity {
+    
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase));
+    }
     
     private static final int SPLASH_DELAY = 2000; // 2 seconds
     

@@ -1,5 +1,6 @@
 package com.example.runmapproapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,6 +17,7 @@ import com.example.runmapproapp.data.ApiClient;
 import com.example.runmapproapp.data.UserApi;
 import com.example.runmapproapp.data.model.ChangePasswordRequest;
 import com.example.runmapproapp.data.model.ErrorResponse;
+import com.example.runmapproapp.utils.LocaleHelper;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -28,6 +30,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChangePasswordActivity extends AppCompatActivity {
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase));
+    }
 
     private TextInputEditText inputCurrentPassword;
     private TextInputEditText inputNewPassword;

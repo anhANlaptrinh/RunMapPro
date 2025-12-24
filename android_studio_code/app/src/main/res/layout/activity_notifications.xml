@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:text="Đánh dấu tất cả đã đọc"
+            android:text="@string/mark_all_read"
             android:textColor="@android:color/white"
             android:padding="8dp"
             android:clickable="true"

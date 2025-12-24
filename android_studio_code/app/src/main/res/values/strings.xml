@@ -11,7 +11,7 @@
     <string name="action_login">Login</string>
     <string name="action_signup">Sign Up</string>
     <string name="action_send_reset">Send reset link</string>
-    <string name="action_logout">Logout</string>
+    <string name="action_logout">LOGOUT</string>
     <string name="link_signup">Don\'t have an account? Sign up</string>
     <string name="link_login">Already have an account? Login</string>
     <string name="link_forgot_password">Forgot password?</string>
@@ -42,10 +42,18 @@
     <string name="action_change_password">Update password</string>
     <string name="action_edit_profile">Edit profile</string>
     <string name="change_password_title">Change password</string>
+    <string name="signup_subtitle">Join us and start tracking</string>
     
     <!-- MapActivity strings -->
     <string name="SetRoute">START RUNNING</string>
     <string name="mapbox_access_token" translatable="false">sk.eyJ1IjoiZGFuZ3RhbmciLCJhIjoiY21objNyeGU4MXYwbDJtcXZ0dnF4ZDVvdyJ9.s3x1BnG_zWLRQNqgy_4_2g</string>
+    <string name="map_distance">Distance</string>
+    <string name="map_max_pace">Max Pace</string>
+    <string name="map_avg_pace">Avg Pace</string>
+    <string name="map_duration">Duration</string>
+    <string name="map_cadence">Cadence</string>
+    <string name="map_calories">Calories</string>
+    <string name="map_loading">Loading...</string>
 
     <!-- Social features -->
     <string name="create_post">Create post</string>
@@ -79,4 +87,135 @@
     <string name="comment_updated">Comment updated</string>
     <string name="update_failed">Failed to update</string>
     <string name="empty_content">Content cannot be empty</string>
+    <string name="send">Send</string>
+    <string name="add_run">Add Run</string>
+    <string name="original_author">Original Author</string>
+    <string name="original_post_content">Original post content...</string>
+    
+    <!-- Language settings -->
+    <string name="language">LANGUAGE</string>
+    <string name="select_language">Select Language</string>
+    <string name="language_vietnamese">Tiếng Việt</string>
+    <string name="language_english">English</string>
+    <string name="language_chinese">中文</string>
+    <string name="settings">Settings</string>
+    <string name="newsfeed">NewsFeed</string>
+    <string name="messages">Messages</string>
+    <string name="account_settings">Account Settings</string>
+    <string name="my_profile">MY PROFILE</string>
+    <string name="edit_profile">EDIT PROFILE</string>
+    
+    <!-- Notifications -->
+    <string name="mark_all_read">Mark all as read</string>
+    
+    <!-- Chat -->
+    <string name="active_now">Active now</string>
+    
+    <!-- User Profile -->
+    <string name="user_name">User Name</string>
+    <string name="username_placeholder">\@username</string>
+    <string name="posts_count">%d posts</string>
+    <string name="user_bio_placeholder">User bio goes here...</string>
+    <string name="message">Message</string>
+    
+    <!-- Groups -->
+    <string name="no_requests">No requests</string>
+    <string name="no_members">No members</string>
+    <string name="group_cover_photo">Group cover photo</string>
+    <string name="change_cover_photo">Change cover photo</string>
+    <string name="invite_code">Invite Code</string>
+    <string name="copy">Copy</string>
+    <string name="regenerate_invite_code">Regenerate Invite Code</string>
+    <string name="group_settings">Group Settings</string>
+    <string name="require_admin_approval_members">Require admin approval for new members</string>
+    <string name="require_admin_approval_posts">Require admin approval for posts</string>
+    <string name="save_settings">Save Settings</string>
+    <string name="management">Management</string>
+    <string name="view_manage_members">View &amp; Manage Members</string>
+    <string name="danger_zone">Danger Zone</string>
+    <string name="delete_group">Delete Group</string>
+    <string name="no_pending_posts">No pending posts</string>
+    
+    <!-- Run Details -->
+    <string name="distance">Distance</string>
+    <string name="duration">Duration</string>
+    
+    <!-- MapActivity messages -->
+    <string name="no_route_to_clear">No route to clear</string>
+    <string name="clear_route">Clear Route</string>
+    <string name="clear_route_message">Are you sure you want to clear the current route? This cannot be undone.</string>
+    <string name="clear">Clear</string>
+    <string name="route_cleared">Route cleared</string>
+    <string name="save_run_title">Save this run?</string>
+    <string name="save_run_message">You have run %.2f km. Do you want to save this run?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="run_cancelled">Run cancelled</string>
+    <string name="not_enough_data">Not enough data to save</string>
+    <string name="error_not_authenticated">Error: User not authenticated</string>
+    <string name="loading_list">Loading list...</string>
+    <string name="no_runs_saved">No runs saved yet</string>
+    <string name="select_run_to_view">Select run to view</string>
+    <string name="run_format">Run #%d: %.2f km - %d seconds (%d steps)</string>
+    <string name="start_running">Start Running</string>
+    <string name="stop_running">Stop Running</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="invalid_run_selected">Invalid run selected</string>
+    <string name="no_route_data_available">No route data available</string>
+    <string name="otp_sent">OTP sent to %s</string>
+    <string name="password_reset_success">Password reset successfully</string>
+    <string name="otp_expired">OTP expired. You can send again</string>
+    
+    <!-- Stats labels -->
+    <string name="distance_label">Distance: %s</string>
+    <string name="duration_label">Duration: %s</string>
+    <string name="avg_pace_label">Avg Pace: %s</string>
+    <string name="best_pace_label">Best Pace: %s</string>
+    <string name="calories_label">Calories: %s</string>
+    <string name="steps_label">Steps: %s</string>
+    
+    <!-- Groups -->
+    <string name="my_groups">My Groups</string>
+    <string name="explore_groups">Explore</string>
+    <string name="group_owner">OWNER</string>
+    <string name="group_admin">ADMIN</string>
+    <string name="group_member">Member</string>
+    <string name="public_group">Public</string>
+    <string name="private_group">Private</string>
+    <string name="cannot_manage_owner">Cannot manage group owner</string>
+    <string name="no_public_groups">No public groups</string>
+    <string name="cannot_load_public_groups">Cannot load public groups</string>
+    <string name="join_request_sent_approval">Join request sent. Waiting for admin approval.</string>
+    <string name="enter_invite_code">Enter invite code from group admin</string>
+    <string name="request_sent_wait_approval">Request sent, waiting for admin approval</string>
+    <string name="join_group_title">Join Group</string>
+    <string name="enter_invite_code_hint">Enter invite code</string>
+    <string name="action_join">Join</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="please_enter_invite_code">Please enter invite code</string>
+    <string name="joined_group_success">Joined group successfully!</string>
+    <string name="role_changed_to">Role changed to %s</string>
+    <string name="cannot_change_role">Cannot change role</string>
+    <string name="group_stats_format">%d members · %d posts</string>
+    <string name="groups_title">Groups</string>
+    
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_history">History</string>
+    <string name="nav_groups">Groups</string>
+    <string name="nav_social">Social</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_map">Map</string>
+    <string name="nav_feed">Feed</string>
+    <string name="nav_chat">Chat</string>
+    <string name="nav_settings">Settings</string>
+    
+    <!-- Login Screen -->
+    <string name="login_subtitle">Login to continue</string>
+    
+    <!-- Forgot Password -->
+    <string name="forgot_password_subtitle">Don\'t worry! Enter your email and we\'ll send you a code to reset your password</string>
+    <string name="hint_enter_otp">Enter OTP</string>
+    <string name="action_send_code">SEND CODE</string>
+    <string name="action_verify_reset">VERIFY &amp; RESET PASSWORD</string>
 </resources>

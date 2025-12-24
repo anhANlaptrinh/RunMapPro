@@ -1,0 +1,219 @@
+<resources>
+    <string name="app_name">RunMapProApp</string>
+    <string name="login_title">欢迎回来</string>
+    <string name="signup_title">创建账户</string>
+    <string name="forgot_password_title">忘记密码</string>
+    <string name="main_title">主页</string>
+    <string name="welcome_message">欢迎，%1$s</string>
+    <string name="hint_full_name">全名</string>
+    <string name="hint_email">电子邮箱</string>
+    <string name="hint_password">密码</string>
+    <string name="action_login">登录</string>
+    <string name="action_signup">注册</string>
+    <string name="action_send_reset">发送重置链接</string>
+    <string name="action_logout">退出</string>
+    <string name="link_signup">还没有账户？注册</string>
+    <string name="link_login">已有账户？登录</string>
+    <string name="link_forgot_password">忘记密码？</string>
+    <string name="link_back_login">返回登录</string>
+    <string name="error_invalid_email">请输入有效的电子邮箱</string>
+    <string name="error_empty_password">密码是必填项</string>
+    <string name="error_empty_full_name">全名是必填项</string>
+    <string name="error_invalid_password">密码至少需要6个字符</string>
+    <string name="error_network">网络错误，请重试</string>
+    <string name="error_unexpected">出错了。请重试。</string>
+    <string name="msg_login_success">登录成功</string>
+    <string name="msg_signup_success">账户创建成功</string>
+    <string name="msg_reset_success">查看邮箱获取重置说明</string>
+    <string name="profile_update_success">个人资料已更新</string>
+    <string name="password_update_success">密码已更新</string>
+    <string name="avatar_update_success">头像已更新</string>
+    <string name="error_password_mismatch">密码不匹配</string>
+    <string name="edit_profile_title">编辑个人资料</string>
+    <string name="content_desc_avatar">个人头像</string>
+    <string name="action_change_avatar">更换头像</string>
+    <string name="hint_username">用户名</string>
+    <string name="hint_bio">个人简介</string>
+    <string name="action_save_changes">保存更改</string>
+    <string name="section_change_password">更改密码</string>
+    <string name="hint_current_password">当前密码</string>
+    <string name="hint_new_password">新密码</string>
+    <string name="hint_confirm_password">确认密码</string>
+    <string name="action_change_password">更新密码</string>
+    <string name="action_edit_profile">编辑个人资料</string>
+    <string name="change_password_title">更改密码</string>
+    <string name="signup_subtitle">加入我们并开始追踪</string>
+    
+    <!-- MapActivity strings -->
+    <string name="SetRoute">开始跑步</string>
+    <string name="map_distance">距离</string>
+    <string name="map_max_pace">最大配速</string>
+    <string name="map_avg_pace">平均配速</string>
+    <string name="map_duration">时长</string>
+    <string name="map_cadence">步频</string>
+    <string name="map_calories">卡路里</string>
+    <string name="map_loading">加载中...</string>
+
+    <!-- Social features -->
+    <string name="create_post">创建帖子</string>
+    <string name="author_avatar">作者头像</string>
+    <string name="post_image">帖子图片</string>
+    <string name="like">点赞</string>
+    <string name="comment">评论</string>
+    <string name="share">分享</string>
+    <string name="write_comment">写评论…</string>
+    <string name="post_hint">你在想什么？</string>
+    <string name="add_photo">添加照片</string>
+    <string name="publish">发布</string>
+    <string name="comments">评论</string>
+    <string name="reply">回复</string>
+    <string name="groups">群组</string>
+    <string name="create_group">创建群组</string>
+    <string name="join_group">加入群组</string>
+    <string name="leave_group">退出群组</string>
+    <string name="menu">菜单</string>
+    <string name="edit">编辑</string>
+    <string name="delete">删除</string>
+    <string name="delete_post_confirm">您确定要删除这条帖子吗？</string>
+    <string name="delete_comment_confirm">您确定要删除这条评论吗？</string>
+    <string name="cancel">取消</string>
+    <string name="edit_post">编辑帖子</string>
+    <string name="edit_comment">编辑评论</string>
+    <string name="save">保存</string>
+    <string name="post_content">帖子内容</string>
+    <string name="comment_text">评论</string>
+    <string name="post_updated">帖子已更新</string>
+    <string name="comment_updated">评论已更新</string>
+    <string name="update_failed">更新失败</string>
+    <string name="empty_content">内容不能为空</string>
+    <string name="send">发送</string>
+    <string name="add_run">添加跑步记录</string>
+    <string name="original_author">原作者</string>
+    <string name="original_post_content">原帖内容...</string>
+    
+    <!-- Language settings -->
+    <string name="language">语言</string>
+    <string name="select_language">选择语言</string>
+    <string name="language_vietnamese">Tiếng Việt</string>
+    <string name="language_english">English</string>
+    <string name="language_chinese">中文</string>
+    <string name="settings">设置</string>
+    <string name="newsfeed">动态</string>
+    <string name="messages">消息</string>
+    <string name="account_settings">账户设置</string>
+    <string name="my_profile">我的资料</string>
+    <string name="edit_profile">编辑资料</string>
+    
+    <!-- Notifications -->
+    <string name="mark_all_read">标记所有为已读</string>
+    
+    <!-- Chat -->
+    <string name="active_now">在线</string>
+    
+    <!-- User Profile -->
+    <string name="user_name">用户名</string>
+    <string name="username_placeholder">\@用户名</string>
+    <string name="posts_count">%d 条帖子</string>
+    <string name="user_bio_placeholder">用户简介...</string>
+    <string name="message">消息</string>
+    
+    <!-- Groups -->
+    <string name="no_requests">没有请求</string>
+    <string name="no_members">没有成员</string>
+    <string name="group_cover_photo">群组封面照片</string>
+    <string name="change_cover_photo">更改封面照片</string>
+    <string name="invite_code">邀请码</string>
+    <string name="copy">复制</string>
+    <string name="regenerate_invite_code">重新生成邀请码</string>
+    <string name="group_settings">群组设置</string>
+    <string name="require_admin_approval_members">新成员需要管理员批准</string>
+    <string name="require_admin_approval_posts">帖子需要管理员批准</string>
+    <string name="save_settings">保存设置</string>
+    <string name="management">管理</string>
+    <string name="view_manage_members">查看 &amp; 管理成员</string>
+    <string name="danger_zone">危险区域</string>
+    <string name="delete_group">删除群组</string>
+    <string name="no_pending_posts">没有待审核的帖子</string>
+    
+    <!-- Run Details -->
+    <string name="distance">距离</string>
+    <string name="duration">时长</string>
+    
+    <!-- MapActivity messages -->
+    <string name="no_route_to_clear">没有路线可清除</string>
+    <string name="clear_route">清除路线</string>
+    <string name="clear_route_message">您确定要清除当前路线吗？此操作无法撤消。</string>
+    <string name="clear">清除</string>
+    <string name="route_cleared">路线已清除</string>
+    <string name="save_run_title">保存此次跑步？</string>
+    <string name="save_run_message">您已跑了 %.2f 公里。要保存此次跑步吗？</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="run_cancelled">已取消跑步</string>
+    <string name="not_enough_data">数据不足无法保存</string>
+    <string name="error_not_authenticated">错误：用户未认证</string>
+    <string name="loading_list">正在加载列表...</string>
+    <string name="no_runs_saved">尚未保存任何跑步记录</string>
+    <string name="select_run_to_view">选择要查看的跑步记录</string>
+    <string name="run_format">跑步 #%d: %.2f 公里 - %d 秒 (%d 步)</string>
+    <string name="start_running">开始跑步</string>
+    <string name="stop_running">停止跑步</string>
+    <string name="dashboard">仪表板</string>
+    <string name="invalid_run_selected">选择的跑步记录无效</string>
+    <string name="no_route_data_available">没有可用的路线数据</string>
+    <string name="otp_sent">OTP 已发送到 %s</string>
+    <string name="password_reset_success">密码重置成功</string>
+    <string name="otp_expired">OTP 已过期。您可以重新发送</string>
+    
+    <!-- Stats labels -->
+    <string name="distance_label">距离: %s</string>
+    <string name="duration_label">时长: %s</string>
+    <string name="avg_pace_label">平均配速: %s</string>
+    <string name="best_pace_label">最佳配速: %s</string>
+    <string name="calories_label">卡路里: %s</string>
+    <string name="steps_label">步数: %s</string>
+    
+    <!-- Groups -->
+    <string name="my_groups">我的群组</string>
+    <string name="explore_groups">探索</string>
+    <string name="group_owner">群主</string>
+    <string name="group_admin">管理员</string>
+    <string name="group_member">成员</string>
+    <string name="public_group">公开</string>
+    <string name="private_group">私密</string>
+    <string name="cannot_manage_owner">无法管理群主</string>
+    <string name="no_public_groups">没有公开群组</string>
+    <string name="cannot_load_public_groups">无法加载公开群组</string>
+    <string name="join_request_sent_approval">已发送加入请求。等待管理员批准。</string>
+    <string name="enter_invite_code">输入群管理员的邀请码</string>
+    <string name="request_sent_wait_approval">请求已发送，等待管理员批准</string>    <string name="join_group_title">加入群组</string>
+    <string name="enter_invite_code_hint">输入邀请码</string>
+    <string name="action_join">加入</string>
+    <string name="action_cancel">取消</string>
+    <string name="please_enter_invite_code">请输入邀请码</string>
+    <string name="joined_group_success">成功加入群组！</string>
+    <string name="role_changed_to">角色已更改为 %s</string>
+    <string name="cannot_change_role">无法更改角色</string>
+    <string name="group_stats_format">%d 名成员 · %d 篇帖子</string>
+    <string name="groups_title">群组</string>
+    
+    <!-- Bottom Navigation -->
+    <string name="nav_home">首页</string>
+    <string name="nav_history">历史</string>
+    <string name="nav_groups">群组</string>
+    <string name="nav_social">社交</string>
+    <string name="nav_profile">个人资料</string>
+    <string name="nav_map">地图</string>
+    <string name="nav_feed">动态</string>
+    <string name="nav_chat">聊天</string>
+    <string name="nav_settings">设置</string>
+    
+    <!-- Login Screen -->
+    <string name="login_subtitle">登录以继续</string>
+    
+    <!-- Forgot Password -->
+    <string name="forgot_password_subtitle">别担心！输入您的电子邮件，我们将向您发送重置密码的代码</string>
+    <string name="hint_enter_otp">输入验证码</string>
+    <string name="action_send_code">发送代码</string>
+    <string name="action_verify_reset">验证并重置密码</string>
+</resources>

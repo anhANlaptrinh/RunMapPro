@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Không có yêu cầu nào"
+            android:text="@string/no_requests"
             android:textSize="16sp"
             android:textColor="@android:color/darker_gray"
             android:visibility="gone" />

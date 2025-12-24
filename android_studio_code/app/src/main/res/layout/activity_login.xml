@@ -29,6 +29,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    
+    <ImageButton
+        android:id="@+id/buttonLanguage"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_language"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/select_language"
+        android:tint="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/appTitle"
@@ -79,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Welcome Back!"
+                android:text="@string/login_title"
                 android:textColor="@color/deep_blue_700"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -92,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Login to continue"
+                android:text="@string/login_subtitle"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"

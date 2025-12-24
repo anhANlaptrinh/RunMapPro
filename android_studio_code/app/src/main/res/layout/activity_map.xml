@@ -73,7 +73,7 @@
                         android:id="@+id/tvWeatherDesc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Loading..."
+                        android:text="@string/map_loading"
                         android:textSize="12sp"
                         android:textColor="#666666" />
                 </LinearLayout>
@@ -115,7 +115,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Distance"
+                        android:text="@string/map_distance"
                         android:textSize="11sp"
                         android:textColor="#666666" />
 
@@ -140,7 +140,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Max Pace"
+                        android:text="@string/map_max_pace"
                         android:textSize="11sp"
                         android:textColor="#666666" />
 
@@ -165,7 +165,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Avg Pace"
+                        android:text="@string/map_avg_pace"
                         android:textSize="11sp"
                         android:textColor="#666666" />
 
@@ -198,7 +198,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Duration"
+                        android:text="@string/map_duration"
                         android:textSize="11sp"
                         android:textColor="#666666" />
 
@@ -223,7 +223,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cadence"
+                        android:text="@string/map_cadence"
                         android:textSize="11sp"
                         android:textColor="#666666" />
 
@@ -248,7 +248,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Calories"
+                        android:text="@string/map_calories"
                         android:textSize="11sp"
                         android:textColor="#666666" />
 

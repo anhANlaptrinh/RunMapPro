@@ -1,0 +1,220 @@
+<resources>
+    <string name="app_name">RunMapProApp</string>
+    <string name="login_title">Chào mừng trở lại</string>
+    <string name="signup_title">Tạo tài khoản</string>
+    <string name="forgot_password_title">Quên mật khẩu</string>
+    <string name="main_title">Trang chủ</string>
+    <string name="welcome_message">Chào mừng, %1$s</string>
+    <string name="hint_full_name">Họ và tên</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Mật khẩu</string>
+    <string name="action_login">Đăng nhập</string>
+    <string name="action_signup">Đăng ký</string>
+    <string name="action_send_reset">Gửi liên kết đặt lại</string>
+    <string name="action_logout">ĐĂNG XUẤT</string>
+    <string name="link_signup">Chưa có tài khoản? Đăng ký</string>
+    <string name="link_login">Đã có tài khoản? Đăng nhập</string>
+    <string name="link_forgot_password">Quên mật khẩu?</string>
+    <string name="link_back_login">Quay lại đăng nhập</string>
+    <string name="error_invalid_email">Vui lòng nhập email hợp lệ</string>
+    <string name="error_empty_password">Mật khẩu là bắt buộc</string>
+    <string name="error_empty_full_name">Họ tên là bắt buộc</string>
+    <string name="error_invalid_password">Mật khẩu phải có ít nhất 6 ký tự</string>
+    <string name="error_network">Lỗi mạng, vui lòng thử lại</string>
+    <string name="error_unexpected">Đã xảy ra lỗi. Vui lòng thử lại.</string>
+    <string name="msg_login_success">Đăng nhập thành công</string>
+    <string name="msg_signup_success">Tạo tài khoản thành công</string>
+    <string name="msg_reset_success">Kiểm tra email để đặt lại mật khẩu</string>
+    <string name="profile_update_success">Cập nhật hồ sơ thành công</string>
+    <string name="password_update_success">Đổi mật khẩu thành công</string>
+    <string name="avatar_update_success">Cập nhật ảnh đại diện thành công</string>
+    <string name="error_password_mismatch">Mật khẩu không khớp</string>
+    <string name="edit_profile_title">Chỉnh sửa hồ sơ</string>
+    <string name="content_desc_avatar">Ảnh đại diện</string>
+    <string name="action_change_avatar">Đổi ảnh đại diện</string>
+    <string name="hint_username">Tên người dùng</string>
+    <string name="hint_bio">Tiểu sử</string>
+    <string name="action_save_changes">Lưu thay đổi</string>
+    <string name="section_change_password">Đổi mật khẩu</string>
+    <string name="hint_current_password">Mật khẩu hiện tại</string>
+    <string name="hint_new_password">Mật khẩu mới</string>
+    <string name="hint_confirm_password">Xác nhận mật khẩu</string>
+    <string name="action_change_password">Cập nhật mật khẩu</string>
+    <string name="action_edit_profile">Chỉnh sửa hồ sơ</string>
+    <string name="change_password_title">Đổi mật khẩu</string>
+    <string name="signup_subtitle">Tham gia và bắt đầu theo dõi</string>
+    
+    <!-- MapActivity strings -->
+    <string name="SetRoute">BẮT ĐẦU CHẠY</string>
+    <string name="map_distance">Khoảng cách</string>
+    <string name="map_max_pace">Tốc độ tối đa</string>
+    <string name="map_avg_pace">Tốc độ trung bình</string>
+    <string name="map_duration">Thời gian</string>
+    <string name="map_cadence">Nhịp chân</string>
+    <string name="map_calories">Calo</string>
+    <string name="map_loading">Đang tải...</string>
+
+    <!-- Social features -->
+    <string name="create_post">Tạo bài viết</string>
+    <string name="author_avatar">Ảnh tác giả</string>
+    <string name="post_image">Ảnh bài viết</string>
+    <string name="like">Thích</string>
+    <string name="comment">Bình luận</string>
+    <string name="share">Chia sẻ</string>
+    <string name="write_comment">Viết bình luận…</string>
+    <string name="post_hint">Bạn đang nghĩ gì?</string>
+    <string name="add_photo">Thêm ảnh</string>
+    <string name="publish">Đăng</string>
+    <string name="comments">Bình luận</string>
+    <string name="reply">Trả lời</string>
+    <string name="groups">Nhóm</string>
+    <string name="create_group">Tạo nhóm</string>
+    <string name="join_group">Tham gia nhóm</string>
+    <string name="leave_group">Rời nhóm</string>
+    <string name="menu">Menu</string>
+    <string name="edit">Chỉnh sửa</string>
+    <string name="delete">Xóa</string>
+    <string name="delete_post_confirm">Bạn có chắc muốn xóa bài viết này?</string>
+    <string name="delete_comment_confirm">Bạn có chắc muốn xóa bình luận này?</string>
+    <string name="cancel">Hủy</string>
+    <string name="edit_post">Chỉnh sửa bài viết</string>
+    <string name="edit_comment">Chỉnh sửa bình luận</string>
+    <string name="save">Lưu</string>
+    <string name="post_content">Nội dung bài viết</string>
+    <string name="comment_text">Bình luận</string>
+    <string name="post_updated">Đã cập nhật bài viết</string>
+    <string name="comment_updated">Đã cập nhật bình luận</string>
+    <string name="update_failed">Cập nhật thất bại</string>
+    <string name="empty_content">Nội dung không được để trống</string>
+    <string name="send">Gửi</string>
+    <string name="add_run">Thêm lượt chạy</string>
+    <string name="original_author">Tác giả gốc</string>
+    <string name="original_post_content">Nội dung bài viết gốc...</string>
+    
+    <!-- Language settings -->
+    <string name="language">NGÔN NGỮ</string>
+    <string name="select_language">Chọn ngôn ngữ</string>
+    <string name="language_vietnamese">Tiếng Việt</string>
+    <string name="language_english">English</string>
+    <string name="language_chinese">中文</string>
+    <string name="settings">Cài đặt</string>
+    <string name="newsfeed">Bảng tin</string>
+    <string name="messages">Tin nhắn</string>
+    <string name="account_settings">Cài đặt tài khoản</string>
+    <string name="my_profile">HỒ SƠ CỦA TÔI</string>
+    <string name="edit_profile">CHỈNH SỬA HỒ SƠ</string>
+    
+    <!-- Notifications -->
+    <string name="mark_all_read">Đánh dấu tất cả đã đọc</string>
+    
+    <!-- Chat -->
+    <string name="active_now">Đang hoạt động</string>
+    
+    <!-- User Profile -->
+    <string name="user_name">Tên người dùng</string>
+    <string name="username_placeholder">\@tên_người_dùng</string>
+    <string name="posts_count">%d bài viết</string>
+    <string name="user_bio_placeholder">Tiểu sử người dùng...</string>
+    <string name="message">Nhắn tin</string>
+    
+    <!-- Groups -->
+    <string name="no_requests">Không có yêu cầu nào</string>
+    <string name="no_members">Không có thành viên</string>
+    <string name="group_cover_photo">Ảnh bìa nhóm</string>
+    <string name="change_cover_photo">Thay đổi ảnh bìa</string>
+    <string name="invite_code">Mã mời</string>
+    <string name="copy">Sao chép</string>
+    <string name="regenerate_invite_code">Tạo lại mã mời</string>
+    <string name="group_settings">Cài đặt nhóm</string>
+    <string name="require_admin_approval_members">Yêu cầu quản trị viên phê duyệt thành viên mới</string>
+    <string name="require_admin_approval_posts">Yêu cầu quản trị viên phê duyệt bài viết</string>
+    <string name="save_settings">Lưu cài đặt</string>
+    <string name="management">Quản lý</string>
+    <string name="view_manage_members">Xem &amp; Quản lý thành viên</string>
+    <string name="danger_zone">Vùng nguy hiểm</string>
+    <string name="delete_group">Xóa nhóm</string>
+    <string name="no_pending_posts">Không có bài viết chờ duyệt</string>
+    
+    <!-- Run Details -->
+    <string name="distance">Khoảng cách</string>
+    <string name="duration">Thời gian</string>
+    
+    <!-- MapActivity messages -->
+    <string name="no_route_to_clear">Không có tuyến đường để xóa</string>
+    <string name="clear_route">Xóa tuyến đường</string>
+    <string name="clear_route_message">Bạn có chắc muốn xóa tuyến đường hiện tại? Hành động này không thể hoàn tác.</string>
+    <string name="clear">Xóa</string>
+    <string name="route_cleared">Đã xóa tuyến đường</string>
+    <string name="save_run_title">Lưu lần chạy này?</string>
+    <string name="save_run_message">Bạn đã chạy được %.2f km. Bạn có muốn lưu lại lần chạy này không?</string>
+    <string name="yes">Có</string>
+    <string name="no">Không</string>
+    <string name="run_cancelled">Đã hủy lần chạy</string>
+    <string name="not_enough_data">Không đủ dữ liệu để lưu</string>
+    <string name="error_not_authenticated">Lỗi: Người dùng chưa xác thực</string>
+    <string name="loading_list">Đang tải danh sách...</string>
+    <string name="no_runs_saved">Chưa có lần chạy nào được lưu</string>
+    <string name="select_run_to_view">Chọn lần chạy để xem</string>
+    <string name="run_format">Lần chạy #%d: %.2f km - %d giây (%d bước)</string>
+    <string name="start_running">Bắt đầu chạy</string>
+    <string name="stop_running">Dừng chạy</string>
+    <string name="dashboard">Bảng điều khiển</string>
+    <string name="invalid_run_selected">Lần chạy không hợp lệ</string>
+    <string name="no_route_data_available">Không có dữ liệu tuyến đường</string>
+    <string name="otp_sent">Đã gửi OTP đến %s</string>
+    <string name="password_reset_success">Đặt lại mật khẩu thành công</string>
+    <string name="otp_expired">OTP đã hết hạn. Bạn có thể gửi lại</string>
+    
+    <!-- Stats labels -->
+    <string name="distance_label">Khoảng cách: %s</string>
+    <string name="duration_label">Thời gian: %s</string>
+    <string name="avg_pace_label">Tốc độ TB: %s</string>
+    <string name="best_pace_label">Tốc độ tốt nhất: %s</string>
+    <string name="calories_label">Calo: %s</string>
+    <string name="steps_label">Bước chân: %s</string>
+    
+    <!-- Groups -->
+    <string name="my_groups">Nhóm của tôi</string>
+    <string name="explore_groups">Khám phá</string>
+    <string name="group_owner">CHỦ NHÓM</string>
+    <string name="group_admin">QUẢN TRỊ</string>
+    <string name="group_member">Thành viên</string>
+    <string name="public_group">Công khai</string>
+    <string name="private_group">Riêng tư</string>
+    <string name="cannot_manage_owner">Không thể quản lý chủ nhóm</string>
+    <string name="no_public_groups">Không có nhóm công khai nào</string>
+    <string name="cannot_load_public_groups">Không thể tải nhóm công khai</string>
+    <string name="join_request_sent_approval">Yêu cầu tham gia đã được gửi. Chờ quản trị viên phê duyệt.</string>
+    <string name="enter_invite_code">Nhập mã mời từ quản trị viên nhóm</string>
+    <string name="request_sent_wait_approval">Yêu cầu đã gửi, chờ quản trị viên phê duyệt</string>
+    <string name="join_group_title">Tham gia nhóm</string>
+    <string name="enter_invite_code_hint">Nhập mã mời</string>
+    <string name="action_join">Tham gia</string>
+    <string name="action_cancel">Hủy</string>
+    <string name="please_enter_invite_code">Vui lòng nhập mã mời</string>
+    <string name="joined_group_success">Đã tham gia nhóm thành công!</string>
+    <string name="role_changed_to">Đã thay đổi chức vụ thành %s</string>
+    <string name="cannot_change_role">Không thể thay đổi chức vụ</string>
+    <string name="group_stats_format">%d thành viên · %d bài viết</string>
+    <string name="groups_title">Nhóm</string>
+    
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Trang chủ</string>
+    <string name="nav_history">Lịch sử</string>
+    <string name="nav_groups">Nhóm</string>
+    <string name="nav_social">Xã hội</string>
+    <string name="nav_profile">Hồ sơ</string>
+    <string name="nav_map">Bản đồ</string>
+    <string name="nav_feed">Bảng tin</string>
+    <string name="nav_chat">Trò chuyện</string>
+    <string name="nav_settings">Cài đặt</string>
+    
+    <!-- Login Screen -->
+    <string name="login_subtitle">Đăng nhập để tiếp tục</string>
+    
+    <!-- Forgot Password -->
+    <string name="forgot_password_subtitle">Đừng lo! Nhập email của bạn và chúng tôi sẽ gửi mã để đặt lại mật khẩu</string>
+    <string name="hint_enter_otp">Nhập mã OTP</string>
+    <string name="action_send_code">GỬI MÃ</string>
+    <string name="action_verify_reset">XÁC MINH &amp; ĐẶT LẠI MẬT KHẨU</string>
+</resources>

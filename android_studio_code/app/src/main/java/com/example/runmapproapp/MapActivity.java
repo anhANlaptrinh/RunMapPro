@@ -39,6 +39,7 @@ import com.example.runmapproapp.dto.CreateRunRequest;
 import com.example.runmapproapp.dto.GeoJsonLineStringDto;
 import com.example.runmapproapp.dto.RunResponse;
 import com.example.runmapproapp.utils.BottomNavigationHelper;
+import com.example.runmapproapp.utils.LocaleHelper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -83,6 +84,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MapActivity extends AppCompatActivity {
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase));
+    }
 
     // UI
     private MapView mapView;
@@ -327,7 +333,7 @@ public class MapActivity extends AppCompatActivity {
         });
 
         // Start/Stop Running button
-        btnStartStop.setText("Start Running");
+        btnStartStop.setText(R.string.start_running);
         btnStartStop.setOnClickListener(v -> {
             if (isTracking) {
                 stopTracking();
@@ -384,7 +390,7 @@ public class MapActivity extends AppCompatActivity {
         gravity = new float[3];
         bestPaceSecondsPerKm = Double.MAX_VALUE;
 
-        btnStartStop.setText("Stop Running");
+        btnStartStop.setText(R.string.stop_running);
         btnStartStop.setBackgroundTintList(
                 android.content.res.ColorStateList.valueOf(Color.RED)
         );
@@ -405,7 +411,7 @@ public class MapActivity extends AppCompatActivity {
 
     private void stopTracking() {
         isTracking = false;
-        btnStartStop.setText("Start Running");
+        btnStartStop.setText(R.string.start_running);
         btnStartStop.setBackgroundTintList(
                 android.content.res.ColorStateList.valueOf(
                         getResources().getColor(R.color.orange, null)
@@ -431,14 +437,14 @@ public class MapActivity extends AppCompatActivity {
      */
     private void clearRouteAndReset() {
         if (runningPath.isEmpty()) {
-            Toast.makeText(this, "No route to clear", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.no_route_to_clear, Toast.LENGTH_SHORT).show();
             return;
         }
         
         new AlertDialog.Builder(this)
-                .setTitle("Clear Route")
-                .setMessage("Are you sure you want to clear the current route? This cannot be undone.")
-                .setPositiveButton("Clear", (dialog, which) -> {
+                .setTitle(R.string.clear_route)
+                .setMessage(R.string.clear_route_message)
+                .setPositiveButton(R.string.clear, (dialog, which) -> {
                     // Clear the route on map
                     runningPath.clear();
                     if (runningRouteSource != null) {
@@ -472,9 +478,9 @@ public class MapActivity extends AppCompatActivity {
                         cadenceStartTime = System.currentTimeMillis();
                     }
                     
-                    Toast.makeText(this, "Route cleared", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.route_cleared, Toast.LENGTH_SHORT).show();
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(R.string.cancel, null)
                 .show();
     }
     
@@ -482,7 +488,7 @@ public class MapActivity extends AppCompatActivity {
         // Stop tracking if running
         if (isTracking) {
             isTracking = false;
-            btnStartStop.setText("Start Running");
+            btnStartStop.setText(R.string.start_running);
             btnStartStop.setBackgroundTintList(
                     android.content.res.ColorStateList.valueOf(
                             getResources().getColor(R.color.orange, null)
@@ -525,17 +531,17 @@ public class MapActivity extends AppCompatActivity {
         }
         
         new AlertDialog.Builder(this)
-            .setTitle("Lưu lần chạy này?")
+            .setTitle(R.string.save_run_title)
             .setMessage(String.format(Locale.US, 
-                "Bạn đã chạy được %.2f km. Bạn có muốn lưu lại lần chạy này không?", distanceKm))
-            .setPositiveButton("Có", (dialog, which) -> {
+                getString(R.string.save_run_message), distanceKm))
+            .setPositiveButton(R.string.yes, (dialog, which) -> {
                 // Save run data to backend
                 saveRunToBackend();
             })
-            .setNegativeButton("Không", (dialog, which) -> {
+            .setNegativeButton(R.string.no, (dialog, which) -> {
                 // User chose not to save, just clear data
                 clearAllData();
-                Toast.makeText(this, "Đã hủy lần chạy", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.run_cancelled, Toast.LENGTH_SHORT).show();
             })
             .setCancelable(false)
             .show();
@@ -838,7 +844,7 @@ public class MapActivity extends AppCompatActivity {
     private void saveRunToBackend() {
         // Validate data
         if (runningPath.isEmpty() || totalDistance < 10) {
-            Toast.makeText(this, "Không đủ dữ liệu để lưu", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.not_enough_data, Toast.LENGTH_SHORT).show();
             clearAllData();
             return;
         }
@@ -864,7 +870,7 @@ public class MapActivity extends AppCompatActivity {
         if (userId == null) {
             Log.e(TAG, "User not authenticated!");
             runOnUiThread(() -> 
-                Toast.makeText(this, "Error: User not authenticated", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.error_not_authenticated, Toast.LENGTH_SHORT).show()
             );
             return;
         }
@@ -1047,7 +1053,7 @@ public class MapActivity extends AppCompatActivity {
         RunApiService apiService = RetrofitClient.getRunApiService();
 
         // Show loading toast
-        Toast.makeText(this, "Đang tải danh sách...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.loading_list, Toast.LENGTH_SHORT).show();
 
         // Fetch all runs from backend
         apiService.getRuns().enqueue(new Callback<List<RunResponse>>() {
@@ -1059,7 +1065,7 @@ public class MapActivity extends AppCompatActivity {
                     if (runs.isEmpty()) {
                         runOnUiThread(() -> {
                             Toast.makeText(MapActivity.this,
-                                    "Chưa có lần chạy nào được lưu", 
+                                    R.string.no_runs_saved, 
                                     Toast.LENGTH_SHORT).show();
                         });
                         return;
@@ -1072,20 +1078,20 @@ public class MapActivity extends AppCompatActivity {
                         double distanceKm = run.getDistanceMeters() / 1000.0;
                         long durationMinutes = run.getDurationMs() / 1000;
                         runDisplayStrings[i] = String.format(Locale.US, 
-                                "Run #%d: %.2f km - %d giây (%d bước)",
+                                getString(R.string.run_format),
                                 i + 1, distanceKm, durationMinutes, run.getSteps());
                     }
 
                     // Show dialog with list of runs
                     runOnUiThread(() -> {
                         new AlertDialog.Builder(MapActivity.this)
-                                .setTitle("Chọn lần chạy để xem")
+                                .setTitle(R.string.select_run_to_view)
                                 .setItems(runDisplayStrings, (dialog, which) -> {
                                     // Load selected run
                                     RunResponse selectedRun = runs.get(which);
                                     loadAndDrawRun(selectedRun.getId());
                                 })
-                                .setNegativeButton("Hủy", null)
+                                .setNegativeButton(R.string.cancel, null)
                                 .show();
                     });
 

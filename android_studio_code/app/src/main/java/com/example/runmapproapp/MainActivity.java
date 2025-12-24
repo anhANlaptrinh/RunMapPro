@@ -1,5 +1,6 @@
 package com.example.runmapproapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.example.runmapproapp.dto.GeoJsonLineStringDto;
 import com.example.runmapproapp.dto.RunResponse;
 import com.example.runmapproapp.ui.dashboard.RunsAdapter;
 import com.example.runmapproapp.utils.FormatUtils;
+import com.example.runmapproapp.utils.LocaleHelper;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -58,6 +60,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvEmptyState;
 
     // UI - Summary
+    
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase));
+    }
     private TextView tvTotalDistance;
     private TextView tvTotalDuration;
     private TextView tvTotalCalories;
@@ -126,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Dashboard");
+            getSupportActionBar().setTitle(R.string.dashboard);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         toolbar.setNavigationOnClickListener(v -> {
@@ -312,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
     private void selectRun(RunResponse run, int position) {
         if (run == null || run.getId() == null) {
             Log.w(TAG, "Cannot select run: run or id is null");
-            Toast.makeText(this, "Invalid run selected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.invalid_run_selected, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -332,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
         if (path == null || path.getCoordinates() == null || path.getCoordinates().size() < 2) {
             Log.w(TAG, "Run " + run.getId() + " has no valid path");
             tvMapEmptyState.setVisibility(View.VISIBLE);
-            tvMapEmptyState.setText("No route data available");
+            tvMapEmptyState.setText(R.string.no_route_data_available);
             layoutSelectedRunStats.setVisibility(View.VISIBLE);
             return;
         }
@@ -396,12 +403,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateSelectedRunStats(RunResponse run) {
         tvSelectedRunDate.setText(FormatUtils.formatDateTime(run.getStartTime()));
-        tvSelectedRunDistance.setText("Distance: " + FormatUtils.formatDistance(run.getDistanceMeters()));
-        tvSelectedRunDuration.setText("Duration: " + FormatUtils.formatDuration(run.getDurationMs()));
-        tvSelectedRunAvgPace.setText("Avg Pace: " + FormatUtils.formatPace(run.getAvgPaceSecPerKm()));
-        tvSelectedRunBestPace.setText("Best Pace: " + FormatUtils.formatPace(run.getBestPaceSecPerKm()));
-        tvSelectedRunCalories.setText("Calories: " + FormatUtils.formatCalories(run.getCalories()));
-        tvSelectedRunSteps.setText("Steps: " + FormatUtils.formatNumber(run.getSteps()));
+        tvSelectedRunDistance.setText(getString(R.string.distance_label, FormatUtils.formatDistance(run.getDistanceMeters())));
+        tvSelectedRunDuration.setText(getString(R.string.duration_label, FormatUtils.formatDuration(run.getDurationMs())));
+        tvSelectedRunAvgPace.setText(getString(R.string.avg_pace_label, FormatUtils.formatPace(run.getAvgPaceSecPerKm())));
+        tvSelectedRunBestPace.setText(getString(R.string.best_pace_label, FormatUtils.formatPace(run.getBestPaceSecPerKm())));
+        tvSelectedRunCalories.setText(getString(R.string.calories_label, FormatUtils.formatCalories(run.getCalories())));
+        tvSelectedRunSteps.setText(getString(R.string.steps_label, FormatUtils.formatNumber(run.getSteps())));
     }
 
     private void showLoading(boolean loading) {

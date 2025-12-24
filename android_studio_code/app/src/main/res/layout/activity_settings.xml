@@ -13,7 +13,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/deep_blue_500"
         android:elevation="4dp"
-        app:title="Settings"
+        app:title="@string/settings"
         app:titleTextColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +52,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Account Settings"
+                        android:text="@string/account_settings"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@color/deep_blue_500"
@@ -90,7 +90,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="MY PROFILE"
+                                android:text="@string/my_profile"
                                 android:textSize="16sp"
                                 android:textStyle="bold"
                                 android:textColor="@color/deep_blue_500" />
@@ -135,7 +135,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="EDIT PROFILE"
+                                android:text="@string/edit_profile"
                                 android:textSize="16sp"
                                 android:textStyle="bold"
                                 android:textColor="@color/deep_blue_500" />
@@ -144,6 +144,52 @@
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:src="@android:drawable/ic_menu_edit"
+                                app:tint="@color/deep_blue_500" />
+
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                    
+                    <!-- Language Button -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/buttonLanguage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@color/deep_blue_500"
+                        app:cardCornerRadius="8dp"
+                        android:layout_marginTop="12dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="16dp"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_language"
+                                app:tint="@color/deep_blue_500"
+                                android:layout_marginEnd="16dp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/language"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/deep_blue_500" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_chevron_right"
                                 app:tint="@color/deep_blue_500" />
 
                         </LinearLayout>
@@ -182,7 +228,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="LOGOUT"
+                        android:text="@string/action_logout"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/white" />

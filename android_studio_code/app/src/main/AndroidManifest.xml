@@ -53,6 +53,7 @@
             android:name=".MainActivity"
             android:launchMode="singleTop" />
         <activity android:name=".SettingsActivity" />
+        <activity android:name=".ui.settings.SettingsActivity" />
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".SignUpActivity" /> <!-- Social features -->
         <activity android:name=".ui.social.FeedActivity" />

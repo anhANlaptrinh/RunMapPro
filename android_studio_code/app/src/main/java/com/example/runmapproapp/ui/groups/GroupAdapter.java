@@ -81,18 +81,23 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
             tvGroupName.setText(group.getName());
             tvGroupDescription.setText(group.getDescription());
             
-            String stats = group.getMemberCount() + " thành viên · " + group.getPostCount() + " bài viết";
+            String stats = itemView.getContext().getString(R.string.group_stats_format, 
+                    group.getMemberCount(), group.getPostCount());
             tvGroupStats.setText(stats);
             
             String privacy = group.getPrivacy() != null && group.getPrivacy().equals("PRIVATE") 
-                    ? "Riêng tư" : "Công khai";
+                    ? itemView.getContext().getString(R.string.private_group) 
+                    : itemView.getContext().getString(R.string.public_group);
             tvGroupPrivacy.setText(privacy);
             
             // Show admin badge if user is owner or admin
             if (group.getUserRole() != null && 
                     (group.getUserRole().equals("owner") || group.getUserRole().equals("admin"))) {
                 tvAdminBadge.setVisibility(View.VISIBLE);
-                tvAdminBadge.setText(group.getUserRole().equals("owner") ? "CHỦ NHÓM" : "ADMIN");
+                String badgeText = group.getUserRole().equals("owner") 
+                        ? itemView.getContext().getString(R.string.group_owner) 
+                        : itemView.getContext().getString(R.string.group_admin);
+                tvAdminBadge.setText(badgeText);
             } else {
                 tvAdminBadge.setVisibility(View.GONE);
             }

@@ -1,5 +1,6 @@
 package com.example.runmapproapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -18,6 +19,7 @@ import com.example.runmapproapp.data.VerifyOtpResponse;
 import com.example.runmapproapp.data.model.ErrorResponse;
 import com.example.runmapproapp.data.model.ForgotPasswordRequest;
 import com.example.runmapproapp.data.model.ForgotPasswordResponse;
+import com.example.runmapproapp.utils.LocaleHelper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
@@ -30,6 +32,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase));
+    }
 
     private static final String TAG = "ForgotPasswordActivity";
     private static final long OTP_EXPIRY_MILLISECONDS = 5 * 60 * 1000; // 5 minutes
@@ -108,7 +115,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             public void onResponse(Call<ForgotPasswordResponse> call, Response<ForgotPasswordResponse> response) {
                 setLoading(false);
                 if (response.isSuccessful() && response.body() != null) {
-                    Toast.makeText(ForgotPasswordActivity.this, "OTP sent to " + email, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ForgotPasswordActivity.this, getString(R.string.otp_sent, email), Toast.LENGTH_SHORT).show();
                     startOtpTimer();
                 } else {
                     handleError(response);
@@ -171,7 +178,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     VerifyOtpResponse result = response.body();
                     if (result.isSuccess()) {
-                        Toast.makeText(ForgotPasswordActivity.this, "Password reset successfully", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ForgotPasswordActivity.this, R.string.password_reset_success, Toast.LENGTH_LONG).show();
                         stopOtpTimer();
                         navigateToLogin();
                     } else {
@@ -208,7 +215,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 isTimerRunning = false;
-                textTimer.setText("OTP expired. You can send again");
+                textTimer.setText(R.string.otp_expired);
                 textTimer.setTextColor(getResources().getColor(android.R.color.holo_red_dark, null));
                 setSendButtonEnabled(true);
                 buttonSendOtp.setText(defaultSendButtonText);

@@ -26,7 +26,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.example.runmapproapp.utils.BottomNavigationHelper;
+import com.example.runmapproapp.utils.LocaleHelper;
 
+import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +39,11 @@ import retrofit2.Response;
 
 public class GroupListActivity extends AppCompatActivity 
         implements GroupAdapter.OnGroupClickListener {
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase));
+    }
 
     private RecyclerView recyclerView;
     private GroupAdapter groupAdapter;
@@ -74,7 +81,7 @@ public class GroupListActivity extends AppCompatActivity
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Nhóm");
+            getSupportActionBar().setTitle(R.string.groups_title);
         }
     }
 
@@ -86,8 +93,8 @@ public class GroupListActivity extends AppCompatActivity
         tabLayout = findViewById(R.id.tabLayout);
         
         // Setup tabs
-        tabLayout.addTab(tabLayout.newTab().setText("Nhóm của tôi"));
-        tabLayout.addTab(tabLayout.newTab().setText("Khám phá"));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.my_groups));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.explore_groups));
     }
 
     private void setupRecyclerView() {
@@ -161,22 +168,22 @@ public class GroupListActivity extends AppCompatActivity
     private void showJoinGroupDialog() {
         View dialogView = getLayoutInflater().inflate(android.R.layout.simple_list_item_1, null);
         EditText editText = new EditText(this);
-        editText.setHint("Nhập mã mời");
+        editText.setHint(R.string.enter_invite_code_hint);
         editText.setPadding(50, 30, 50, 30);
 
         new MaterialAlertDialogBuilder(this)
-                .setTitle("Tham gia nhóm")
-                .setMessage("Nhập mã mời từ quản trị viên nhóm")
+                .setTitle(R.string.join_group_title)
+                .setMessage(R.string.enter_invite_code)
                 .setView(editText)
-                .setPositiveButton("Tham gia", (dialog, which) -> {
+                .setPositiveButton(R.string.action_join, (dialog, which) -> {
                     String inviteCode = editText.getText().toString().trim();
                     if (!inviteCode.isEmpty()) {
                         joinGroupWithCode(inviteCode);
                     } else {
-                        Toast.makeText(this, "Vui lòng nhập mã mời", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.please_enter_invite_code, Toast.LENGTH_SHORT).show();
                     }
                 })
-                .setNegativeButton("Hủy", null)
+                .setNegativeButton(R.string.action_cancel, null)
                 .show();
     }
 
@@ -198,13 +205,13 @@ public class GroupListActivity extends AppCompatActivity
                     
                     if ("joined".equals(status)) {
                         Toast.makeText(GroupListActivity.this,
-                                "Đã tham gia nhóm thành công!", Toast.LENGTH_SHORT).show();
+                                R.string.joined_group_success, Toast.LENGTH_SHORT).show();
                     } else if ("pending".equals(status)) {
                         Toast.makeText(GroupListActivity.this,
-                                "Yêu cầu tham gia đã được gửi. Chờ quản trị viên phê duyệt.", Toast.LENGTH_LONG).show();
+                                R.string.join_request_sent_approval, Toast.LENGTH_LONG).show();
                     } else if ("approved".equals(status)) {
                         Toast.makeText(GroupListActivity.this,
-                                "Đã tham gia nhóm thành công!", Toast.LENGTH_SHORT).show();
+                                R.string.joined_group_success, Toast.LENGTH_SHORT).show();
                     }
                     // Refresh the list
                     currentPage = 0;
@@ -320,7 +327,7 @@ public class GroupListActivity extends AppCompatActivity
                         if (currentPage == 0) {
                             groupAdapter.setGroups(new ArrayList<>()); // Clear adapter
                             Toast.makeText(GroupListActivity.this, 
-                                    "Không có nhóm công khai nào", Toast.LENGTH_SHORT).show();
+                                    R.string.no_public_groups, Toast.LENGTH_SHORT).show();
                         }
                         return;
                     }
@@ -334,7 +341,7 @@ public class GroupListActivity extends AppCompatActivity
                     currentPage++;
                 } else {
                     Toast.makeText(GroupListActivity.this,
-                            "Không thể tải nhóm công khai", Toast.LENGTH_SHORT).show();
+                            R.string.cannot_load_public_groups, Toast.LENGTH_SHORT).show();
                 }
             }
 

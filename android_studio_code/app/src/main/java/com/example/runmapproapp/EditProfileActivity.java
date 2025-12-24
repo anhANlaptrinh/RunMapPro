@@ -1,5 +1,6 @@
 package com.example.runmapproapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.example.runmapproapp.data.UserApi;
 import com.example.runmapproapp.data.model.ErrorResponse;
 import com.example.runmapproapp.data.model.UpdateProfileRequest;
 import com.example.runmapproapp.data.model.UserProfileResponse;
+import com.example.runmapproapp.utils.LocaleHelper;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -39,6 +41,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EditProfileActivity extends AppCompatActivity {
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase));
+    }
 
     private ShapeableImageView imageAvatar;
     private TextInputEditText inputFullName;
