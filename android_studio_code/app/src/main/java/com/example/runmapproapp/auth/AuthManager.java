@@ -22,6 +22,7 @@ public class AuthManager {
     private static final String KEY_USER_USERNAME = "userUsername";
     private static final String KEY_USER_AVATAR = "userAvatar";
     private static final String KEY_USER_BIO = "userBio";
+    private static final String KEY_USER_BANNED = "userBanned";
 
     private final SharedPreferences prefs;
 
@@ -43,6 +44,7 @@ public class AuthManager {
             .putString(KEY_USER_USERNAME, user != null ? user.getUsername() : null)
             .putString(KEY_USER_AVATAR, user != null ? user.getAvatarUrl() : null)
             .putString(KEY_USER_BIO, user != null ? user.getBio() : null)
+            .putBoolean(KEY_USER_BANNED, user != null && user.isBanned())
                 .apply();
     }
 
@@ -86,7 +88,14 @@ public class AuthManager {
     }
 
     public boolean isLoggedIn() {
-        return getToken() != null;
+        // Consider user banned: treat as not logged in
+        String token = getToken();
+        boolean banned = prefs.getBoolean(KEY_USER_BANNED, false);
+        return token != null && !banned;
+    }
+
+    public boolean isUserBanned() {
+        return prefs.getBoolean(KEY_USER_BANNED, false);
     }
 
     public void logout() {

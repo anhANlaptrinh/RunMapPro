@@ -126,6 +126,7 @@ public class UserService {
                 mediaService.buildPublicUrl(user.getAvatarMediaId()),
                 user.getBio(),
                 user.getRole(),
+                user.getBanned(),
                 user.getCreatedAt(),
                 user.getUpdatedAt());
     }

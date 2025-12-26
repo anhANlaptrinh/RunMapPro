@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.runmapproapp.R;
+import com.example.runmapproapp.auth.AuthManager;
 import com.example.runmapproapp.data.ApiClient;
 import com.example.runmapproapp.data.api.GroupApi;
 import com.example.runmapproapp.data.model.GroupPost;
@@ -37,6 +38,7 @@ public class PendingPostsActivity extends AppCompatActivity implements PendingPo
     
     private PendingPostAdapter adapter;
     private GroupApi groupApi;
+    private AuthManager authManager;
     private String groupId;
 
     @Override
@@ -59,6 +61,7 @@ public class PendingPostsActivity extends AppCompatActivity implements PendingPo
         }
         toolbar.setNavigationOnClickListener(v -> finish());
 
+        authManager = new AuthManager(this);
         initViews();
         setupRecyclerView();
         
@@ -77,6 +80,7 @@ public class PendingPostsActivity extends AppCompatActivity implements PendingPo
 
     private void setupRecyclerView() {
         adapter = new PendingPostAdapter(new ArrayList<>(), this);
+        adapter.setAuthManager(authManager);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }

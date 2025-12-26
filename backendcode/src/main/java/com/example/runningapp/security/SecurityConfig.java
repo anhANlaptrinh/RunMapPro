@@ -46,6 +46,8 @@ public class SecurityConfig {
                                 "/api/auth/resend-otp",
                                 "/api/auth/verify-otp-reset")
                         .permitAll()
+                        // Admin endpoints require ADMIN role (checked at controller level with @PreAuthorize)
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         // All /api/runs/** endpoints require authentication
                         .requestMatchers("/api/runs/**").authenticated()
                         .anyRequest().authenticated())

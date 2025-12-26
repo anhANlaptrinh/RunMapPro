@@ -169,19 +169,59 @@ public class LoginActivity extends AppCompatActivity {
                     android.util.Log.d("LoginActivity", "User email: " + (loginResponse.getUser() != null ? loginResponse.getUser().getEmail() : "null"));
                     android.util.Log.d("LoginActivity", "User ID: " + (loginResponse.getUser() != null ? loginResponse.getUser().getId() : "null"));
                     
-                    // Save to AuthManager
-                    authManager.saveLogin(loginResponse);
-                    
-                    // Verify token was saved
-                    String savedToken = authManager.getToken();
-                    String savedUserId = authManager.getUserId();
-                    android.util.Log.d("LoginActivity", "Token saved successfully: " + (savedToken != null && !savedToken.isEmpty()));
-                    android.util.Log.d("LoginActivity", "UserId saved: " + savedUserId);
-                    android.util.Log.d("LoginActivity", "isLoggedIn: " + authManager.isLoggedIn());
+                    // Save token temporarily so we can fetch fresh profile
+                    authManager.saveToken(loginResponse.getAccessToken());
+
+                    // Fetch authoritative profile from server to check banned status
+                    ApiClient.getUserApi().getProfile("Bearer " + loginResponse.getAccessToken()).enqueue(new Callback<com.example.runmapproapp.data.model.UserProfileResponse>() {
+                        @Override
+                        public void onResponse(Call<com.example.runmapproapp.data.model.UserProfileResponse> call, Response<com.example.runmapproapp.data.model.UserProfileResponse> resp) {
+                            if (resp.isSuccessful() && resp.body() != null) {
+                                // Log full profile JSON for debugging presence of `banned` field
+                                try {
+                                    String profileJson = new Gson().toJson(resp.body());
+                                    android.util.Log.d("LoginActivity", "Profile JSON: " + profileJson);
+                                } catch (Exception ignored) {}
+                                Boolean bannedFlag = resp.body().getBanned();
+                                if (bannedFlag != null && bannedFlag) {
+                                    // Clear token and block login
+                                    authManager.logout();
+                                    android.util.Log.d("LoginActivity", "Login attempt blocked after profile check: user is banned");
+                                    showError(getString(R.string.error_account_banned));
+                                    return;
+                                }
+
+                                // Not banned — finalize login
+                                authManager.saveLogin(loginResponse);
+                                android.util.Log.d("LoginActivity", "Token saved successfully: " + (authManager.getToken() != null && !authManager.getToken().isEmpty()));
+                                android.util.Log.d("LoginActivity", "UserId saved: " + authManager.getUserId());
+                                android.util.Log.d("LoginActivity", "isLoggedIn: " + authManager.isLoggedIn());
+                                if (loginResponse.getUser() != null) {
+                                    android.util.Log.d("LoginActivity", "User role: " + loginResponse.getUser().getRole());
+                                    android.util.Log.d("LoginActivity", "isAdmin: " + loginResponse.getUser().isAdmin());
+                                }
+                                // Continue navigation
+                                Toast.makeText(LoginActivity.this, R.string.msg_login_success, Toast.LENGTH_SHORT).show();
+                                if (loginResponse.getUser() != null && loginResponse.getUser().isAdmin()) {
+                                    openAdminDashboardAndFinish();
+                                } else {
+                                    openMainAndFinish();
+                                }
+                            } else {
+                                // Couldn't fetch profile — be conservative: clear saved token and show error
+                                authManager.logout();
+                                showError(getString(R.string.error_unexpected));
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<com.example.runmapproapp.data.model.UserProfileResponse> call, Throwable t) {
+                            // Network failure — clear token and show network error
+                            authManager.logout();
+                            showError(getString(R.string.error_network));
+                        }
+                    });
                     android.util.Log.d("LoginActivity", "====================================");
-                    
-                    Toast.makeText(LoginActivity.this, R.string.msg_login_success, Toast.LENGTH_SHORT).show();
-                    openMainAndFinish();
                 } else {
                     showError(parseErrorMessage(response));
                 }
@@ -244,6 +284,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private void openMainAndFinish() {
         Intent intent = new Intent(this, MapActivity.class);
+        startActivity(intent);
+        finish();
+    }
+    
+    private void openAdminDashboardAndFinish() {
+        Intent intent = new Intent(this, AdminDashboardActivity.class);
         startActivity(intent);
         finish();
     }

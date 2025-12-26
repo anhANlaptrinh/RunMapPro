@@ -10,7 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 import com.example.runmapproapp.R;
+import com.example.runmapproapp.auth.AuthManager;
 import com.example.runmapproapp.data.model.GroupPost;
 import com.google.android.material.button.MaterialButton;
 
@@ -27,6 +30,7 @@ public class PendingPostAdapter extends RecyclerView.Adapter<PendingPostAdapter.
     private List<GroupPost> posts;
     private final OnPendingPostActionListener listener;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+    private AuthManager authManager;
 
     public interface OnPendingPostActionListener {
         void onApprove(GroupPost post, int position);
@@ -36,6 +40,10 @@ public class PendingPostAdapter extends RecyclerView.Adapter<PendingPostAdapter.
     public PendingPostAdapter(List<GroupPost> posts, OnPendingPostActionListener listener) {
         this.posts = posts;
         this.listener = listener;
+    }
+    
+    public void setAuthManager(AuthManager authManager) {
+        this.authManager = authManager;
     }
 
     public void setPosts(List<GroupPost> posts) {
@@ -126,8 +134,15 @@ public class PendingPostAdapter extends RecyclerView.Adapter<PendingPostAdapter.
                 ivAuthorAvatar.setImageResource(R.drawable.ic_person);
             }
 
-            // Post image
-            if (post.getMediaUrls() != null && !post.getMediaUrls().isEmpty()) {
+            // Post image or run card
+            if (post.getRunId() != null && !post.getRunId().isEmpty()) {
+                // For run posts, show run icon instead of trying to load minimap
+                // (minimap endpoint may not be available in pending posts context)
+                ivPostImage.setVisibility(View.VISIBLE);
+                ivPostImage.setImageResource(R.drawable.ic_directions_run);
+                android.util.Log.d("PendingPostAdapter", "Run post detected, runId: " + post.getRunId());
+            } else if (post.getMediaUrls() != null && !post.getMediaUrls().isEmpty()) {
+                // Show uploaded media
                 ivPostImage.setVisibility(View.VISIBLE);
                 String mediaUrl = "http://10.0.2.2:8080/api/media/" + post.getMediaUrls().get(0);
                 Glide.with(itemView.getContext())

@@ -11,6 +11,7 @@ public record UserProfileResponse(
         String avatarUrl,
         String bio,
         String role,
+        Boolean banned,
         Instant createdAt,
         Instant updatedAt
 ) {

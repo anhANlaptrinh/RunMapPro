@@ -34,6 +34,9 @@ public class UserProfileResponse {
     @SerializedName("updatedAt")
     private String updatedAt;
 
+    @SerializedName("banned")
+    private Boolean banned;
+
     public String getId() {
         return id;
     }
@@ -72,5 +75,9 @@ public class UserProfileResponse {
 
     public String getUpdatedAt() {
         return updatedAt;
+    }
+
+    public Boolean getBanned() {
+        return banned;
     }
 }

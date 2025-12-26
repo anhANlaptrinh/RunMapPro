@@ -1,5 +1,6 @@
-package com.example.runmapproapp.ui.groups;
+package com.example.runmapproapp.ui.admin.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,40 +13,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.runmapproapp.R;
 import com.example.runmapproapp.data.model.Group;
+import com.google.android.material.button.MaterialButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHolder> {
+public class GroupsAdminAdapter extends RecyclerView.Adapter<GroupsAdminAdapter.GroupViewHolder> {
 
     private List<Group> groups;
-    private OnGroupClickListener listener;
+    private Context context;
+    private OnGroupActionListener listener;
 
-    public interface OnGroupClickListener {
-        void onGroupClick(Group group);
+    public interface OnGroupActionListener {
+        void onDeleteGroup(Group group);
     }
 
-    public GroupAdapter(List<Group> groups, OnGroupClickListener listener) {
-        this.groups = groups;
+    public GroupsAdminAdapter(Context context, OnGroupActionListener listener) {
+        this.context = context;
+        this.groups = new ArrayList<>();
         this.listener = listener;
-    }
-
-    @NonNull
-    @Override
-    public GroupViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_group, parent, false);
-        return new GroupViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull GroupViewHolder holder, int position) {
-        Group group = groups.get(position);
-        holder.bind(group, listener);
-    }
-
-    @Override
-    public int getItemCount() {
-        return groups.size();
     }
 
     public void setGroups(List<Group> groups) {
@@ -53,19 +39,32 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
         notifyDataSetChanged();
     }
 
-    public void addGroups(List<Group> newGroups) {
-        int startPosition = this.groups.size();
-        this.groups.addAll(newGroups);
-        notifyItemRangeInserted(startPosition, newGroups.size());
+    @NonNull
+    @Override
+    public GroupViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_group_admin, parent, false);
+        return new GroupViewHolder(view);
     }
 
-    static class GroupViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void onBindViewHolder(@NonNull GroupViewHolder holder, int position) {
+        Group group = groups.get(position);
+        holder.bind(group);
+    }
+
+    @Override
+    public int getItemCount() {
+        return groups.size();
+    }
+
+    class GroupViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivGroupCover;
         private TextView tvGroupName;
         private TextView tvGroupDescription;
         private TextView tvGroupStats;
         private TextView tvGroupPrivacy;
-        private TextView tvAdminBadge;
+        private MaterialButton btnDelete;
 
         public GroupViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,40 +73,29 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
             tvGroupDescription = itemView.findViewById(R.id.tvGroupDescription);
             tvGroupStats = itemView.findViewById(R.id.tvGroupStats);
             tvGroupPrivacy = itemView.findViewById(R.id.tvGroupPrivacy);
-            tvAdminBadge = itemView.findViewById(R.id.tvAdminBadge);
+            btnDelete = itemView.findViewById(R.id.btnDelete);
         }
 
-        public void bind(Group group, OnGroupClickListener listener) {
+        public void bind(Group group) {
             tvGroupName.setText(group.getName());
             tvGroupDescription.setText(group.getDescription());
             
-            String stats = itemView.getContext().getString(R.string.group_stats_format, 
+            // Stats (same logic as GroupAdapter)
+            String stats = context.getString(R.string.group_stats_format, 
                     group.getMemberCount(), group.getPostCount());
             tvGroupStats.setText(stats);
             
             // Privacy (handle both uppercase and lowercase from backend)
             String privacy = group.getPrivacy() != null && 
                     (group.getPrivacy().equalsIgnoreCase("PRIVATE") || group.getPrivacy().equalsIgnoreCase("private"))
-                    ? itemView.getContext().getString(R.string.private_group) 
-                    : itemView.getContext().getString(R.string.public_group);
+                    ? context.getString(R.string.private_group) 
+                    : context.getString(R.string.public_group);
             tvGroupPrivacy.setText(privacy);
             
-            // Show admin badge if user is owner or admin
-            if (group.getUserRole() != null && 
-                    (group.getUserRole().equals("owner") || group.getUserRole().equals("admin"))) {
-                tvAdminBadge.setVisibility(View.VISIBLE);
-                String badgeText = group.getUserRole().equals("owner") 
-                        ? itemView.getContext().getString(R.string.group_owner) 
-                        : itemView.getContext().getString(R.string.group_admin);
-                tvAdminBadge.setText(badgeText);
-            } else {
-                tvAdminBadge.setVisibility(View.GONE);
-            }
-
-            // Load cover image
+            // Load cover image (same logic as GroupAdapter)
             if (group.getCoverImageUrl() != null && !group.getCoverImageUrl().isEmpty()) {
                 String coverImageUrl = "http://10.0.2.2:8080/api/media/" + group.getCoverImageUrl();
-                Glide.with(itemView.getContext())
+                Glide.with(context)
                         .load(coverImageUrl)
                         .placeholder(R.drawable.ic_launcher_background)
                         .error(R.drawable.ic_launcher_background)
@@ -116,8 +104,9 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
             } else {
                 ivGroupCover.setImageResource(R.drawable.ic_launcher_background);
             }
-
-            itemView.setOnClickListener(v -> listener.onGroupClick(group));
+            
+            // Delete button
+            btnDelete.setOnClickListener(v -> listener.onDeleteGroup(group));
         }
     }
 }

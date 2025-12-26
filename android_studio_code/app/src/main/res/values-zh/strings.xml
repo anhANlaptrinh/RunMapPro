@@ -24,6 +24,7 @@
     <string name="error_password_mismatch">密码不匹配</string>
     <string name="error_network">网络错误，请重试</string>
     <string name="error_unexpected">出错了。请重试。</string>    <string name="invalid_credentials">凭据无效</string>    <string name="msg_login_success">登录成功</string>
+    <string name="error_account_banned">您的账户已被封禁。请联系支持。</string>
     <string name="msg_signup_success">账户创建成功</string>
     <string name="msg_reset_success">查看邮箱获取重置说明</string>
     <string name="profile_update_success">个人资料已更新</string>
@@ -419,4 +420,58 @@
     <string name="last_30_days">过去30天</string>
     <string name="this_month">本月</string>
     <string name="no_runs_match_filter">没有符合筛选条件的跑步</string>
+    
+    <!-- Admin Dashboard -->
+    <string name="admin_dashboard">管理员仪表板</string>
+    <string name="admin_users">用户</string>
+    <string name="admin_content">内容</string>
+    <string name="admin_runs">跑步</string>
+    <string name="logout_title">登出</string>
+    <string name="logout_message">您确定要登出吗？</string>
+    <string name="logout">登出</string>
+    <string name="exit_title">退出</string>
+    <string name="exit_message">您确定要退出吗？</string>
+    <string name="exit">退出</string>
+    <string name="total_users">总用户数</string>
+    <string name="active_users">活跃用户</string>
+    <string name="banned_users">封禁用户</string>
+    <string name="total_posts">总帖子数</string>
+    <string name="total_groups">总群组数</string>
+    <string name="total_runs">总跑步数</string>
+    <string name="failed_load_statistics">加载统计数据失败</string>
+    <string name="search_users">搜索用户...</string>
+    <string name="no_users_found">未找到用户</string>
+    <string name="user_avatar">用户头像</string>
+    <string name="banned">已封禁</string>
+    <string name="more_options">更多选项</string>
+    <string name="ban_user">封禁用户</string>
+    <string name="unban_user">解封用户</string>
+    <string name="ban_user_confirm">您确定要封禁 %1$s 吗？他们将无法访问应用程序。</string>
+    <string name="unban_user_confirm">您确定要解封 %1$s 吗？</string>
+    <string name="ban">封禁</string>
+    <string name="unban">解封</string>
+    <string name="user_banned_success">用户封禁成功</string>
+    <string name="user_unbanned_success">用户解封成功</string>
+    <string name="failed_ban_user">封禁用户失败</string>
+    <string name="failed_unban_user">解封用户失败</string>
+    <string name="failed_load_users">加载用户列表失败</string>
+    <string name="no_posts_found">未找到帖子</string>
+    <string name="no_groups_found">未找到群组</string>
+    <string name="delete_group_confirm">您确定要删除“%1$s”吗？所有成员和帖子将被删除。</string>
+    <string name="group_image">群组图片</string>
+    <string name="member_count">%1$d 成员</string>
+    <string name="post_deleted_success">帖子删除成功</string>
+    <string name="group_deleted_success">群组删除成功</string>
+    <string name="failed_delete_post">删除帖子失败</string>
+    <string name="failed_delete_group">删除群组失败</string>
+    <string name="failed_load_posts">加载帖子失败</string>
+    <string name="failed_load_groups">加载群组失败</string>
+    <string name="no_runs_found">未找到跑步</string>
+    <string name="run_icon">跑步图标</string>
+    <string name="delete_run">删除跑步</string>
+    <string name="delete_run_confirm">您确定要删除这个跑步吗？此操作无法撤销。</string>
+    <string name="run_deleted_success">跑步删除成功</string>
+    <string name="failed_delete_run">删除跑步失败</string>
+    <string name="failed_load_runs">加载跑步失败</string>
+    <string name="pace">配速</string>
 </resources>

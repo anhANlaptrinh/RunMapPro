@@ -55,7 +55,11 @@
         <activity android:name=".SettingsActivity" />
         <activity android:name=".ui.settings.SettingsActivity" />
         <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".SignUpActivity" /> <!-- Social features -->
+        <activity android:name=".SignUpActivity" />
+        <!-- Admin features -->
+        <activity android:name=".AdminDashboardActivity" 
+            android:launchMode="singleTop" />
+        <!-- Social features -->
         <activity android:name=".ui.social.FeedActivity" />
         <activity android:name=".ui.social.CreatePostActivity" />
         <activity android:name=".ui.social.CommentsActivity" />

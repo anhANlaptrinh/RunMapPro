@@ -61,6 +61,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        // Check if user is banned
+        return user.getBanned() == null || !user.getBanned();
     }
 }

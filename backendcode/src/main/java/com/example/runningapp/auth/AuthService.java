@@ -131,6 +131,7 @@ public class AuthService {
                 resolveAvatarUrl(user),
                 user.getBio(),
                 user.getRole(),
+                user.getBanned(),
                 user.getCreatedAt(),
                 user.getUpdatedAt());
     }

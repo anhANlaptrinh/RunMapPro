@@ -28,6 +28,7 @@ public class User {
     private String avatarMediaId;
     private String bio;
     private String role;
+    private Boolean banned; // Admin can ban users
     private Instant createdAt;
     private Instant updatedAt;
 }

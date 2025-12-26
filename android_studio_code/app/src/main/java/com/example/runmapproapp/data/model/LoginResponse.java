@@ -31,6 +31,9 @@ public class LoginResponse {
     @SerializedName("role")
     private String role;
 
+    @SerializedName("banned")
+    private Boolean banned;
+
     public String getAccessToken() {
         return accessToken;
     }
@@ -46,6 +49,9 @@ public class LoginResponse {
         user.setUsername(username);
         user.setFullName(fullName);
         user.setAvatarUrl(avatarUrl);
+        user.setRole(role);
+        // Map banned flag if present
+        user.setBanned(banned != null && banned);
         return user;
     }
 }
