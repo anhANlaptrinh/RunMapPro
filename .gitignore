@@ -1,0 +1,57 @@
+# Environment variables (CRITICAL - Contains secrets)
+.env
+*.env
+.env.*
+!.env.example
+
+# Backend local configuration
+backendcode/.env
+backendcode/src/main/resources/application-local.properties
+backendcode/src/main/resources/application-local.yml
+
+# Android local configuration
+android_studio_code/local.properties
+android_studio_code/gradle-local.properties
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.DS_Store
+
+# Build outputs
+target/
+build/
+out/
+*.class
+*.jar
+*.war
+
+# Gradle
+.gradle/
+gradle-app.setting
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+
+# Android
+*.apk
+*.ap_
+*.dex
+captures/
+.externalNativeBuild
+.cxx
+
+# Logs
+*.log
+logs/
+
+# OS files
+Thumbs.db
+Desktop.ini
+
+# Secrets that may accidentally be committed
+*secret*
+*password*
+*credential*
+*token*
+!gradle-wrapper.properties
